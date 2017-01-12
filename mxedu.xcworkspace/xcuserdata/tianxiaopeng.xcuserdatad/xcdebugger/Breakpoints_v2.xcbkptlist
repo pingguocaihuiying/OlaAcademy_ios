@@ -238,13 +238,45 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "mxedu/Course/MediaPlayer/SDMediaPlayerVC.m"
-            timestampString = "497235346.595504"
+            timestampString = "505880775.962904"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "936"
             endingLineNumber = "936"
             landmarkName = "-showPlayerTableList"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[SDMediaPlayerVC showPlayerTableList]"
+                  moduleName = "mxedu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tianxiaopeng/Documents/IOS/%E5%B9%82%E8%BE%B0/%E6%AC%A7%E6%8B%89%E5%AD%A6%E9%99%A2/mxedu/mxedu/Course/MediaPlayer/SDMediaPlayerVC.m"
+                  timestampString = "505909727.720592"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "936"
+                  endingLineNumber = "936"
+                  offsetFromSymbolStart = "156">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__38-[SDMediaPlayerVC showPlayerTableList]_block_invoke"
+                  moduleName = "mxedu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tianxiaopeng/Documents/IOS/%E5%B9%82%E8%BE%B0/%E6%AC%A7%E6%8B%89%E5%AD%A6%E9%99%A2/mxedu/mxedu/Course/MediaPlayer/SDMediaPlayerVC.m"
+                  timestampString = "505909727.722293"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "936"
+                  endingLineNumber = "936"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -254,7 +286,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "mxedu/Course/MediaPlayer/SDMediaPlayerVC.m"
-            timestampString = "497235346.595504"
+            timestampString = "505880775.962904"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "938"
@@ -270,7 +302,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "mxedu/Course/MediaPlayer/SDMediaPlayerVC.m"
-            timestampString = "497235346.595504"
+            timestampString = "505880775.962904"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "941"

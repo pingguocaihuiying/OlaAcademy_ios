@@ -719,7 +719,9 @@
     
     RKObjectMapping* _videoBoxMapping = [RKObjectMapping mappingForClass:[VideoBox class]];
     [_videoBoxMapping addAttributeMappingsFromDictionary:@{
-                                                        @"isCollect":  @"isCollect"
+                                                        @"isCollect":  @"isCollect",
+                                                        @"playIndex":  @"playIndex",
+                                                        @"playProgress":  @"playProgress"
                                                         }];
 
     
@@ -771,7 +773,9 @@
                                                                 @"apicode": @"code",
                                                                 @"message": @"message",
                                                                 @"orderStatus":@"orderStatus",
-                                                                @"isCollect":@"isCollect"
+                                                                @"isCollect":@"isCollect",
+                                                                @"playIndex":@"playIndex",
+                                                                @"playProgress":@"playProgress"
                                                                 }];
     [_videoListResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"videoList" withMapping:_videoMapping]];
 }

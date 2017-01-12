@@ -11,6 +11,8 @@
 @interface VideoBox : NSObject
 
 @property (nonatomic) NSString *isCollect;
+@property (nonatomic) NSString *playIndex;
+@property (nonatomic) NSString *playProgress;
 @property (nonatomic) NSArray *videoList;
 
 @end

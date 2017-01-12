@@ -526,7 +526,7 @@
 		3DFD14FB1DB7A4950061F1EB /* CoinHistoryListResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD14FA1DB7A4950061F1EB /* CoinHistoryListResult.m */; };
 		3DFD14FE1DB7A4C70061F1EB /* CoinHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD14FD1DB7A4C70061F1EB /* CoinHistory.m */; };
 		3DFD15011DB8C0310061F1EB /* CoinHistoryTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD15001DB8C0310061F1EB /* CoinHistoryTableCell.m */; };
-		9603FE3105D2A2DC2CD094FD /* libPods-mxedu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 086002AE60181BFE4DF1D0B1 /* libPods-mxedu.a */; };
+		6CF42A92498C2C28C69FB5E3 /* libPods-mxedu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF3110F7C0C65897FBAE9712 /* libPods-mxedu.a */; };
 		F04B20211E25CBB600CDDB66 /* TeachersCertifyController.m in Sources */ = {isa = PBXBuildFile; fileRef = F04B20201E25CBB600CDDB66 /* TeachersCertifyController.m */; };
 		F04B20241E25E2DF00CDDB66 /* teacherCertifyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F04B20231E25E2DF00CDDB66 /* teacherCertifyCell.m */; };
 		F04B20281E260E3300CDDB66 /* teacherCertifyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F04B20271E260E3300CDDB66 /* teacherCertifyModel.m */; };
@@ -545,7 +545,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		086002AE60181BFE4DF1D0B1 /* libPods-mxedu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mxedu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		286B8ABEB40FF1172762C0FB /* Pods-mxedu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mxedu.release.xcconfig"; path = "Pods/Target Support Files/Pods-mxedu/Pods-mxedu.release.xcconfig"; sourceTree = "<group>"; };
 		3D05E9CE1D8E2C3800BFC309 /* PDFView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFView.h; sourceTree = "<group>"; };
 		3D05E9CF1D8E2C3800BFC309 /* PDFView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFView.m; sourceTree = "<group>"; };
 		3D06A61D1CA7A26D00DA379E /* SDGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDGroupCell.h; path = ../SDNestedTable/SDGroupCell.h; sourceTree = "<group>"; };
@@ -1553,8 +1553,7 @@
 		3DFD14FD1DB7A4C70061F1EB /* CoinHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoinHistory.m; sourceTree = "<group>"; };
 		3DFD14FF1DB8C0310061F1EB /* CoinHistoryTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoinHistoryTableCell.h; sourceTree = "<group>"; };
 		3DFD15001DB8C0310061F1EB /* CoinHistoryTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoinHistoryTableCell.m; sourceTree = "<group>"; };
-		5E2B9AB13312D1523BACB905 /* Pods-mxedu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mxedu.release.xcconfig"; path = "Pods/Target Support Files/Pods-mxedu/Pods-mxedu.release.xcconfig"; sourceTree = "<group>"; };
-		E7CC2CC5BC95CEAF093BE42E /* Pods-mxedu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mxedu.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mxedu/Pods-mxedu.debug.xcconfig"; sourceTree = "<group>"; };
+		CF3110F7C0C65897FBAE9712 /* libPods-mxedu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mxedu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F04B201F1E25CBB600CDDB66 /* TeachersCertifyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeachersCertifyController.h; sourceTree = "<group>"; };
 		F04B20201E25CBB600CDDB66 /* TeachersCertifyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeachersCertifyController.m; sourceTree = "<group>"; };
 		F04B20221E25E2DF00CDDB66 /* teacherCertifyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = teacherCertifyCell.h; sourceTree = "<group>"; };
@@ -1565,6 +1564,7 @@
 		F04B202A1E26321D00CDDB66 /* AnswerQuestionsCardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnswerQuestionsCardController.m; sourceTree = "<group>"; };
 		F08CE40B1E236A5800ADADFF /* MyLable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLable.h; sourceTree = "<group>"; };
 		F08CE40C1E236A5800ADADFF /* MyLable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLable.m; sourceTree = "<group>"; };
+		F327D75B133A1775534BF3EA /* Pods-mxedu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mxedu.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mxedu/Pods-mxedu.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1608,7 +1608,7 @@
 				3D44E49A1CBF73C800B34990 /* libWeChatSDK.a in Frameworks */,
 				3D6F6C871CAEA8F600097DD0 /* libssl.a in Frameworks */,
 				3D92FDF21D03CEEA008E602F /* libSocialWechat.a in Frameworks */,
-				9603FE3105D2A2DC2CD094FD /* libPods-mxedu.a in Frameworks */,
+				6CF42A92498C2C28C69FB5E3 /* libPods-mxedu.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1622,15 +1622,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		15794BC670932387D91E03F2 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				E7CC2CC5BC95CEAF093BE42E /* Pods-mxedu.debug.xcconfig */,
-				5E2B9AB13312D1523BACB905 /* Pods-mxedu.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		279170BD8F854FD447C42044 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1657,7 +1648,7 @@
 				3D6F6C741CAEA75E00097DD0 /* AlipaySDK.framework */,
 				3D3B5F391BDDF09000652CF3 /* AVFoundation.framework */,
 				3D3B5F371BDDF08200652CF3 /* CoreMedia.framework */,
-				086002AE60181BFE4DF1D0B1 /* libPods-mxedu.a */,
+				CF3110F7C0C65897FBAE9712 /* libPods-mxedu.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3276,7 +3267,7 @@
 				3DFB6C0C1B6DC23B0072D175 /* mxeduTests */,
 				3DFB6BF11B6DC23B0072D175 /* Products */,
 				279170BD8F854FD447C42044 /* Frameworks */,
-				15794BC670932387D91E03F2 /* Pods */,
+				FABBE9C98A4AA73F9F8F922B /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -4010,6 +4001,15 @@
 			name = Intro;
 			sourceTree = "<group>";
 		};
+		FABBE9C98A4AA73F9F8F922B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F327D75B133A1775534BF3EA /* Pods-mxedu.debug.xcconfig */,
+				286B8ABEB40FF1172762C0FB /* Pods-mxedu.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -4017,13 +4017,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3DFB6C131B6DC23B0072D175 /* Build configuration list for PBXNativeTarget "mxedu" */;
 			buildPhases = (
-				A4A521EFC3FA92A730BAEFEF /* [CP] Check Pods Manifest.lock */,
+				7660873EE9F0EAB16C3DAFD9 /* [CP] Check Pods Manifest.lock */,
 				3DFB6BEC1B6DC23B0072D175 /* Sources */,
 				3DFB6BED1B6DC23B0072D175 /* Frameworks */,
 				3DFB6BEE1B6DC23B0072D175 /* Resources */,
-				A8278FBC12F9D38157D12E3C /* [CP] Embed Pods Frameworks */,
-				82EF9B3DBD8942A9B0EA1D96 /* [CP] Copy Pods Resources */,
-				F68C1A3E78E3210FB0047AC7 /* Embed Pods Frameworks */,
+				BA22A00D0EF59BBB98183E3E /* [CP] Embed Pods Frameworks */,
+				4CACF2E9A85FBADDD2C21D4C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -4167,7 +4166,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		82EF9B3DBD8942A9B0EA1D96 /* [CP] Copy Pods Resources */ = {
+		4CACF2E9A85FBADDD2C21D4C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -4182,7 +4181,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-mxedu/Pods-mxedu-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A4A521EFC3FA92A730BAEFEF /* [CP] Check Pods Manifest.lock */ = {
+		7660873EE9F0EAB16C3DAFD9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -4197,7 +4196,7 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		A8278FBC12F9D38157D12E3C /* [CP] Embed Pods Frameworks */ = {
+		BA22A00D0EF59BBB98183E3E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -4205,21 +4204,6 @@
 			inputPaths = (
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-mxedu/Pods-mxedu-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F68C1A3E78E3210FB0047AC7 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4805,7 +4789,7 @@
 		};
 		3DFB6C141B6DC23B0072D175 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E7CC2CC5BC95CEAF093BE42E /* Pods-mxedu.debug.xcconfig */;
+			baseConfigurationReference = F327D75B133A1775534BF3EA /* Pods-mxedu.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = mxedu/mxedu.entitlements;
@@ -4858,7 +4842,7 @@
 		};
 		3DFB6C151B6DC23B0072D175 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5E2B9AB13312D1523BACB905 /* Pods-mxedu.release.xcconfig */;
+			baseConfigurationReference = 286B8ABEB40FF1172762C0FB /* Pods-mxedu.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = mxedu/mxedu.entitlements;

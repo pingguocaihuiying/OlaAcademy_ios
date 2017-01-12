@@ -143,7 +143,7 @@
 }
 
 #pragma mark 加载视频播放控件
--(void)setupPlayerView
+-(void)setupPlayerViewWithProgress:(NSString*)playProgress
 {
     if (_bgView == nil) {
         _bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, kVedioHeight)];
@@ -187,6 +187,7 @@
     _myMediaPlayer.cutFullModeFrame = CGRectMake(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH);
     _myMediaPlayer.delegate = self;
     _myMediaPlayer.datasource = self;
+    _myMediaPlayer.historyPlayTime = playProgress;
     if ([_myMediaPlayer.view isDescendantOfView:_bgView] == NO) {
         [_bgView addSubview:_myMediaPlayer.view];
     }
@@ -485,12 +486,12 @@
 
         if ([dataArray count]>0) {
             titleView.hidden  = YES;
-            currentRow = 0;
-            _currentVideo = dataArray[0];
+            currentRow = result.videoBox.playIndex?[result.videoBox.playIndex integerValue]:0;
+            _currentVideo = dataArray[currentRow];
             _currentVideo.isChosen = 1;
-            [dataArray replaceObjectAtIndex:0 withObject:_currentVideo]; //当前正在播放的视频
+            [dataArray replaceObjectAtIndex:currentRow withObject:_currentVideo]; //当前正在播放的视频
             if (refresh) {
-                [self setupPlayerView];
+                [self setupPlayerViewWithProgress:result.videoBox.playProgress];
             }
         }
         [SVProgressHUD dismiss];
@@ -516,11 +517,11 @@
         if ([dataArray count]>0) {
             titleView.hidden  = YES;
             _orderStatus = result.orderStatus;
-            currentRow = 0;
-            _currentVideo = dataArray[0];
+            currentRow = result.playIndex?[result.playIndex integerValue]:0;
+            _currentVideo = dataArray[currentRow];
             _currentVideo.isChosen = 1;
-            [dataArray replaceObjectAtIndex:0 withObject:_currentVideo]; //当前正在播放的视频
-            [self setupPlayerView];
+            [dataArray replaceObjectAtIndex:currentRow withObject:_currentVideo]; //当前正在播放的视频
+            [self setupPlayerViewWithProgress:result.playProgress];
         }
         [SVProgressHUD dismiss];
         [_tableView reloadData];

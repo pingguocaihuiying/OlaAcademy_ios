@@ -2165,86 +2165,37 @@ static   SDMediaPlayerVC * sharedMyMediaPlayer = nil;
     NSString *remainingTimeStr = [NSString stringWithFormat:@"-%@",[formatter stringFromDate:remainDate]];
     _remainingTimeLable.text = remainingTimeStr;
 }
-// 请求播放记录
+
+// 请求播放记录(从指定位置播放)
 - (void)requestPlayRecord
 {
+    __weak typeof (self) sself = self;
     
-//    NSMutableDictionary *dicParam = [[NSMutableDictionary alloc] init];
-//    
-//    NSString *customID = [AllinUserDefault  objectForKey:kLog_CustomerId];
-//    
-//    [dicParam setValue:_videoId forKey:@"videoId"];
-//    if(customID && [customID length] && [customID isKindOfClass:[NSString class]])
-//    {
-//        [dicParam setValue:customID forKey:@"customerId"];
-//        if(_netWorkGetVedioPlayRecord)
-//        {
-//            _netWorkGetVedioPlayRecord = nil;
-//        }
-//        _netWorkGetVedioPlayRecord = [[NetWorkGetVedioPlayRecord alloc] init];
-//        [_netWorkGetVedioPlayRecord asyncGetVedioPlayRecord:ALLIN_VedioGetPlayRecord parame:dicParam type:get successBlock:^(id result) {
-//            
-//            NSString *playTime = (NSString *)result;
-//            NSString *playZero = @"00:00:00";
-//            
-//            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//            [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-//            [formatter setDateFormat:@"HH:mm:ss"];
-//            
-//            NSDate *curDate = [formatter dateFromString:playTime];
-//            NSDate *zeroDate = [formatter dateFromString:playZero];
-//            
-//            double timeInterval = [curDate timeIntervalSinceDate:zeroDate];
-//            
-//            __weak typeof (self) sself = self;
-//            
-//            CMTime dragedCMTime = CMTimeMake(floor(timeInterval), 1);
-//            [_player seekToTime:dragedCMTime completionHandler:
-//             ^(BOOL finish){
-//                 
-//                 __strong typeof(sself) self_ = sself;
-//                 
-//                 [self_ play];
-//                 
-//             }];
-//            
-//        } failedBlock:^(id error) {
-//            
-//            // 从0 开始
-            __weak typeof (self) sself = self;
-            
-            [_player seekToTime:kCMTimeZero completionHandler:
-             ^(BOOL finish){
-                 __strong typeof(sself) self_ = sself;
-                 self_.playBtn.enabled = YES;
-                 self_.fastBackwardBtn.enabled = YES;
-                 self_.fastForeardBtn.enabled = YES;
-                 self_.movieSlider.enabled = YES;
-                 
-                 [self.view.layer  addSublayer: self.playerLayer];
-                 
-                 [self.view bringSubviewToFront:_coverImageView];
-                 [self.view bringSubviewToFront:_topView];
-                 [self.view bringSubviewToFront:_bottomView];
-                 [self.view bringSubviewToFront:_playerTablListView.view];
-                 
-                 //刚开始暂停，等用户手动去播放
-                 [self_ pause];
-                 
-             }];
-//        }];
-//    }
-//    else
-//    {
-//        __weak typeof (self) sself = self;
-//        [_player seekToTime:kCMTimeZero completionHandler:
-//         ^(BOOL finish){
-//             
-//             __strong typeof(sself) self_ = sself;
-//             [self_ play];
-//             
-//         }];
-//    }
+    CMTime dragedCMTime = kCMTimeZero;
+    
+    if (_historyPlayTime) {
+        dragedCMTime = CMTimeMake(floor([_historyPlayTime integerValue]), 1);
+    }
+    
+    [_player seekToTime:dragedCMTime completionHandler:
+     ^(BOOL finish){
+         __strong typeof(sself) self_ = sself;
+         self_.playBtn.enabled = YES;
+         self_.fastBackwardBtn.enabled = YES;
+         self_.fastForeardBtn.enabled = YES;
+         self_.movieSlider.enabled = YES;
+         
+         [self.view.layer  addSublayer: self.playerLayer];
+         
+         [self.view bringSubviewToFront:_coverImageView];
+         [self.view bringSubviewToFront:_topView];
+         [self.view bringSubviewToFront:_bottomView];
+         [self.view bringSubviewToFront:_playerTablListView.view];
+         
+         [self_ play];
+         
+     }];
+
 }
 
 // 记录播放记录
@@ -2254,9 +2205,9 @@ static   SDMediaPlayerVC * sharedMyMediaPlayer = nil;
 //    {
 //        _netWorkCreatVedioPlayRecord = nil;
 //    }
-//    
+//
 //    NSMutableDictionary *dicParam = [[NSMutableDictionary alloc] init];
-//    
+//
 //    NSString *customID = [AllinUserDefault  objectForKey:kLog_CustomerId];
 //    
 //    [dicParam setValue:customID forKey:@"customerId"];

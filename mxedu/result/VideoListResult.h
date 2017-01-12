@@ -14,6 +14,8 @@
 @property (nonatomic) NSString *message;
 @property (nonatomic) NSString *orderStatus; //是否购买
 @property (nonatomic) int isCollect; //是否购买
+@property (nonatomic) NSString *playIndex; //上次观看视频序号
+@property (nonatomic) NSString *playProgress; //上次观看视频时间
 @property (nonatomic) NSArray *videoList;
 
 @end

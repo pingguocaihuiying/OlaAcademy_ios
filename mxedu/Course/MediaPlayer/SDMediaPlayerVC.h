@@ -41,11 +41,13 @@ static NSString * PlaybackIsPreparedToPlayDidChangeNotification = @"PlaybackIsPr
 
 
 @interface SDMediaPlayerVC : UIViewController
+
 //视频类型的枚举  0表示网络  1本地
 typedef enum {
     MyMediaPlayerModeNetwork = 0,
     MyMediaPlayerModeLocal
 } MyMediaPlayerMode;
+
 @property (nonatomic, weak) id<MyMediaPlayerDelegate> delegate;
 @property (nonatomic, weak) id<MyMediaPlayerDataSource> datasource;
 @property (nonatomic, assign) MyMediaPlayerMode mode;                    //. 视频模式
@@ -67,7 +69,7 @@ typedef enum {
 @property (nonatomic ,assign)BOOL clickType;//是否可以点击
 @property (nonatomic ,copy)NSString *ECAPath;//加密文件路径
 
-
+@property (nonatomic,copy) NSString *historyPlayTime; //上次播放时间位置
 
 
 @property (nonatomic, assign, readonly) BOOL isRotateEnable; // 是否允许旋转
