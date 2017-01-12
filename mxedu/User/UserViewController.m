@@ -196,6 +196,13 @@ static NSString* storeKeyUserInfo = @"NTUserInfo";
             [self pushToViewController:teacherVC];
             break;
         }
+        case 7:
+        {
+            UIApplication *application = [UIApplication sharedApplication];
+            //发邮件
+            [application openURL:[NSURL URLWithString:@"mailto://service@olaxueyuan.com"]];
+            break;
+        }
     }
 }
 
