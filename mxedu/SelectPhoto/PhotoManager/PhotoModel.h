@@ -24,5 +24,9 @@
  *  图片名称
  */
 @property (nonatomic, copy) NSString *photoName;
+/**
+ *  图片角度
+ */
+@property (nonatomic, copy) NSString *photoAngle;
 
 @end

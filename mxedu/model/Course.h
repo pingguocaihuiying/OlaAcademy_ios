@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Homework.h"
 
 @interface Course : NSObject
 
@@ -22,5 +23,6 @@
 @property (nonatomic, copy) NSString* subAllNum; // 题目或视频总数
 @property (nonatomic, copy) NSString* totalTime;
 @property (nonatomic, copy) NSString* bannerPic;
+@property (nonatomic) Homework *homework; //每日最新作业
 
 @end

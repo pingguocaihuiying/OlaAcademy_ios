@@ -14,11 +14,13 @@
 @implementation CourSectionTableCell
 
 {
+    UIImageView *_playingIV;
     UILabel *_nameL;
     UILabel *_timeL;
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 
@@ -26,28 +28,41 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        _nameL = [UILabel new];
-        _nameL.font = [UIFont systemFontOfSize:16.0];
-        [self addSubview:_nameL];
+        _playingIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"icon_playing"]];
+        [self addSubview:_playingIV];
         
-        [_nameL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self);
+        [_playingIV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self).offset(GENERAL_SIZE(5));
             make.left.equalTo(self.mas_left).offset(20);
         }];
         
+        _nameL = [UILabel new];
+        _nameL.font = LabelFont(32);
+        [self addSubview:_nameL];
+        
+        [_nameL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self).offset(GENERAL_SIZE(5));
+            make.left.equalTo(_playingIV.mas_left).offset(20);
+        }];
+        
         _timeL = [UILabel new];
-        _timeL.font = [UIFont systemFontOfSize:14.0];
+        _timeL.font = LabelFont(28);
         [self addSubview:_timeL];
         
         [_timeL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self);
+            make.centerY.equalTo(self).offset(GENERAL_SIZE(5));
             make.right.equalTo(self.mas_right).offset(-20);
         }];
-        
-        UIView *line = [[UIView alloc]initWithFrame:CGRectMake(10, self.frame.size.height-1, SCREEN_WIDTH-10, 1)];
-        line.backgroundColor = RGBCOLOR(225, 225, 225);
-        [self addSubview:line];
-        
+        //cell 之间的分割线
+        UIView *slideView = [[UIView alloc] init];//WithFrame:CGRectMake(20, CGRectGetMaxY(_nameL.frame)+3, SCREEN_WIDTH-40, 1)];
+        slideView.backgroundColor = RGBCOLOR(227, 227, 230);
+        [self.contentView addSubview:slideView];
+        [slideView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left).offset(20);
+            make.right.equalTo(self.mas_right).offset(-20);
+            make.bottom.equalTo(self.mas_bottom).offset(0);
+            make.height.mas_equalTo(@1);
+        }];
     }
     return self;
     
@@ -57,11 +72,15 @@
     _nameL.text = point.name;
     _timeL.text = point.timeSpan;
     if (point.isChosen==1) {
+        ///正在播放的条目字体颜色为黑色
+        _playingIV.hidden = NO;
         _nameL.textColor = COMMONBLUECOLOR;
         _timeL.textColor = COMMONBLUECOLOR;
     }else{
-        _nameL.textColor = RGBCOLOR(153, 153, 153);
-        _timeL.textColor = RGBCOLOR(153, 153, 153);
+        ///未播放的条目字体颜色为黑色
+        _playingIV.hidden = YES;
+        _nameL.textColor = [UIColor blackColor];
+        _timeL.textColor = [UIColor blackColor];;
     }
 }
 

@@ -20,6 +20,8 @@
 @property (nonatomic) NSString *orgName;
 @property (nonatomic) NSString *teacherName;
 @property (nonatomic) NSString *pic;
+@property (nonatomic) NSString *attachmentId;//pdf文件Id
+@property (nonatomic) NSString *url; //pdf文件url
 @property (nonatomic) int isfree;
 @property (nonatomic) int isChosen; //当前选中播放
 

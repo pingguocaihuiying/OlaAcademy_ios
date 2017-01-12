@@ -19,68 +19,34 @@
     CGFloat mgr = GENERAL_SIZE(16);
     
     //1,设置图像的frame
-    CGFloat iconX = GENERAL_SIZE(26);
+    CGFloat iconX = GENERAL_SIZE(20);
     CGFloat iconY = GENERAL_SIZE(16);
-    CGFloat iconW = GENERAL_SIZE(90);
-    CGFloat iconH = GENERAL_SIZE(90);
+    CGFloat iconW = GENERAL_SIZE(80);
+    CGFloat iconH = GENERAL_SIZE(80);
     self.iconFrame = CGRectMake(iconX, iconY, iconW, iconH);
     
     //2,设置昵称frame
     CGFloat nameX = CGRectGetMaxX(self.iconFrame) + mgr;
-    CGFloat nameY = iconY+5;
+    CGFloat nameY = iconY+GENERAL_SIZE(20);
     CGFloat nameW = 220;
-    CGFloat nameH = 20;
+    CGFloat nameH =  GENERAL_SIZE(40);
     self.nameFrame = CGRectMake(nameX, nameY, nameW, nameH);
     
     //3,设置时间的frame
     CGSize timeSize = [result.time sizeWithFont:[UIFont systemFontOfSize:14.0] constrainedToSize:CGSizeMake(MAXFLOAT, 30)];
     CGFloat timeX = SCREEN_WIDTH-timeSize.width-20;
-    CGFloat timeY = iconY+5;
+    CGFloat timeY = iconY+GENERAL_SIZE(20);
     CGFloat timeW = timeSize.width+20;
-    CGFloat timeH = 20;
+    CGFloat timeH =  GENERAL_SIZE(40);
     
     self.timeFrame = CGRectMake(timeX, timeY, timeW, timeH);
     
-    //设置消息按钮frame
-    CGFloat messageX = SCREEN_WIDTH-100;
-    CGFloat messageY = iconY;
-    CGFloat messageW = 50;
-    CGFloat messageH = 30;
-    self.messageFrame = CGRectMake(messageX, messageY, messageW, messageH);
-    
-    //设置浏览按钮frame
-    CGFloat visitX = SCREEN_WIDTH-60;
-    CGFloat visitY = iconY;
-    CGFloat visitW = 60;
-    CGFloat visitH = 30;
-    self.visitFrame = CGRectMake(visitX, visitY, visitW, visitH);
-    
-    //4,设置正文的frame
-    CGFloat textX = CGRectGetMaxX(self.iconFrame) + mgr;
-    CGFloat textY = CGRectGetMaxY(self.nameFrame)+mgr/2;
-    
-    CGFloat maxW = 0.0;
-    CGSize textSize;
-    
-   NSString* contetxt = [_result.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];  //去除掉首尾的空白字符和换行字符
-    contetxt = [contetxt stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-    contetxt = [contetxt stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-    //根据普通文本计算正文的范围
-    maxW = SCREEN_WIDTH - 2*iconX - iconW;
-    NSMutableParagraphStyle *style =  [[NSMutableParagraphStyle alloc] init];
-    style.lineSpacing = 5.0f;
-    NSDictionary *attributes = @{NSFontAttributeName: LabelFont(30),NSParagraphStyleAttributeName:style};
-    CGRect rect = [contetxt boundingRectWithSize:CGSizeMake(maxW, MAXFLOAT)
-                                        options:NSStringDrawingUsesLineFragmentOrigin
-                                     attributes:attributes
-                                        context:nil];
-    textSize.width=maxW;
-    textSize.height=rect.size.height;
-    
-//    if (textSize.height>60) {
-//        textSize = CGSizeMake(textSize.width, 60);
-//    }
-    self.textFrame = (CGRect){{textX,textY},textSize};
+    //设置标题frame
+    CGFloat titelX = GENERAL_SIZE(20);
+    CGFloat titleY = CGRectGetMaxY(self.iconFrame)+mgr;;
+    CGFloat titleW = SCREEN_WIDTH-GENERAL_SIZE(40);
+    CGFloat titleH = GENERAL_SIZE(30);
+    self.titleFrame = CGRectMake(titelX, titleY, titleW, titleH);
     
     //5,设置图片的frame
     NSArray *array = [result.imageGids componentsSeparatedByString:@","];
@@ -89,44 +55,75 @@
         count = count -1;
     }
     
-    CGFloat imageX = CGRectGetMaxX(self.iconFrame) + mgr;
-    CGFloat imageY = CGRectGetMaxY(self.textFrame) + ([result.imageGids length]==0?0:mgr);
-    CGFloat imageW = SCREEN_WIDTH/4 *(count<3?count:3) + (count<3?count:4) * 5; //图片大小为屏幕的1/4
-    CGFloat imageH = 0;
+    CGFloat imageX = GENERAL_SIZE(20);
+    CGFloat imageY = CGRectGetMaxY(self.titleFrame) + ([result.imageGids length]==0?0:mgr/2);
+    CGFloat imageW = (SCREEN_WIDTH-GENERAL_SIZE(80))/3 *(count<3?count:3) + (count<3?count:4) * 5; 
+    CGFloat imageH = GENERAL_SIZE(10);
     
-    if ([result.type isEqualToString:@"2"]) {
-        //图片
-        if (count==1) {
-            imageW= SCREEN_WIDTH-100;
-            imageH = (SCREEN_WIDTH-100)*9/16;
-        }else if(count>1){
-            if (count <= 3) {
-                imageH = SCREEN_WIDTH/3 -20;
-            }else if(count <= 6){
-                imageH = 2*SCREEN_WIDTH/3 -40;
-            }else if(count <= 9){
-                imageH = SCREEN_WIDTH -60;
-            }else{
-                imageH = 4*SCREEN_WIDTH/3 -80;
-            }
+    //图片
+    if (count==1) {
+        imageW= SCREEN_WIDTH-GENERAL_SIZE(40);
+        imageH = GENERAL_SIZE(300);
+    }else if(count>1){
+        if (count <= 3) {
+            imageH = SCREEN_WIDTH/3 -20;
+        }else if(count <= 6){
+            imageH = 2*SCREEN_WIDTH/3 -40;
+        }else if(count <= 9){
+            imageH = SCREEN_WIDTH -60;
+        }else{
+            imageH = 4*SCREEN_WIDTH/3 -80;
         }
     }
     
     self.imageFrame = CGRectMake(imageX, imageY, imageW, imageH);
     
+    //设置正文的frame
+    CGFloat textX = GENERAL_SIZE(20);
+    CGFloat textY = CGRectGetMaxY(self.imageFrame)+GENERAL_SIZE(10);
+    CGFloat maxW = 0.0;
+    CGSize textSize;
+    
+    NSString* contetxt = [_result.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];  //去除掉首尾的空白字符和换行字符
+    contetxt = [contetxt stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    contetxt = [contetxt stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    //根据普通文本计算正文的范围
+    maxW = SCREEN_WIDTH - GENERAL_SIZE(40);
+    NSMutableParagraphStyle *style =  [[NSMutableParagraphStyle alloc] init];
+    style.lineSpacing = 3.0f;
+    NSDictionary *attributes = @{NSFontAttributeName: LabelFont(28),NSParagraphStyleAttributeName:style};
+    CGRect rect = [contetxt boundingRectWithSize:CGSizeMake(maxW, MAXFLOAT)
+                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                      attributes:attributes
+                                         context:nil];
+    textSize.width=maxW;
+    textSize.height=rect.size.height;
+    self.textFrame = (CGRect){{textX,textY},textSize};
+    
+    //设置浏览量frame
+    CGFloat visitX = GENERAL_SIZE(20);
+    CGFloat visitY = CGRectGetMaxY(self.textFrame)+GENERAL_SIZE(30);
+    CGFloat visitW = SCREEN_WIDTH-GENERAL_SIZE(40);
+    CGFloat visitH = GENERAL_SIZE(30);
+    self.visitFrame = CGRectMake(visitX, visitY, visitW, visitH);
+    
+    //设置点赞frame
+    CGFloat praiseX = SCREEN_WIDTH-GENERAL_SIZE(80);
+    CGFloat praiseY = CGRectGetMaxY(self.textFrame)+GENERAL_SIZE(30);
+    CGFloat praiseW = GENERAL_SIZE(60);
+    CGFloat praiseH = GENERAL_SIZE(30);
+    self.praiseFrame = CGRectMake(praiseX, praiseY, praiseW, praiseH);
+    
     //6,设置工具栏的frame
-    CGFloat toolbarX = CGRectGetMaxX(self.iconFrame);
-    CGFloat toolbarY = CGRectGetMaxY(self.imageFrame)+mgr;
-    CGFloat toolbarW = SCREEN_WIDTH-2*mgr-CGRectGetMaxX(self.iconFrame);
-    CGFloat toolbarH = 0;
-    if ([_result.type isEqualToString:@"2"]) {
-        toolbarH = 20;
-    }
+    CGFloat toolbarX = 0;
+    CGFloat toolbarY = CGRectGetMaxY(self.visitFrame)+GENERAL_SIZE(30);
+    CGFloat toolbarW = SCREEN_WIDTH;
+    CGFloat toolbarH = GENERAL_SIZE(106);
     
     self.toolFrame = CGRectMake(toolbarX, toolbarY, toolbarW, toolbarH);
     
     //设置cell的高度
-    self.cellHeigth = CGRectGetMaxY(self.toolFrame) + 2*mgr;
+    self.cellHeigth = CGRectGetMaxY(self.toolFrame);
     
 }
 

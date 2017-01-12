@@ -15,6 +15,7 @@
 #import "MessageTableCell.h"
 #import "CourSectionViewController.h"
 #import "BannerWebViewController.h"
+#import "CommodityViewController.h"
 
 @interface MessageViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -32,10 +33,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"消息中心";
-    [self setupBackButton];
+    self.title = @"系统消息";
     
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-100)];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-UI_NAVIGATION_BAR_HEIGHT-UI_STATUS_BAR_HEIGHT)];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.dataSource = self;
     _tableView.delegate = self;
     [self.view addSubview:_tableView];
@@ -46,36 +47,22 @@
         [self setupData:@""];
     }];
     
-    self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        Message *message = [_dataArray lastObject];
-        if (message) {
-            [self setupData:message.messageId];
-        }
-    }];
-    
     [self setupData:@""];
 }
 
-- (void)setupBackButton
-{
-    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setImage:[UIImage imageNamed:@"ic_back_white"] forState:UIControlStateNormal];
-    [backBtn sizeToFit];
-    [backBtn addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
-    self.navigationItem.leftBarButtonItem = backButtonItem;
-}
-
--(void)backButtonClicked{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 -(void)setupData:(NSString*)messageId{
-    AuthManager *am = [[AuthManager alloc]init];
+    AuthManager *am = [AuthManager sharedInstance];
     MessageManager *mm = [[MessageManager alloc]init];
     [mm fetchMessageListWithMessageId:messageId UserId:am.userInfo.userId PageSize:@"20" Success:^(MessageListResult *result) {
         if ([messageId isEqualToString:@""]) {
+            if ([result.messageArray count]==20) {
+                self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+                    Message *message = [_dataArray lastObject];
+                    if (message) {
+                        [self setupData:message.messageId];
+                    }
+                }];
+            }
             [_dataArray removeAllObjects];
         }
         [_dataArray addObjectsFromArray:result.messageArray];
@@ -89,7 +76,7 @@
 }
 
 -(void)updateReadStatus:(NSString*)messageIds Index:(NSInteger)index{
-    AuthManager *am = [[AuthManager alloc]init];
+    AuthManager *am = [AuthManager sharedInstance];
     MessageManager *mm = [[MessageManager alloc]init];
     [mm updateReadStatusWithUserId:am.userInfo.userId MessageIds:messageIds Success:^(CommonResult *result) {
         if (result.code==10000) {
@@ -129,11 +116,15 @@
         BannerWebViewController *bannerVC = [[BannerWebViewController alloc]init];
         bannerVC.url = message.url;
         [self.navigationController pushViewController:bannerVC animated:YES];
+    }else if ([message.type isEqualToString:@"4"]) {
+        CommodityViewController *commodityVC = [[CommodityViewController alloc]init];
+        commodityVC.currentType = @"1";
+        [self.navigationController pushViewController:commodityVC animated:YES];
     }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return GENERAL_SIZE(140);
+    return GENERAL_SIZE(160);
 }
 
 - (void)didReceiveMemoryWarning {

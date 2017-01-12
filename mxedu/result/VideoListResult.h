@@ -12,6 +12,8 @@
 
 @property (nonatomic) int code;
 @property (nonatomic) NSString *message;
+@property (nonatomic) NSString *orderStatus; //是否购买
+@property (nonatomic) int isCollect; //是否购买
 @property (nonatomic) NSArray *videoList;
 
 @end

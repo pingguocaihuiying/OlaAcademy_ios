@@ -21,7 +21,7 @@
 }
 
 - (void)awakeFromNib {
-    // Initialization code
+    [super awakeFromNib];
 }
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
@@ -92,7 +92,7 @@
         }else{
             _priceLabel.hidden = NO;
         }
-        _priceLabel.text = commodity.price;
+        _priceLabel.text = [NSString stringWithFormat:@"¥%@",commodity.price];
     }
 }
 

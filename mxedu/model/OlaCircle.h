@@ -11,6 +11,7 @@
 @interface OlaCircle : NSObject
 
 @property (nonatomic) NSString *circleId;
+@property (nonatomic) NSString *userId;
 @property (nonatomic) NSString *userName;
 @property (nonatomic) NSString *userAvatar;
 @property (nonatomic) NSString *videoId;
@@ -19,8 +20,10 @@
 @property (nonatomic) NSString *content;
 @property (nonatomic) NSString *location;
 @property (nonatomic) NSString *imageGids;
+@property (nonatomic) NSString *isPraised;
 @property (nonatomic) NSString *praiseNumber;
 @property (nonatomic) NSString *readNumber;
+@property (nonatomic) NSString *commentNumber;
 @property (nonatomic) NSString *type; // 1 观看记录 2 发帖
 @property (nonatomic) NSString *time;
 

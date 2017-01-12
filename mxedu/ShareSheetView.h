@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @protocol ShareSheetDelegate <NSObject>
-- (void)didClickOnImageIndex:(NSInteger *)imageIndex;
+- (void)didClickOnImageIndex:(NSInteger)imageIndex;
 @optional
 - (void)didClickOnCancelButton;
 @end

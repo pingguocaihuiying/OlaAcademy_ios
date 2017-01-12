@@ -28,22 +28,22 @@
 -(id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        _teamView = [self viewWithName:@"3000+课程" Pic:@"ic_vipcourse" Type:0];
+        _teamView = [self viewWithName:@"720P" Pic:@"ic_free" Type:0];
         _teamView.frame = CGRectMake(0, 0, SCREEN_WIDTH/4, SCREEN_WIDTH/4);
         
         [self addSubview:_teamView];
         
-        _patientView = [self viewWithName:@"全免费" Pic:@"ic_free" Type:1];
+        _patientView = [self viewWithName:@"畅游课程库" Pic:@"ic_vipcourse" Type:1];
         _patientView.frame = CGRectMake(SCREEN_WIDTH/4, 0, SCREEN_WIDTH/4, SCREEN_WIDTH/4);
         
         [self addSubview:_patientView];
         
-        _caseView = [self viewWithName:@"视频缓存" Pic:@"ic_cache" Type:2];
+        _caseView = [self viewWithName:@"缓存加速" Pic:@"ic_cache" Type:2];
         _caseView.frame = CGRectMake(SCREEN_WIDTH/4*2, 0, SCREEN_WIDTH/4, SCREEN_WIDTH/4);
         
         [self addSubview:_caseView];
         
-        _codeView = [self viewWithName:@"报名优惠" Pic:@"ic_concessions" Type:3];
+        _codeView = [self viewWithName:@"送欧拉币" Pic:@"ic_concessions" Type:3];
         _codeView.frame = CGRectMake(SCREEN_WIDTH/4*3, 0, SCREEN_WIDTH/4, SCREEN_WIDTH/4);
         
         [self addSubview:_codeView];
@@ -60,7 +60,7 @@
     
     UILabel *nameLabel = [UILabel new];
     nameLabel.font = LabelFont(28);
-    nameLabel.textColor = COMMONBLUECOLOR;
+    nameLabel.textColor = RGBCOLOR(224, 178, 112);
     nameLabel.text = name;
     [view addSubview:nameLabel];
     
@@ -86,14 +86,13 @@
     [view addGestureRecognizer:tap];
     
     [icon mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(view.mas_top).offset(GENERAL_SIZE(40));
         make.centerX.equalTo(view.mas_centerX).offset(0);
+        make.centerY.equalTo(view).offset(-GENERAL_SIZE(20));
     }];
     
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX).offset(0);
-        make.top.equalTo(icon.mas_bottom).offset(GENERAL_SIZE(30));
-        make.bottom.equalTo(view.mas_top).offset(GENERAL_SIZE(190));
+        make.centerY.equalTo(view).offset(GENERAL_SIZE(60));
     }];
     
     return view;

@@ -42,6 +42,34 @@
                  }];
 }
 
+-(void)fetchOrganizationInfoSuccess:(void(^)(OrgInfoListResult *result))success
+                            Failure:(void(^)(NSError* error))failure{
+    DataMappingManager *dm = GetDataManager();
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:dm.orgInfoListResultMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:nil];
+    // 通过shareManager 共享 baseurl及请求头等
+    RKObjectManager* om = [RKObjectManager sharedManager];
+    
+    [om addResponseDescriptor:responseDescriptor];
+    [om getObjectsAtPath:@"/ola/organization/getOrganizationInfo" parameters: nil
+                 success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                     if ([mappingResult.firstObject isKindOfClass:[OrgInfoListResult class]]) {
+                         OrgInfoListResult *result = mappingResult.firstObject;
+                         if (result.code!=10000) {
+                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result.message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                             [alert show];
+                         }
+                         if (success != nil) {
+                             success(result);
+                         }
+                     }
+                     
+                 } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                     if (failure != nil) {
+                         failure(error);
+                     }
+                 }];
+}
+
 -(void)updateAttendCountWithOrgId:(NSString*)orgId
                           Success:(void(^)(CommonResult *result))success
                           Failure:(void(^)(NSError* error))failure{
@@ -122,7 +150,6 @@
              CheckinTime:(NSString*)checkinTime
                UserPhone:(NSString*)userPhone
                UserLocal:(NSString*)userLocal
-                    Type:(NSString*)type
                  Success:(void(^)(CommonResult *result))success
                  Failure:(void(^)(NSError* error))failure{
     DataMappingManager *dm = GetDataManager();
@@ -134,8 +161,7 @@
     [om postObject:nil path:@"/ola/organization/checkin" parameters:@{@"orgId" : orgId,
                                                                       @"checkinTime":checkinTime,
                                                                       @"userPhone":userPhone,
-                                                                      @"userLocal":userLocal,
-                                                                      @"type":type
+                                                                      @"userLocal":userLocal
                                                                       }
                 success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                      if ([mappingResult.firstObject isKindOfClass:[CommonResult class]]) {

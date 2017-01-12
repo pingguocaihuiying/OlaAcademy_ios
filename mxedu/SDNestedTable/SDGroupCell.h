@@ -14,7 +14,7 @@
 
 @class QuestionViewController;
 
-static const int height = 70;
+static const int height = 75;
 static const int subCellHeight = 80;
 
 @interface SDGroupCell : UITableViewCell <UITableViewDelegate, UITableViewDataSource>
@@ -28,7 +28,6 @@ static const int subCellHeight = 80;
 
 @property (assign) BOOL isExpanded;
 @property (nonatomic) IBOutlet UILabel *itemText;
-@property (nonatomic) UIView *lineView;
 @property (strong, nonatomic) IBOutlet UILabel *pointLabel;
 @property (strong, nonatomic) IBOutlet THProgressView *progressView;
 @property (strong, nonatomic) IBOutlet UILabel *progressL;

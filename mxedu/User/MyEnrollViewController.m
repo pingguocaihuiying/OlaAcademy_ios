@@ -43,7 +43,7 @@
 - (void)setupBackButton
 {
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setBackgroundImage:[UIImage imageNamed:@"ic_back_white"] forState:UIControlStateNormal];
+    [backBtn setBackgroundImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
     [backBtn sizeToFit];
     [backBtn addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     
@@ -56,7 +56,7 @@
 }
 
 -(void)fetchCheckInfoList{
-    AuthManager *am = [[AuthManager alloc]init];
+    AuthManager *am = [AuthManager sharedInstance];
     if (am.isAuthenticated) {
         OrganizationManager *om = [[OrganizationManager alloc]init];
         [_dataArray removeAllObjects];
@@ -70,7 +70,7 @@
 }
 
 -(void)removeCheckInfo:(NSString*)checkId{
-    AuthManager *am = [[AuthManager alloc]init];
+    AuthManager *am = [AuthManager sharedInstance];
     if (am.isAuthenticated) {
         OrganizationManager *om = [[OrganizationManager alloc]init];
         [om removeCheckInfo:checkId Success:^(CommonResult *result) {

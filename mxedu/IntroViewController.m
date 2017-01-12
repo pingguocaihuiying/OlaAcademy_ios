@@ -13,6 +13,7 @@
     UIImageView *imageview1;
     UIImageView *imageview2;
     UIImageView *imageview3;
+    UIImageView *imageview4;
     UIButton * lijitiyanButton;
 }
 @end
@@ -46,23 +47,26 @@
     [imageview2 setImage:[UIImage imageNamed:@"guide2"]];
     imageview3=[[UIImageView alloc]init];
     [imageview3 setImage:[UIImage imageNamed:@"guide3"]];
-    imageview3.userInteractionEnabled = YES;
+    imageview4=[[UIImageView alloc]init];
+    [imageview4 setImage:[UIImage imageNamed:@"guide4"]];
+    imageview4.userInteractionEnabled = YES;
     [myScrollview addSubview:imageview1];
     [myScrollview addSubview:imageview2];
     [myScrollview addSubview: imageview3];
+    [myScrollview addSubview: imageview4];
     [self.view addSubview:myScrollview];
     //将pagecontrol添加到scrollview中
-    myPageController.numberOfPages=3;
+    myPageController.numberOfPages=4;
     myPageController.currentPage=0;
     [self.view addSubview:myPageController];
     
     myPageController.pageIndicatorTintColor = [UIColor grayColor];
-    myPageController.currentPageIndicatorTintColor = [UIColor colorWithRed:98.0/255.0 green:181.0/255.0 blue:140.0/255.0 alpha:1];
+    myPageController.currentPageIndicatorTintColor = [UIColor colorWithRed:66.0/255.0 green:133.0/255.0 blue:244.0/255.0 alpha:1];
     lijitiyanButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [lijitiyanButton setImage:[UIImage imageNamed:@"start"] forState:UIControlStateNormal];
      [lijitiyanButton setImage:[UIImage imageNamed:@"start_click"] forState:UIControlStateHighlighted];
     [lijitiyanButton addTarget:self action:@selector(showMainView) forControlEvents:UIControlEventTouchUpInside];
-    [imageview3 addSubview:lijitiyanButton];
+    [imageview4 addSubview:lijitiyanButton];
     
     /***********************存数据*******************/
     //通过它拿到对象的实例，它其实也是一个单例
@@ -85,12 +89,13 @@
     CGRect rect = self.view.bounds;
     myScrollview.frame = rect;
     //设置scrollview画布的大小，此设置为四页的宽度，480的高度。用来实现照片的转换。
-    [myScrollview setContentSize:CGSizeMake(rect.size.width * 3, rect.size.height)];
+    [myScrollview setContentSize:CGSizeMake(rect.size.width * 4, rect.size.height)];
     myPageController.frame = CGRectMake(0, rect.size.height - 40, rect.size.width , 30);
     imageview1.frame = rect;
     imageview2.frame = CGRectMake(rect.size.width, 0, rect.size.width, rect.size.height);
     imageview3.frame = CGRectMake(rect.size.width * 2, 0, rect.size.width, rect.size.height);
-    lijitiyanButton.frame = CGRectMake((rect.size.width - 200) / 2, rect.size.height - 120, 200, 40);
+    imageview4.frame = CGRectMake(rect.size.width * 3, 0, rect.size.width, rect.size.height);
+    lijitiyanButton.frame = CGRectMake((rect.size.width - 200) / 2, rect.size.height - 140, 200, 60);
 }
 - (IBAction)pageValueChanged:(id)sender {
 

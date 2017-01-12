@@ -43,17 +43,17 @@
     self.view.backgroundColor = [UIColor whiteColor];
 
     self.manager = [[RETableViewManager alloc] initWithTableView:self.tableView delegate:self];
+    self.manager.tableView.backgroundColor = RGBCOLOR(235, 235, 235);
     
     [self setupVersionSection];
     [self setupClearSection];
     [self setupDownloadSection];
     [self setupRecommendection];
     [self setupEvaluationSection];
+    [self setupFeedBookSection];
     [self setupAboutSection];
     
-    if ([[AuthManager alloc]init].isAuthenticated) {
-        [self setupLogout];
-    }
+    [self setupLogout];
 }
 
 - (void)setupBackButton
@@ -62,7 +62,7 @@
     self.navigationController.navigationBar.translucent = NO;
     
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setImage:[UIImage imageNamed:@"ic_back_white"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
     [backBtn sizeToFit];
     [backBtn addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     
@@ -75,18 +75,8 @@
 }
 
 -(void)setupVersionSection{
-    UIView *dividerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 35)];
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 200, 35)];
-    label.textColor = RGBCOLOR(128, 128, 128);
-    label.text = @"版本";
-    dividerView.backgroundColor = RGBCOLOR(230, 230, 230);
-    [dividerView addSubview:label];
-    UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-150, 10, 135, 20)];
-    versionLabel.textColor = RGBCOLOR(128, 128, 128);
-    versionLabel.textAlignment=NSTextAlignmentRight;
-    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-    versionLabel.text = [NSString stringWithFormat:@"V %@",[infoDictionary objectForKey:@"CFBundleShortVersionString"]];
-    [dividerView addSubview:versionLabel];
+    UIView *dividerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, GENERAL_SIZE(20))];
+    dividerView.backgroundColor = RGBCOLOR(235, 235, 235);
     
     RETableViewSection* section = [RETableViewSection sectionWithHeaderView:dividerView];
     
@@ -110,12 +100,8 @@
 }
 
 -(void)setupClearSection{
-    UIView *dividerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 35)];
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 200, 35)];
-    label.textColor = RGBCOLOR(128, 128, 128);
-    label.text = @"通用";
-    dividerView.backgroundColor = RGBCOLOR(230, 230, 230);
-    [dividerView addSubview:label];
+    UIView *dividerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, GENERAL_SIZE(20))];
+    dividerView.backgroundColor = RGBCOLOR(235, 235, 235);
 
     NSInteger cacheSize = [[SDImageCache sharedImageCache] getSize];
     NSString *cacheText = @"0.0";
@@ -149,7 +135,7 @@
 
 -(void)setupDownloadSection{
     UIView *dividerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
-    dividerView.backgroundColor = RGBCOLOR(230, 230, 230);
+    dividerView.backgroundColor = RGBCOLOR(235, 235, 235);
     
     UIView *downloadView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
     UILabel *cacheLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 5, 100, 30)];
@@ -182,12 +168,8 @@
 }
 
 -(void)setupRecommendection{
-    UIView *dividerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 35)];
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 200, 35)];
-    label.textColor = RGBCOLOR(128, 128, 128);
-    label.text = @"更多";
-    dividerView.backgroundColor = RGBCOLOR(230, 230, 230);
-    [dividerView addSubview:label];
+    UIView *dividerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, GENERAL_SIZE(20))];
+    dividerView.backgroundColor = RGBCOLOR(235, 235, 235);
     RETableViewSection* section = [RETableViewSection sectionWithHeaderView:dividerView];
     
     RETableViewItem *titleAndImageItem = [RETableViewItem itemWithTitle:@"推荐给好友" accessoryType:UITableViewCellAccessoryDisclosureIndicator selectionHandler:^(RETableViewItem *item) {
@@ -214,11 +196,25 @@
     
     [self.manager addSection:section];
 }
+-(void)setupFeedBookSection{
+    RETableViewSection* section = [RETableViewSection sectionWithHeaderView:nil];
+    
+    RETableViewItem *titleAndImageItem = [RETableViewItem itemWithTitle:@"意见反馈" accessoryType:UITableViewCellAccessoryDisclosureIndicator selectionHandler:^(RETableViewItem *item) {
+//        int appId = 1116458689;
+//        NSString *str = [NSString stringWithFormat:@"http://itunes.apple.com/us/app/id%d",appId];
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+    }];
+    //titleAndImageItem.image = [UIImage imageNamed:@"ic_evaluation"];
+    //titleAndImageItem.highlightedImage = [UIImage imageNamed:@"ic_evaluation"];
+    [section addItem:titleAndImageItem];
+    
+    [self.manager addSection:section];
+}
 
 -(void)setupAboutSection{
     RETableViewSection* section = [RETableViewSection sectionWithHeaderTitle:nil];
     
-    RETableViewItem *titleAndImageItem = [RETableViewItem itemWithTitle:@"关于欧拉联考" accessoryType:UITableViewCellAccessoryDisclosureIndicator selectionHandler:^(RETableViewItem *item) {
+    RETableViewItem *titleAndImageItem = [RETableViewItem itemWithTitle:@"关于欧拉MBA" accessoryType:UITableViewCellAccessoryDisclosureIndicator selectionHandler:^(RETableViewItem *item) {
         AboutViewController *aboutVC = [[AboutViewController alloc]init];
         [self.navigationController pushViewController:aboutVC animated:YES];
     }];
@@ -230,16 +226,22 @@
 }
 
 -(void)setupLogout{
-    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
-    UIButton *logoutBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    logoutBtn.frame =  CGRectMake(20, 60, SCREEN_WIDTH-40, 40);
-    [logoutBtn setBackgroundImage:[UIImage imageNamed:@"btn_logout"] forState:UIControlStateNormal];
-    [logoutBtn setTitle:@"退出登陆" forState:UIControlStateNormal];
-    [logoutBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [logoutBtn addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchDown];
-    [footerView addSubview:logoutBtn];
-    
+    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, GENERAL_SIZE(600))];
+    footerView.backgroundColor = [UIColor clearColor];
     self.tableView.tableFooterView = footerView;
+    
+    if ([AuthManager sharedInstance].isAuthenticated) {
+        UIButton *logoutBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        logoutBtn.frame =  CGRectMake(GENERAL_SIZE(80), GENERAL_SIZE(450), SCREEN_WIDTH-GENERAL_SIZE(160), GENERAL_SIZE(80));
+        logoutBtn.layer.masksToBounds = YES;
+        logoutBtn.layer.cornerRadius = GENERAL_SIZE(40);
+        logoutBtn.layer.borderWidth = GENERAL_SIZE(2);
+        logoutBtn.layer.borderColor = [RGBCOLOR(236, 97, 86) CGColor];
+        [logoutBtn setTitleColor:RGBCOLOR(236, 97, 86) forState:UIControlStateNormal];
+        [logoutBtn setTitle:@"退出登陆" forState:UIControlStateNormal];
+        [logoutBtn addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchDown];
+        [footerView addSubview:logoutBtn];
+    }
 }
 
 #pragma 设置下载类型
@@ -303,7 +305,7 @@
 }
 
 -(void)logout{
-    AuthManager *authManager = [[AuthManager alloc]init];
+    AuthManager *authManager = [AuthManager sharedInstance];
     [authManager logoutSuccess:^{
         if (_logoutSuccess) {
             _logoutSuccess();
@@ -316,15 +318,15 @@
 
 #pragma mark - LXActivityDelegate
 
-- (void)didClickOnImageIndex:(NSInteger *)imageIndex
+- (void)didClickOnImageIndex:(NSInteger)imageIndex
 {
     UIImage *image = [UIImage imageNamed:@"ic_logo"];
-    NSString *content = @"欧拉联考——中国最权威的管理类联考学习平台";
+    NSString *content = @"欧拉MBA——中国最权威的管理类联考学习平台";
     NSString *url = [NSString stringWithFormat: @"http://app.olaxueyuan.com"];
     
     switch((int)imageIndex){
         case 0:
-            [UMSocialData defaultData].extConfig.wechatSessionData.title = @"欧拉联考";
+            [UMSocialData defaultData].extConfig.wechatSessionData.title = @"欧拉MBA";
             [UMSocialData defaultData].extConfig.wechatSessionData.url = url;
             [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeWeb;
             [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToWechatSession] content:content image:image location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
@@ -333,7 +335,7 @@
             }];
             break;
         case 1:
-            [UMSocialData defaultData].extConfig.wechatTimelineData.title = @"欧拉联考";
+            [UMSocialData defaultData].extConfig.wechatTimelineData.title = @"欧拉MBA";
             [UMSocialData defaultData].extConfig.wechatTimelineData.url = url;
             [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeWeb;
             [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToWechatTimeline] content:content image:image location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
@@ -349,7 +351,7 @@
             }];
             break;
         case 3:
-            [UMSocialData defaultData].extConfig.qqData.title = @"欧拉联考";
+            [UMSocialData defaultData].extConfig.qqData.title = @"欧拉MBA";
             [UMSocialData defaultData].extConfig.qqData.url =url;
             [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeDefault;
             [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToQQ] content:content image:image location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
@@ -359,7 +361,7 @@
             break;
         case 4:
             // QQ空间分享只支持图文分享（图片文字缺一不可）
-            [UMSocialData defaultData].extConfig.qzoneData.title = @"欧拉联考";
+            [UMSocialData defaultData].extConfig.qzoneData.title = @"欧拉MBA";
             [UMSocialData defaultData].extConfig.qzoneData.url = url;
             [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToQzone] content:content image:image location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
                 if (response.responseCode == UMSResponseCodeSuccess) {

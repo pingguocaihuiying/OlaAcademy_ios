@@ -11,8 +11,10 @@
 
 @interface CustomInputView : UIToolbar<EAMTextViewDelegate>
 
-@property (nonatomic, strong) IBOutlet EAMTextView* textView;
+@property (nonatomic, strong) EAMTextView* textView;
 @property (nonatomic, copy) NSString* text;
+@property (nonatomic, strong) void (^audioAction)();
+@property (nonatomic, strong) void (^mediaAction)();
 @property (nonatomic, strong) void (^sendAction)();
 
 @end

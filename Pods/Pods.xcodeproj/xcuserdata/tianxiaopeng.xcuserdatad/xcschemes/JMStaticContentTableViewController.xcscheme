@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '4E551B13392F417FFBDEA11A'
+               BlueprintIdentifier = 'F77010293B0B1507E160E36695892458'
                BlueprintName = 'JMStaticContentTableViewController'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libJMStaticContentTableViewController.a'>

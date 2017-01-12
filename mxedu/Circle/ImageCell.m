@@ -32,8 +32,6 @@
         // 加载nib
         self = [arrayOfViews objectAtIndex:0];
         
-        self.imageView.clipsToBounds = YES;
-        self.imageView.layer.cornerRadius = 5;
     }
     return self;
 }

@@ -141,14 +141,14 @@
     if ([_organiztion.checkedIn isEqualToString:@"1"]) {
         return;
     }
-    AuthManager *am = [[AuthManager alloc]init];
+    AuthManager *am = [AuthManager sharedInstance];
     if (!am.isAuthenticated) {
         [self showLoginView];
         return;
     }
     _checkinButton.enabled = NO;
     OrganizationManager *om =[[OrganizationManager alloc]init];
-    [om checkInWithOrgId:_organiztion.orgId CheckinTime:[self currentDate] UserPhone:am.userInfo.phone UserLocal:@"" Type:@"1" Success:^(CommonResult *result) {
+    [om checkInWithOrgId:_organiztion.orgId CheckinTime:[self currentDate] UserPhone:am.userInfo.phone UserLocal:@"" Success:^(CommonResult *result) {
          _checkinButton.enabled = YES;
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"报名成功" message:@"报名成功，报名信息已发往欧拉学院" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];

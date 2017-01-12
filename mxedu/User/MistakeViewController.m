@@ -24,7 +24,7 @@
 #import <WebViewJavascriptBridge.h>
 
 
-@interface MistakeViewController ()
+@interface MistakeViewController ()<UIAlertViewDelegate>
 
 @property (nonatomic) WebViewJavascriptBridge* bridge;
 @property (nonatomic) UIWebView *webView;
@@ -51,13 +51,7 @@
     self.title = @"错题集";
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupBackButton];
-    
-    UITextView *tipText = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0)];
-    tipText.font = [UIFont systemFontOfSize:16.0];
-    tipText.textColor = RGBCOLOR(255, 102, 92);
-    tipText.text = @" 已有398702人复习 错误率33%";
-    [self.view addSubview:tipText];
-    
+    [self setupRightButton];
     
     _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-120)];
     _webView.backgroundColor = [UIColor whiteColor];
@@ -142,7 +136,7 @@
 - (void)setupBackButton
 {
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setImage:[UIImage imageNamed:@"ic_back_white"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
     [backBtn sizeToFit];
     [backBtn addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     
@@ -154,14 +148,52 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)setupRightButton{
+    UIImageView *slideBtn = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 80, 80)];
+    slideBtn.image = [UIImage imageNamed:@"icon_delete"];
+    slideBtn.userInteractionEnabled = YES;
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(removeWrongSubject)];
+    [slideBtn addGestureRecognizer:singleTap];
+    [slideBtn sizeToFit];
+    
+    UIBarButtonItem *rightCunstomButtonView = [[UIBarButtonItem alloc] initWithCustomView:slideBtn];
+    self.navigationItem.rightBarButtonItem = rightCunstomButtonView;
+}
+
+-(void)removeWrongSubject{
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"确定将此题从错题本中移除？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [alert show];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex==1) {
+        Question *question = [_questionArray objectAtIndex:_currentIndex];
+        CourseManager *cm = [[CourseManager alloc]init];
+        [cm updateWrongSetWithUserId:[AuthManager sharedInstance].userInfo.userId SubjectId:question.questionId QuestionType:_type Type:@"2" Success:^(CommonResult *result) {
+            [_questionArray removeObjectAtIndex:_currentIndex];
+            if (_questionArray.count==0) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }else{
+                [self setupQuestion:_questionArray Index:_currentIndex];
+                subjectNoLabel.text = [NSString stringWithFormat:@"%d/%ld",_currentIndex+1,[_questionArray count]];
+                if (_updateSuccess) {
+                    _updateSuccess();
+                }
+            }
+        } Failure:^(NSError *error) {
+            
+        }];
+    }
+}
+
 -(void)fetchWrongSubjectList{
     NSString *userId = @"";
-    AuthManager *am = [[AuthManager alloc]init];
+    AuthManager *am = [AuthManager sharedInstance];
     if (am.isAuthenticated) {
         userId = am.userInfo.userId;
     }
     CourseManager *cm = [[CourseManager alloc]init];
-    [cm fetchWrongSubjectListWithID:_objectId Type:@"1" UserId:userId Success:^(QuestionListResult *result) {
+    [cm fetchWrongSubjectListWithID:_objectId Type:_type UserId:userId Success:^(QuestionListResult *result) {
         _questionArray = [NSMutableArray arrayWithArray:result.questionArray];
         if ([_questionArray count]>0) {
             if([_questionArray count]==1){
@@ -193,13 +225,13 @@
     NSString *content = [question.question stringByReplacingOccurrencesOfString:@"\n" withString:@"<br>"];
     [content stringByReplacingOccurrencesOfString:@" " withString:@"&nbsp"];
     [questionData setObject:content forKey:@"title"];
+    [questionData setObject:[self jsonStringFromArray :question.optionList] forKey:@"option"];
     int i = 0;
     NSString *rightanswer;
     NSString *currentChoice;
     for (QuestionOption *option in question.optionList) {
         i++;
         if (option.content&&![option.content isEqualToString:@""]) {
-            [questionData setObject:option.content forKey:[NSString stringWithFormat:@"option%d",i]];
             if([option.isanswer isEqualToString:@"1"]){
                 rightanswer =[NSString stringWithFormat:@"%d",64+i];
             }
@@ -266,11 +298,11 @@
 
 // 提交答案
 -(void)submitAnswerToServer{
-    AuthManager *am = [[AuthManager alloc]init];
+    AuthManager *am = [AuthManager sharedInstance];
     if (am.isAuthenticated) {
         CourseManager *cm = [[CourseManager alloc]init];
         NSString *answerJson = [self jsonStringFromDictionary];
-        [cm submitQuestionAnswerWithId:am.userInfo.userId answer:answerJson type:@"1" Success:^(QuestionListResult *result) {
+        [cm submitQuestionAnswerWithId:am.userInfo.userId answer:answerJson type:@"1" Success:^(CommonResult *result) {
             
         } Failure:^(NSError *error) {
             
@@ -300,6 +332,26 @@
     return jsonString;
 }
 
-
+-(NSString*)jsonStringFromArray:(NSArray*)optionArray{
+    NSMutableArray *array = [NSMutableArray arrayWithCapacity:[optionArray count]];
+    for (QuestionOption *option in optionArray) {
+        if (option.content) {
+            NSDictionary *contentDict = [NSDictionary dictionaryWithObjectsAndKeys:option.content,@"content", nil];
+            [array addObject:contentDict];
+        }
+    }
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:array
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+    NSString *jsonString;
+    if (! jsonData) {
+        NSLog(@"Got an error: %@", error);
+        jsonString=@"";
+    } else {
+        jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    return jsonString;
+}
 
 @end

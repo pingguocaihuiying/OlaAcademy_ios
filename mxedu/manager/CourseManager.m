@@ -262,6 +262,7 @@
                               VideoId:(NSString*)videoId
                              CourseId:(NSString*)courseId
                                 State:(NSString*)state
+                                 Type:(NSString*)type
                          Success:(void(^)(CommonResult *result))success
                          Failure:(void(^)(NSError* error))failure{
     DataMappingManager *dm = GetDataManager();
@@ -271,10 +272,12 @@
     
     [om addResponseDescriptor:responseDescriptor];
     // 采用post方式，get方式可能产生中文乱码
-    [om postObject:nil path:@"/ola/collection/collectionVideo" parameters:@{ @"userId" : userId,
-                                                                             @"videoId" : videoId,
-                                                                             @"courseId" : courseId,
-                                                                             @"state" : state
+    [om postObject:nil path:@"/ola/collection/collectionVideo" parameters:@{
+                                                                        @"userId" : userId,
+                                                                        @"videoId" : videoId,
+                                                                        @"courseId": courseId,
+                                                                        @"state" : state,
+                                                                        @"type" : type
                                                                              }
            success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                if ([mappingResult.firstObject isKindOfClass:[CommonResult class]]) {
@@ -327,43 +330,6 @@
                }
            }];
 }
-
--(void)fetchCollectionStateWithUserId:(NSString*)userId
-                         CollectionId:(NSString*)collectionId
-                                 Type:(NSString*)type
-                        Success:(void(^)(VideoCollectionResult *result))success
-                        Failure:(void(^)(NSError* error))failure{
-    DataMappingManager *dm = GetDataManager();
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:dm.collectionStateResultMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:nil];
-    // 通过shareManager 共享 baseurl及请求头等
-    RKObjectManager* om = [RKObjectManager sharedManager];
-    
-    [om addResponseDescriptor:responseDescriptor];
-    // 采用post方式，get方式可能产生中文乱码
-    [om postObject:nil path:@"/ola/collection/getColletionState" parameters:@{ @"userId" : userId,
-                                                                               @"collectionId" : collectionId,
-                                                                               @"type" : type
-                                                                                       }
-           success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-               if ([mappingResult.firstObject isKindOfClass:[VideoCollectionResult class]]) {
-                   VideoCollectionResult *result = mappingResult.firstObject;
-                   if (result.code!=10000) {
-                       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result.message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                       [alert show];
-                   }
-                   if (success != nil) {
-                       success(result);
-                   }
-               }
-               
-           }
-           failure:^(RKObjectRequestOperation *operation, NSError *error) {
-               if (failure != nil) {
-                   failure(error);
-               }
-           }];
-}
-
 
 -(void)removeCollectionWithUserId:(NSString*)userId
                           Success:(void(^)(CommonResult *result))success
@@ -437,7 +403,7 @@
 -(void)submitQuestionAnswerWithId:(NSString*)userId
                            answer:(NSString*)answer
                              type:(NSString*)type
-                          Success:(void(^)(QuestionListResult *result))success
+                          Success:(void(^)(CommonResult *result))success
                           Failure:(void(^)(NSError* error))failure{
     DataMappingManager *dm = GetDataManager();
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:dm.commonResultMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:nil];
@@ -451,8 +417,8 @@
                                                                    @"type" : type
                                                                      }
            success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-               if ([mappingResult.firstObject isKindOfClass:[QuestionListResult class]]) {
-                   QuestionListResult *result = mappingResult.firstObject;
+               if ([mappingResult.firstObject isKindOfClass:[CommonResult class]]) {
+                   CommonResult *result = mappingResult.firstObject;
                    if (success != nil) {
                        success(result);
                    }
@@ -504,6 +470,47 @@
                  }];
 }
 
+/**
+ *  错题集列表
+ *  @param type 1 考点 2 模考 3 真题
+ *  @param subjectType 1 数学 2 英语 3 逻辑 4 写作
+ *
+ *  @param success <#success description#>
+ *  @param failure <#failure description#>
+ */
+-(void)fetchMistakeListWithUserId:(NSString*)userId
+                            Type:(NSString*)type
+                      SubjetcType:(NSString*)subjectType
+                          Success:(void(^)(MistakeListResult *result))success
+                          Failure:(void(^)(NSError* error))failure{
+    DataMappingManager *dm = GetDataManager();
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:dm.mistakeListResultMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:nil];
+    // 通过shareManager 共享 baseurl及请求头等
+    RKObjectManager* om = [RKObjectManager sharedManager];
+    
+    [om addResponseDescriptor:responseDescriptor];
+    [om getObjectsAtPath:@"/ola/cour/getWrongList" parameters:@{   @"userId": userId,
+                                                                    @"type": type,      @"subjectType":subjectType
+                                                                }
+                 success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                     if ([mappingResult.firstObject isKindOfClass:[MistakeListResult class]]) {
+                         MistakeListResult *result = mappingResult.firstObject;
+                         if (result.code!=10000) {
+                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result.message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                             [alert show];
+                         }
+                         if (success != nil) {
+                             success(result);
+                         }
+                     }
+                     
+                 } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                     if (failure != nil) {
+                         failure(error);
+                     }
+                 }];
+}
+
 // 错题集
 -(void)fetchWrongSubjectListWithID:(NSString*)courseId
                         Type:(NSString*)type
@@ -523,6 +530,49 @@
                  success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                      if ([mappingResult.firstObject isKindOfClass:[QuestionListResult class]]) {
                          QuestionListResult *result = mappingResult.firstObject;
+                         if (result.code!=10000) {
+                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result.message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                             [alert show];
+                         }
+                         if (success != nil) {
+                             success(result);
+                         }
+                     }
+                     
+                 } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                     if (failure != nil) {
+                         failure(error);
+                     }
+                 }];
+}
+
+/**
+ *  更新错题集（添加／移除）
+ *  @param questionType 1 考点 2 模考或真题
+ *  @param type 1 添加错题 2 移除错题
+ *
+ *  @param success <#success description#>
+ *  @param failure <#failure description#>
+ */
+-(void)updateWrongSetWithUserId:(NSString*)userId
+                      SubjectId:(NSString*)subjectId
+                   QuestionType:(NSString*)questionType
+                           Type:(NSString*)type
+                        Success:(void(^)(CommonResult *result))success
+                        Failure:(void(^)(NSError* error))failure{
+    DataMappingManager *dm = GetDataManager();
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:dm.commonResultMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:nil];
+    // 通过shareManager 共享 baseurl及请求头等
+    RKObjectManager* om = [RKObjectManager sharedManager];
+    
+    [om addResponseDescriptor:responseDescriptor];
+    [om getObjectsAtPath:@"/ola/cour/updateWrongSet" parameters:@{   @"userId": userId,
+                                                                     @"subjectId": subjectId,
+                                                                     @"type": type,      @"questionType":questionType
+                                                                   }
+                 success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                     if ([mappingResult.firstObject isKindOfClass:[CommonResult class]]) {
+                         CommonResult *result = mappingResult.firstObject;
                          if (result.code!=10000) {
                              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result.message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                              [alert show];

@@ -12,8 +12,6 @@
 
 @interface IAPVIPController : UIViewController<SKPaymentTransactionObserver, SKProductsRequestDelegate>
 
-@property (nonatomic) int isSingleView; //1 独立页面 0 子页面
-
 @property (nonatomic) void(^callbackBlock)();
 
 @end

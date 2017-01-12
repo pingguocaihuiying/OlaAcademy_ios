@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface KnowledgeSubController : UIViewController
+#import "UIBaseViewController.h"
+
+@interface KnowledgeSubController : UIBaseViewController
 
 @end

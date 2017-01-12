@@ -25,7 +25,8 @@ typedef enum
 @interface UserInfoView ()
 {
     UIImageView *_avatarImageview;
-    UILabel *_vipLabel;
+    UILabel *_signInLabel;
+    UIView *lineView;
     UILabel *_localLabel;
 }
 
@@ -38,34 +39,37 @@ typedef enum
     self = [super initWithFrame:frame];
     if (self) {
         
-        self.backgroundColor = RGBCOLOR(172, 202, 236);
+        self.backgroundColor = COMMONBLUECOLOR;
         
-        _collectButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self addSubview:_collectButton];
-        _collectButton.hidden = YES; //暂时隐藏该功能
+        _settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _settingButton.frame = CGRectMake(SCREEN_WIDTH-50, GENERAL_SIZE(50), 50, 30);
+        [_settingButton setImage:[UIImage imageNamed:@"icon_setting"] forState:UIControlStateNormal];
+        [self addSubview:_settingButton];
         
         _avatarImageview = [[UIImageView alloc]init];
         _avatarImageview.image = [UIImage imageNamed:@"ic_avatar"];
         _avatarImageview.layer.masksToBounds = YES;
-        _avatarImageview.layer.cornerRadius = GENERAL_SIZE(80);
+        _avatarImageview.layer.cornerRadius = GENERAL_SIZE(60);
+        _avatarImageview.layer.borderColor = [[UIColor whiteColor]CGColor];
+        _avatarImageview.layer.borderWidth = 1.0;
         [self addSubview:_avatarImageview];
         
+        UIImageView *nextIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"icon_next"]];
+        [self addSubview:nextIV];
+        
         _nameLabel = [[UILabel alloc]init];
-        _nameLabel.font = LabelFont(36);
+        _nameLabel.font = LabelFont(32);
         _nameLabel.textColor = [UIColor whiteColor];
         [self addSubview:_nameLabel];
         
-        _vipLabel = [[UILabel alloc]init];
-        _vipLabel.text = @"VIP会员";
-        _vipLabel.layer.borderWidth = 1.0;
-        _vipLabel.layer.masksToBounds = YES;
-        _vipLabel.layer.cornerRadius = 5.0;
-        _vipLabel.layer.borderColor = [RGBCOLOR(128, 128, 128) CGColor];
-        _vipLabel.backgroundColor = RGBCOLOR(128, 128, 128);
-        _vipLabel.textColor = [UIColor whiteColor];
-        _vipLabel.textAlignment = NSTextAlignmentCenter;
-        _vipLabel.font = LabelFont(24);
-        [self addSubview:_vipLabel];
+        _signInLabel = [[UILabel alloc]init];
+        _signInLabel.textColor = [UIColor whiteColor];
+        _signInLabel.font = LabelFont(28);
+        [self addSubview:_signInLabel];
+        
+        lineView = [[UIView alloc]init];
+        lineView.backgroundColor = [UIColor whiteColor];
+        [self addSubview:lineView];
         
         _localLabel = [[UILabel alloc]init];
         _localLabel.textColor = [UIColor whiteColor];
@@ -73,30 +77,21 @@ typedef enum
         [self addSubview:_localLabel];
         
         [_avatarImageview mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self);
+            make.centerY.equalTo(self).offset(32);
             make.left.equalTo(self.mas_left).offset(10);
-            make.width.equalTo(@(GENERAL_SIZE(160)));
-            make.height.equalTo(@(GENERAL_SIZE(160)));
+            make.width.equalTo(@(GENERAL_SIZE(120)));
+            make.height.equalTo(@(GENERAL_SIZE(120)));
+        }];
+        
+        [nextIV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_avatarImageview);
+            make.right.equalTo(self.mas_right).offset(-GENERAL_SIZE(20));
         }];
 
         
         [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_avatarImageview.mas_top).offset(10);
-            make.left.equalTo(_avatarImageview.mas_right).offset(20);
-            make.width.equalTo(@200);
-            make.height.equalTo(@20);
-        }];
-        
-        [_vipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_avatarImageview.mas_right).offset(20);
-            make.top.equalTo(_nameLabel.mas_bottom).offset(GENERAL_SIZE(30));
-            make.width.equalTo(@(GENERAL_SIZE(120)));
-            make.height.equalTo(@(GENERAL_SIZE(36)));
-        }];
-        
-        [_localLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_vipLabel.mas_right).offset(8);
-            make.top.equalTo(_nameLabel.mas_bottom).offset(GENERAL_SIZE(30));
+            make.top.equalTo(_avatarImageview.mas_top).offset(5);
+            make.left.equalTo(_avatarImageview.mas_right).offset(10);
             make.width.equalTo(@200);
             make.height.equalTo(@20);
         }];
@@ -124,7 +119,7 @@ typedef enum
 }
 
 -(void)refreshUserInfo{
-    AuthManager *authManager = [[AuthManager alloc]init];
+    AuthManager *authManager = [AuthManager sharedInstance];
     if (authManager.isAuthenticated) {
         UserManager *userManager = [[UserManager alloc]init];
         [userManager fetchUserWithUserId:authManager.userInfo.userId Success:^{
@@ -152,9 +147,26 @@ typedef enum
     _user = user;
     
     [self updateNickname:user.name];
+    [self updateOlaCoin:user.coin];
     [self updateLocal:user.vipTime];
     
-    _avatarImageview.layer.cornerRadius = 20;
+    [_signInLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_avatarImageview.mas_right).offset(10);
+        make.top.equalTo(_nameLabel.mas_bottom).offset(GENERAL_SIZE(30));
+    }];
+    
+    [lineView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_signInLabel.mas_right).offset(5);
+        make.centerY.equalTo(_signInLabel);
+        make.height.equalTo(@(GENERAL_SIZE(24)));
+        make.width.equalTo(@1);
+    }];
+    
+    [_localLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(lineView.mas_right).offset(5);
+        make.top.equalTo(_nameLabel.mas_bottom).offset(GENERAL_SIZE(30));
+    }];
+    
     if(user.avatar){
         if ([user.avatar rangeOfString:@".jpg"].location == NSNotFound) {
             [_avatarImageview sd_setImageWithURL:[NSURL URLWithString: [BASIC_IMAGE_URL stringByAppendingString:user.avatar]] placeholderImage:[UIImage imageNamed:@"ic_avatar"]];
@@ -209,16 +221,28 @@ typedef enum
     }
 }
 
+- (void)updateOlaCoin:(NSString*)coin
+{
+    if (coin != nil)
+    {
+        _signInLabel.text = [NSString stringWithFormat:@"%@欧拉币",coin];
+    }
+    else
+    {
+        _signInLabel.text = @"0天签到";
+    }
+}
+
 - (void)updateLocal:(NSString*)local
 {
     if (local != nil)
     {
         //_localLabel.text = local;
-        _localLabel.text = [NSString stringWithFormat:@"还剩%@天",local];
+        _localLabel.text = [NSString stringWithFormat:@"%@天会员",local];
     }
     else
     {
-        _localLabel.text = @"还剩0天";
+        _localLabel.text = @"0天会员";
         //_localLabel.text = @"北京";
     }
 }

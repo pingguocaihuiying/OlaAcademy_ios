@@ -33,7 +33,14 @@
     UIImageView *michenImageView;
     UIImageView *chenxingImageView;
     
+    UILabel *coinLabel; // 使用欧拉币
+    UILabel *moneyLabel; // 实付价格
+    int coinToUse; //可用的欧拉币值
+    BOOL useCoin; //是否使用欧拉币
+    
     int type; //1支付宝 2 微信
+    
+    AuthManager *am;
     
 }
 
@@ -45,6 +52,11 @@
     self.navigationController.navigationBarHidden = NO;
     self.view.backgroundColor = BACKGROUNDCOLOR;
     [self setupBackButton];
+    
+    am = [AuthManager sharedInstance];
+    coinToUse = [am.userInfo.coin intValue]<=[_commodity.price intValue]*20*0.1?[am.userInfo.coin intValue]:[_commodity.price intValue]*20*0.1;
+    useCoin = NO;
+    
     [self setupSubView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(payRefresh) name:@"ORDER_PAY_NOTIFICATION" object:nil];
@@ -53,7 +65,7 @@
 - (void)setupBackButton
 {
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setImage:[UIImage imageNamed:@"ic_back_white"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
     [backBtn sizeToFit];
     [backBtn addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     
@@ -96,19 +108,54 @@
     numberLabel.textColor = RGBCOLOR(143, 143, 143);
     [orderView addSubview:numberLabel];
     
-    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 80, 300, 30)];
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 80, SCREEN_WIDTH-10, 30)];
     titleLabel.text = [NSString stringWithFormat:@"购买商品：%@",_commodity.name];
     titleLabel.font = LabelFont(30);
     titleLabel.textColor = RGBCOLOR(143, 143, 143);
     [orderView addSubview:titleLabel];
     
-    UILabel *moneyLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 110, 200, 30)];
+    moneyLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 110, 200, 30)];
     moneyLabel.text = [NSString stringWithFormat:@"还需支付：¥%@",_commodity.price];
     moneyLabel.font = LabelFont(30);
     moneyLabel.textColor = RGBCOLOR(143, 143, 143);
     [orderView addSubview:moneyLabel];
     
-    UIView *payView = [[UIView alloc]initWithFrame:CGRectMake(0, 170, SCREEN_WIDTH, 122)];
+    UIView *coinView = [[UIView alloc]initWithFrame:CGRectMake(0, 170, SCREEN_WIDTH, 40)];
+    coinView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:coinView];
+    
+    UILabel *coinL = [[UILabel alloc]init];
+    coinL.text = @"欧拉币";
+    coinL.font = LabelFont(32);
+    [coinView addSubview:coinL];
+    
+    [coinL mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(coinView);
+        make.left.equalTo(coinView).offset(10);
+    }];
+    
+    coinLabel = [[UILabel alloc]initWithFrame:CGRectMake(GENERAL_SIZE(100)+20, 0, 200, 40)];
+    coinLabel.text = [NSString stringWithFormat:@"共%@币，%d币可用，抵%.2lf¥",am.userInfo.coin,coinToUse,coinToUse*0.05];
+    coinLabel.font = LabelFont(28);
+    coinLabel.textColor = RGBCOLOR(143, 143, 143);
+    [coinView addSubview:coinLabel];
+    
+    [coinLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(coinView);
+        make.left.equalTo(coinL.mas_right).offset(10);
+    }];
+
+    
+    UISwitch *switchButton = [[UISwitch alloc] init];
+    [switchButton addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
+    [coinView addSubview:switchButton];
+    
+    [switchButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(coinView);
+        make.right.equalTo(coinView.mas_right).offset(-10);
+    }];
+    
+    UIView *payView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(coinView.frame)+10, SCREEN_WIDTH, 122)];
     payView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:payView];
     
@@ -206,6 +253,20 @@
     
 }
 
+// switch 监听
+-(void)switchAction:(id)sender
+{
+    UISwitch *switchButton = (UISwitch*)sender;
+    BOOL isButtonOn = [switchButton isOn];
+    if (isButtonOn) {
+        moneyLabel.text = [NSString stringWithFormat:@"还需支付：¥%.2lf",[_commodity.price floatValue]-coinToUse*0.05];
+        useCoin = YES;
+    }else {
+        moneyLabel.text = [NSString stringWithFormat:@"还需支付：¥%@",_commodity.price];
+        useCoin = NO;
+    }
+}
+
 -(void)chooseALiPay{
     [michenImageView setImage:[UIImage imageNamed:@"ic_chosen"]];
     [chenxingImageView setImage:[UIImage imageNamed:@"ic_unchosen"]];
@@ -227,14 +288,13 @@
 
 // 服务器获取支付宝支付信息
 -(void)fetchAliPayInfo{
-    AuthManager *am = [[AuthManager alloc]init];
     if (!am.isAuthenticated) {
         [SVProgressHUD showInfoWithStatus:@"您尚未登录"];
         return;
     }
     PayManager *pm = [[PayManager alloc]init];
     [SVProgressHUD showWithStatus:@"请求中，请稍后..."];
-    [pm fetchAliPayInfoWithUserId:am.userInfo.userId Type:@"3" goodsId:_commodity.comId Success:^(AliPayResult *result) {
+    [pm fetchAliPayInfoWithUserId:am.userInfo.userId Type:@"3" goodsId:_commodity.comId coin:useCoin?[NSString stringWithFormat:@"%d",coinToUse]:@"0" Success:^(AliPayResult *result) {
         if (result.payInfo&&result.payInfo.orderInfo) {
             //应用注册scheme,在AlixPayDemo-Info.plist定义URL types
             NSString *appScheme = @"mcalipay";
@@ -253,14 +313,13 @@
 
 // 服务器获取微信支付信息
 -(void)fetchPayReqInfo{
-    AuthManager *am = [[AuthManager alloc]init];
     if (!am.isAuthenticated) {
         [SVProgressHUD showInfoWithStatus:@"您尚未登录"];
         return;
     }
     PayManager *pm = [[PayManager alloc]init];
     [SVProgressHUD showWithStatus:@"请求中，请稍后..."];
-    [pm fetchPayReqInfoWithUserId:am.userInfo.userId Type:@"3" goodsId:_commodity.comId Success:^(PayReqResult *result){
+    [pm fetchPayReqInfoWithUserId:am.userInfo.userId Type:@"3" goodsId:_commodity.comId coin:useCoin?[NSString stringWithFormat:@"%d",coinToUse]:@"0" Success:^(PayReqResult *result){
         PayReq *payReq = result.payReq;
         if (payReq) {
             [WXApi sendReq:payReq];

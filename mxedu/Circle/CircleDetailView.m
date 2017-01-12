@@ -48,7 +48,7 @@ AuthManager *am;
         UIImageView *iconView = [[UIImageView alloc] init];
         iconView.userInteractionEnabled=YES;
         iconView.clipsToBounds = YES;
-        iconView.layer.cornerRadius = 5;
+        iconView.layer.cornerRadius = GENERAL_SIZE(40);
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickHeadImage)];
         [iconView addGestureRecognizer:tap];
         [self addSubview:iconView];
@@ -56,27 +56,17 @@ AuthManager *am;
         
         //2,添加昵称
         UILabel *nameLabel = [[UILabel alloc] init];
-        if (iPhone6Plus) {
-            nameLabel.font = [UIFont systemFontOfSize:18];
-        }else if(iPhone6){
-            nameLabel.font = [UIFont systemFontOfSize:16];
-        }else{
-            nameLabel.font = [UIFont systemFontOfSize:14];
-        }
-        nameLabel.textColor = RGBCOLOR(75, 75, 75);
+        nameLabel.font = LabelFont(28);
+        nameLabel.textColor = RGBCOLOR(41, 42, 47);
         [self addSubview:nameLabel];
         self.nameLabel = nameLabel;
         
-        //添加 回复按钮
-        UIButton *messageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self addSubview:messageButton];
-        self.messageButton = messageButton;
-        
-        //添加 浏览按钮
-        UIButton *visitButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self addSubview:visitButton];
-        self.visitButton = visitButton;
-        
+        //添加 标题按钮
+        UILabel *titleLabel = [[UILabel alloc]init];
+        titleLabel.font = LabelFont(32);
+        titleLabel.textColor = RGBCOLOR(41, 42, 47);
+        [self addSubview:titleLabel];
+        self.titleLabel = titleLabel;
         
         //3,添加时间 地点
         UILabel *timeLabel = [[UILabel alloc] init];
@@ -89,7 +79,7 @@ AuthManager *am;
         //4,添加正文
         UILabel *textLabel = [[UILabel alloc] init];
         textLabel.textColor = RGBCOLOR(102, 102, 102);
-        textLabel.font = LabelFont(30);
+        textLabel.font = LabelFont(28);
         // textLabel.textAlignment=NSTextAlignmentJustified;
         textLabel.numberOfLines = 0;
         textLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -115,11 +105,53 @@ AuthManager *am;
         
         [self addSubview:_collectionView];
         
+        //添加 浏览量
+        UILabel *visitLabel = [[UILabel alloc]init];
+        visitLabel.font = LabelFont(24);
+        visitLabel.textColor = RGBCOLOR(167, 167, 167);
+        [self addSubview:visitLabel];
+        self.visitLabel = visitLabel;
+        
+        //点赞
+        UIButton *praiseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        praiseBtn.titleLabel.font = LabelFont(24);
+        [praiseBtn setTitleColor:RGBCOLOR(162, 162, 162) forState:UIControlStateNormal];
+        [praiseBtn addTarget:self action:@selector(loveClick:) forControlEvents:UIControlEventTouchDown];
+        [self addSubview:praiseBtn];
+        self.praiseBtn = praiseBtn;
+        
         //6,工具栏
-        CircleToolbar *toolBar = [[CircleToolbar alloc] init];
+        UIView *toolBar = [[UIView alloc] init];
+        
+        UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
+        lineView.backgroundColor = RGBCOLOR(230, 230, 230);
+        [toolBar addSubview:lineView];
+        
+        UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        shareBtn.frame = CGRectMake(0, 0, SCREEN_WIDTH/2, GENERAL_SIZE(90));
+        [shareBtn setImage:[UIImage imageNamed:@"ic_circle_share"] forState:UIControlStateNormal];
+        [shareBtn setTitle:@"分享好友" forState:UIControlStateNormal];
+        [shareBtn setImageEdgeInsets:UIEdgeInsetsMake(0.0, -GENERAL_SIZE(20), 0.0, 0.0)];
+        shareBtn.titleLabel.font = LabelFont(24);
+        [shareBtn setTitleColor:RGBCOLOR(162, 162, 162) forState:UIControlStateNormal];
+        [shareBtn addTarget:self action:@selector(shareClick:) forControlEvents:UIControlEventTouchDown];
+        [toolBar addSubview:shareBtn];
+        
+        UIView *sepView = [[UIView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH/2-1, 2, 1, GENERAL_SIZE(80))];
+        sepView.backgroundColor = RGBCOLOR(230, 230, 230);
+        [toolBar addSubview:sepView];
+        
+        UIButton *commentBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        commentBtn.frame = CGRectMake(SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2, GENERAL_SIZE(90));
+        [commentBtn setTitle:@"添加回答" forState:UIControlStateNormal];
+        [commentBtn setImage:[UIImage imageNamed:@"ic_circle_reply"] forState:UIControlStateNormal];
+        [commentBtn setImageEdgeInsets:UIEdgeInsetsMake(0.0, -GENERAL_SIZE(20), 0.0, 0.0)];
+        [commentBtn setTitleColor:RGBCOLOR(162, 162, 162) forState:UIControlStateNormal];
+        commentBtn.titleLabel.font = LabelFont(24);
+        [commentBtn addTarget:self action:@selector(commentClick:) forControlEvents:UIControlEventTouchDown];
+        [toolBar addSubview:commentBtn];
         [self addSubview:toolBar];
         self.toolBar = toolBar;
-        self.toolBar.hidden = YES;
         
     }
     return self;
@@ -127,7 +159,67 @@ AuthManager *am;
 
 
 -(void)didClickHeadImage{
-    
+    OlaCircle *circle = _statusFrame.result;
+    User *userInfo = [[User alloc]init];
+    userInfo.userId = circle.userId;
+    userInfo.avatar = circle.userAvatar;
+    userInfo.name = circle.userName;
+    if (_delegate) {
+        [_delegate didClickUserAvatar:userInfo];
+    }
+}
+
+/**
+ *  赞按钮点击监听
+ */
+- (void)loveClick:(UIButton *)button
+{
+    if (_delegate) {
+        [_delegate didClickLove:_statusFrame.result];
+    }
+    [button setImage:[UIImage imageNamed:@"ic_praised"] forState:UIControlStateNormal];
+    [self setupAddone:CGRectMake(_statusFrame.praiseFrame.origin.x+GENERAL_SIZE(40), _statusFrame.praiseFrame.origin.y-GENERAL_SIZE(10),20, 8)];
+}
+
+//添加点击加一效果
+- (void)setupAddone:(CGRect)rect
+{
+    UILabel *label = [[UILabel alloc] init];
+    if ([_statusFrame.result.isPraised isEqualToString:@"1"]) {
+        label.text = @"-1";
+    }else{
+        label.text = @"+1";
+    }
+    label.textColor = [UIColor redColor];
+    label.font = [UIFont systemFontOfSize:10];
+    label.backgroundColor = [UIColor clearColor];
+    label.frame = rect;
+    [self addSubview:label];
+    [UIView animateWithDuration:0.5 animations:^{
+        label.transform = CGAffineTransformMakeScale(1.8, 1.8);
+    } completion:^(BOOL finished) {
+        [label removeFromSuperview];
+    }];
+}
+
+
+/**
+ *  分享按钮点击监听
+ */
+- (void)shareClick:(UIButton *)button
+{
+    if (_delegate) {
+        [_delegate didClickShare:_statusFrame.result];
+    }
+}
+/**
+ *  评论按钮点击监听
+ */
+- (void)commentClick:(UIButton *)button
+{
+    if (_delegate) {
+        [_delegate didClickComment:_statusFrame.result];
+    }
 }
 
 - (void)setStatusFrame:(CircleFrame *)statusFrame
@@ -150,24 +242,11 @@ AuthManager *am;
     
     self.iconView.frame = statusFrame.iconFrame;
     
-    self.messageButton.frame = statusFrame.messageFrame;
-    [self.messageButton setImage: [UIImage imageNamed:@"ic_message"] forState:UIControlStateNormal];
-    self.messageButton.titleLabel.font =[UIFont systemFontOfSize:14.0f];
-    [self.messageButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0,6,0.0,0.0)];
-    [self.messageButton setTitleColor:RGBCOLOR(27, 26, 36) forState:UIControlStateNormal];
-    [self.messageButton setContentMode:UIViewContentModeCenter];
+    self.titleLabel.frame = statusFrame.titleFrame;
+    self.titleLabel.text = result.title;
     
-    self.visitButton.frame = statusFrame.visitFrame;
-    [self.visitButton setImage: [UIImage imageNamed:@"ic_visit"] forState:UIControlStateNormal];
-    NSString *numberString = result.readNumber;
-    if ([result.readNumber intValue]>=1000) {
-        numberString = [NSString stringWithFormat:@"%.1fk", [result.readNumber floatValue]/1000.0];
-    }
-    [self.visitButton setTitle:numberString forState:UIControlStateNormal];
-    [self.visitButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0,6,0.0,0.0)];
-    self.visitButton.titleLabel.font =[UIFont systemFontOfSize:14.0f];
-    [self.visitButton setTitleColor:RGBCOLOR(27, 26, 36) forState:UIControlStateNormal];
-    [self.visitButton setContentMode:UIViewContentModeCenter];
+    self.visitLabel.frame = statusFrame.visitFrame;
+    self.visitLabel.text = [NSString stringWithFormat:@"%@人浏览  %@人评论",result.readNumber,result.commentNumber];
     
     //2,昵称
     NSString *name_location = result.userName;
@@ -185,7 +264,11 @@ AuthManager *am;
     self.timeLabel.frame = statusFrame.timeFrame;
     
     //4,正文
-    self.textlabel.text = result.content;
+    NSMutableParagraphStyle *style =  [[NSMutableParagraphStyle alloc] init];
+    style.lineSpacing = 3.0f;
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:result.content];
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, [result.content length])];
+    self.textlabel.attributedText = attributedString;
     self.textlabel.frame = statusFrame.textFrame;
     
     // 图片
@@ -205,13 +288,18 @@ AuthManager *am;
     
     self.collectionView.frame = statusFrame.imageFrame;
     
-    self.toolBar.frame = statusFrame.toolFrame;
-    self.toolBar.circle = _statusFrame.result;
-    if ([statusFrame.result.type isEqualToString:@"1"]) {
-        self.toolBar.hidden = YES;
+    self.praiseBtn.frame = statusFrame.praiseFrame;
+    [self.praiseBtn setTitle:result.praiseNumber forState:UIControlStateNormal];
+    if([result.isPraised isEqualToString:@"1"]){
+        [self.praiseBtn setImage:[UIImage imageNamed:@"ic_praised"] forState:UIControlStateNormal];
+        [self.praiseBtn setTitleColor:RGBACOLOR(18, 112, 255,0.8) forState:UIControlStateNormal];
     }else{
-        self.toolBar.hidden = NO;
+        [self.praiseBtn setImage:[UIImage imageNamed:@"ic_praise"] forState:UIControlStateNormal];
+        [self.praiseBtn setTitleColor:RGBACOLOR(175, 176, 179,0.8) forState:UIControlStateNormal];
     }
+    [self.praiseBtn setImageEdgeInsets:UIEdgeInsetsMake(0.0, -GENERAL_SIZE(10), 0.0, 0.0)];
+    
+    self.toolBar.frame = statusFrame.toolFrame;
     
 }
 
@@ -285,7 +373,15 @@ AuthManager *am;
                 if (image != nil)
                 {
                     if (_imageArray.count==1) {
-                        cell.imageView.image = [Util imageBy:image withWidth:SCREEN_WIDTH-100  withHight:(SCREEN_WIDTH-100)*9/16];
+                        // 图片剪裁
+                        CGFloat width = CGImageGetWidth([image CGImage]);
+                        CGFloat height = CGImageGetHeight([image CGImage]);
+                        CGRect rect = CGRectMake(0, 0, width,width*GENERAL_SIZE(300)/(SCREEN_WIDTH-GENERAL_SIZE(40)));
+                        if (width*GENERAL_SIZE(300)/16.0<height) {
+                            rect = CGRectMake(0, (height-width*GENERAL_SIZE(300)/(SCREEN_WIDTH-GENERAL_SIZE(40)))/2.0, width,width*GENERAL_SIZE(300)/(SCREEN_WIDTH-GENERAL_SIZE(40)));
+                        }
+                        CGImageRef imagePartRef = CGImageCreateWithImageInRect([image CGImage], rect);
+                        [cell.imageView setImage:[UIImage imageWithCGImage:imagePartRef]];
                     }else{
                         cell.imageView.image = [Util imageBy:image withWidth:SCREEN_WIDTH/4 withHight:SCREEN_WIDTH/4];
                     }
@@ -317,9 +413,9 @@ AuthManager *am;
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (_imageArray.count > 1) {
-        return CGSizeMake(SCREEN_WIDTH/4, SCREEN_WIDTH/4);
+        return CGSizeMake((SCREEN_WIDTH-GENERAL_SIZE(80))/3, SCREEN_WIDTH/4);
     }else{
-        return CGSizeMake(SCREEN_WIDTH-100, (SCREEN_WIDTH-100)*9/16);
+        return CGSizeMake(SCREEN_WIDTH-GENERAL_SIZE(40), GENERAL_SIZE(300));
     }
     
 }

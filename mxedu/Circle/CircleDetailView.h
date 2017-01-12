@@ -8,9 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "OlaCircle.h"
-#import "CircleToolbar.h"
 
 @class CircleFrame;
+@class User;
+
+@protocol CircleViewDelegate <NSObject>
+
+-(void)didClickUserAvatar:(User*)userInfo;
+
+- (void)didClickLove:(OlaCircle*)circle;
+- (void)didClickShare:(OlaCircle*)circle;
+- (void)didClickComment:(OlaCircle*)circle;
+
+@end
 
 @interface CircleDetailView : UIView
 
@@ -18,10 +28,10 @@
 @property (nonatomic, weak) UIImageView *iconView;
 /**昵称*/
 @property (nonatomic, weak) UILabel *nameLabel;
-/**消息*/
-@property (nonatomic, weak) UIButton *messageButton;
+/**标题*/
+@property (nonatomic, weak) UILabel *titleLabel;
 /**浏览*/
-@property (nonatomic, weak) UIButton *visitButton;
+@property (nonatomic, weak) UILabel *visitLabel;
 /**时间*/
 @property (nonatomic, weak) UILabel *timeLabel;
 /**正文*/
@@ -34,9 +44,13 @@
 
 @property (nonatomic,retain) NSString *circleType;
 
-@property (nonatomic,retain) CircleToolbar *toolBar;
+@property (nonatomic,retain) UIButton *praiseBtn;
+
+@property (nonatomic,retain) UIView *toolBar;
 
 /**frame模型*/
 @property (nonatomic,strong) CircleFrame *statusFrame;
+
+@property (nonatomic) id<CircleViewDelegate> delegate;
 
 @end

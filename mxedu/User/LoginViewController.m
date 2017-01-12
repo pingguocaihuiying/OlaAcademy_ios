@@ -46,7 +46,7 @@ UITextField *passTextField;
     [self setupBackButton];
 
     tipLabel = [[UILabel alloc]init];
-    tipLabel.text = @"登录欧拉联考";
+    tipLabel.text = @"登录欧拉MBA";
     [tipLabel sizeToFit];
     tipLabel.font = [UIFont systemFontOfSize:20.0];
     tipLabel.textColor = RGBCOLOR(128, 128, 128);
@@ -155,7 +155,7 @@ UITextField *passTextField;
 {
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [backBtn setTitle:@"取消" forState:UIControlStateNormal];
-    [backBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [backBtn setTitleColor:COMMONBLUECOLOR forState:UIControlStateNormal];
     [backBtn sizeToFit];
     [backBtn addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     
@@ -164,7 +164,7 @@ UITextField *passTextField;
     
     UIButton *regBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [regBtn setTitle:@"注册" forState:UIControlStateNormal];
-    [regBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [regBtn setTitleColor:COMMONBLUECOLOR forState:UIControlStateNormal];
     [regBtn sizeToFit];
     [regBtn addTarget:self action:@selector(registClicked) forControlEvents:UIControlEventTouchUpInside];
     
@@ -184,7 +184,7 @@ UITextField *passTextField;
 
 //登陆方法
 - (void)login {
-    AuthManager *authManger = [[AuthManager alloc]init];
+    AuthManager *authManger = [AuthManager sharedInstance];
     [authManger authWithMobile:phoneTextField.text password:passTextField.text success:^{
         // 保存用户名密码
         NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];

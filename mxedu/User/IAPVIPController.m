@@ -38,16 +38,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupBackButton];
     
-    int scrollViewHeight = SCREEN_HEIGHT-220;
-    int scrollContentHeight = 610;
-    if (iPhone6) {
-        scrollContentHeight = 625;
-    }
-    if (iPhone6Plus) {
-        scrollContentHeight = 640;
-    }
-    _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, scrollViewHeight)];
-    _scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, scrollContentHeight);
+    _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    _scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT);
     [self setupSubView];
     [self.view addSubview:_scrollView];
     
@@ -59,7 +51,7 @@
     self.navigationController.navigationBarHidden = NO;
     
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setImage:[UIImage imageNamed:@"ic_back_white"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
     [backBtn sizeToFit];
     [backBtn addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     
@@ -219,7 +211,7 @@
 }
 
 -(void)pay{
-    AuthManager *am = [[AuthManager alloc]init];
+    AuthManager *am = [AuthManager sharedInstance];
     if (!am.isAuthenticated) {
         LoginViewController* loginViewCon = [[LoginViewController alloc] init];
         UINavigationController *rootNav = [[UINavigationController alloc]initWithRootViewController:loginViewCon];
@@ -326,7 +318,7 @@
     
     [SVProgressHUD dismiss];
     
-    AuthManager *am = [[AuthManager alloc]init];
+    AuthManager *am = [AuthManager sharedInstance];
     PayManager *pm = [[PayManager alloc]init];
     
     NSString * productIdentifier = [[NSString alloc] initWithData:transaction.transactionReceipt encoding:NSUTF8StringEncoding];

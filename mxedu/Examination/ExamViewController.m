@@ -39,7 +39,7 @@
 
 @property (nonatomic) NSArray *examArray;
 
-@property (nonatomic) int payStatus; //0 iap支付 1 支付宝 微信支付
+@property (nonatomic) ThirdPay *thirdPay; //用于判断现实IAP还是微信支付宝
 
 @end
 
@@ -88,8 +88,8 @@
 // 后台控制是否显示支付相关功能
 -(void)fetchPayModuleStatus{
     PayManager *pm = [[PayManager alloc]init];
-    [pm fetchPayModuleStatusSuccess:^(StatusResult *result) {
-        _payStatus = result.status;
+    [pm fetchPayModuleStatusSuccess:^(ThirdPayResult *result) {
+        _thirdPay = result.thirdPay;
     } Failure:^(NSError *error) {
         
     }];
@@ -100,6 +100,7 @@
     _titleBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [_titleBtn setFrame:CGRectMake(0, 0, 50, 20)];
     [_titleBtn setTitle:@"数学" forState:UIControlStateNormal];
+    _titleBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
     [_titleBtn setImage:[UIImage imageNamed:@"ic_pulldown"] forState:UIControlStateNormal];
     [_titleBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -20, 0, 20)];
     [_titleBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 30, 0, -30)];
@@ -180,7 +181,7 @@
 
 -(void)fetchExamList{
     NSString *userId = @"";
-    AuthManager *am = [[AuthManager alloc]init];
+    AuthManager *am = [AuthManager sharedInstance];
     if (am.isAuthenticated) {
         userId = am.userInfo.userId;
     }
@@ -326,10 +327,10 @@
 
 #pragma alertview delegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     if (buttonIndex==1) {
-        if (_payStatus==0) {
+        if ([_thirdPay.version isEqualToString:[infoDictionary objectForKey:@"CFBundleShortVersionString"]]&&[_thirdPay.thirdPay isEqualToString:@"0"]) {
             IAPVIPController *iapVC =[[IAPVIPController alloc]init];
-            iapVC.isSingleView = 1;
             iapVC.callbackBlock = ^{
                 [self fetchExamList];
             };
@@ -337,7 +338,6 @@
             [self.navigationController pushViewController:iapVC animated:YES];
         }else{
             VIPSubController *vipVC =[[VIPSubController alloc]init];
-            vipVC.isSingleView = 1;
             vipVC.callbackBlock = ^{
                 [self fetchExamList];
             };

@@ -9,7 +9,7 @@
 #import "CollectionSubController.h"
 
 #import "CourseManager.h"
-#import "CollectionTableCell.h"
+#import "CourseTableViewCell.h"
 
 #import "SysCommon.h"
 #import "AuthManager.h"
@@ -36,7 +36,7 @@
     
     self.title = @"我的收藏";
     
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-220) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-UI_NAVIGATION_BAR_HEIGHT) style:UITableViewStylePlain];
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.dataSource = self;
@@ -47,35 +47,20 @@
         [self fetchCourseVideo];
     }];
     
-    defaultView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-220)];
+    defaultView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-UI_NAVIGATION_BAR_HEIGHT)];
     defaultView.backgroundColor = [UIColor whiteColor];
     
-    UILabel *tipLabel = [UILabel new];
-    tipLabel.text = @"您的列表是空的";
-    tipLabel.textColor = RGBCOLOR(125, 125, 125);
-    [defaultView addSubview:tipLabel];
-    
     UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [addButton setImage:[UIImage imageNamed:@"ic_add_course"] forState:UIControlStateNormal];
+    [addButton setImage:[UIImage imageNamed:@"LoccalVideo_NoData"] forState:UIControlStateNormal];
     [addButton sizeToFit];
     [addButton addTarget:self action:@selector(addCourse) forControlEvents:UIControlEventTouchDown];
     [defaultView addSubview:addButton];
     
     [self.view addSubview:defaultView];
     
-    [tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(defaultView);
-        if (iPhone6Plus) {
-            make.top.equalTo(defaultView.mas_top).offset(50);
-        }else if (iPhone6) {
-            make.top.equalTo(defaultView.mas_top).offset(30);
-        }else{
-            make.top.equalTo(defaultView.mas_top).offset(20);
-        }
-    }];
-    
     [addButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(defaultView);
+        make.centerX.equalTo(defaultView);
+        make.centerY.equalTo(defaultView).offset(-32);
     }];
     
     [self fetchCourseVideo];
@@ -98,7 +83,7 @@
  */
 -(void)fetchCourseVideo{
     CourseManager *cm = [[CourseManager alloc]init];
-    AuthManager *am = [[AuthManager alloc]init];
+    AuthManager *am = [AuthManager sharedInstance];
     if (am.isAuthenticated) {
         [cm fetchVideoListWithUserId:am.userInfo.userId Success:^(CollectionListResult *result) {
             videoArray = result.collectionArray;
@@ -127,33 +112,33 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    CollectionTableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    CourseTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (cell == nil) {
-        cell = [[CollectionTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"collectionCell"];
+        cell = [[CourseTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"collectionCell"];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     CollectionVideo *video = [videoArray objectAtIndex:indexPath.row];
-    [cell setupCellWithModel:video];
+    [cell setupCell:video];
     
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 75;
+     return GENERAL_SIZE(230);
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     CollectionVideo *video = [videoArray objectAtIndex:indexPath.row];
     CourSectionViewController *sectionVC = [[CourSectionViewController alloc]init];
     sectionVC.objectId = video.courseId;
-    sectionVC.type = 1;
+    sectionVC.type = video.type?[video.type intValue]:1;
     sectionVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:sectionVC animated:YES];
     
 }
 
 -(void)removeAllCollection{
-    AuthManager *am = [[AuthManager alloc]init];
+    AuthManager *am = [AuthManager sharedInstance];
     if (am.isAuthenticated) {
         CourseManager *cm = [[CourseManager alloc]init];
         [cm removeCollectionWithUserId:am.userInfo.userId Success:^(CommonResult *result) {

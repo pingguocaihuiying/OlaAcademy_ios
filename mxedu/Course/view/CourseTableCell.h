@@ -9,6 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "Course.h"
 
+@protocol CourseTableDelegate <NSObject>
+
+-(void)didClickMore:(Course*)course;
+
+@end
+
 @class CourseTableCell;
 @protocol CollectionCellDelegate <NSObject>
 
@@ -23,6 +29,7 @@
 @property (nonatomic) UIImageView *line;
 
 @property (nonatomic) id<CollectionCellDelegate> delegate;
+@property (nonatomic) id<CourseTableDelegate> tableCellDelegate;
 
 @property (nonatomic) Course *course;
 

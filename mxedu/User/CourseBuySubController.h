@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CourseBuySubController : UIViewController
+#import "UIBaseViewController.h"
+
+@interface CourseBuySubController : UIBaseViewController
 
 -(void)refreshData;
 

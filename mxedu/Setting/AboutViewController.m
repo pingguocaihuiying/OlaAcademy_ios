@@ -30,7 +30,7 @@
     self.navigationController.navigationBar.translucent = NO;
     
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setImage:[UIImage imageNamed:@"ic_back_white"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
     [backBtn sizeToFit];
     [backBtn addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     
@@ -49,13 +49,14 @@
     
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
-        make.top.equalTo(self.view.mas_top).offset(GENERAL_SIZE(200));
+        make.top.equalTo(self.view.mas_top).offset(GENERAL_SIZE(100));
     }];
     
     UILabel *versionLabel = [UILabel new];
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     versionLabel.text = [NSString stringWithFormat:@"Version %@",[infoDictionary objectForKey:@"CFBundleShortVersionString"]];
-    versionLabel.textColor = COMMONBLUECOLOR;
+    versionLabel.textColor = RGBCOLOR(153, 153, 153);
+    versionLabel.font = LabelFont(32);
     [versionLabel sizeToFit];
     [self.view addSubview:versionLabel];
     
@@ -67,6 +68,7 @@
     UILabel *rightsLabel = [UILabel new];
     rightsLabel.text = @"Copyright @ 2016 All right reserved";
     rightsLabel.textColor = RGBCOLOR(153, 153, 153);
+    rightsLabel.font = LabelFont(32);
     [rightsLabel sizeToFit];
     [self.view addSubview:rightsLabel];
     
@@ -76,8 +78,9 @@
     }];
     
     UILabel *contactLabel = [UILabel new];
-    contactLabel.text = @"contact@olaxueyuan.com";
+    contactLabel.text = @"service@olaxueyuan.com";
     contactLabel.textColor = RGBCOLOR(153, 153, 153);
+    contactLabel.font = LabelFont(32);
     [contactLabel sizeToFit];
     [self.view addSubview:contactLabel];
     
@@ -91,15 +94,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -275,7 +275,7 @@
 {
     self.title = @"注册";
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setBackgroundImage:[UIImage imageNamed:@"ic_back_white"] forState:UIControlStateNormal];
+    [backBtn setBackgroundImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
     [backBtn sizeToFit];
     [backBtn addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     
@@ -372,7 +372,7 @@ int ns=0;
 
 //登陆方法
 - (void)login {
-    AuthManager *authManger = [[AuthManager alloc]init];
+    AuthManager *authManger = [AuthManager sharedInstance];
     [authManger authWithMobile:phoneTextField.text password:passTextField.text success:^{
         
         [[NSNotificationCenter defaultCenter]postNotificationName:@"NEEDREFRESH" object:nil];

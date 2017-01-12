@@ -19,8 +19,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) CourSectionViewController *vc;
-
 @property (strong, nonatomic, readonly) DataMappingManager* dataManager;
 @property (strong, nonatomic, readonly)  SideslipViewController * slideViewController;
 

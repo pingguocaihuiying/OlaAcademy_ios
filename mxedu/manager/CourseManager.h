@@ -20,6 +20,7 @@
 #import "VideoHistoryResult.h"
 #import "StatisticsListResult.h"
 #import "BannerListResult.h"
+#import "MistakeListResult.h"
 
 @interface CourseManager : NSObject
 
@@ -105,7 +106,7 @@
 /**
  *  收藏视频
  *
- *  @param type 1:收藏课程 2 收藏视频
+ *  @param type 1:course 2 goods
  *  @param state 0 取消收藏 1 收藏
  *  @param success <#success description#>
  *  @param failure <#failure description#>
@@ -114,6 +115,7 @@
                               VideoId:(NSString*)videoId
                              CourseId:(NSString*)courseId
                                 State:(NSString*)state
+                                 Type:(NSString*)type
                               Success:(void(^)(CommonResult *result))success
                               Failure:(void(^)(NSError* error))failure;
 
@@ -126,19 +128,6 @@
 -(void)fetchVideoListWithUserId:(NSString*)userId
                         Success:(void(^)(CollectionListResult *result))success
                         Failure:(void(^)(NSError* error))failure;
-
-/**
- *  获取收藏状态
- *
- *  @param type 1:课程 2 视频
- *  @param success <#success description#>
- *  @param failure <#failure description#>
- */
--(void)fetchCollectionStateWithUserId:(NSString*)userId
-                         CollectionId:(NSString*)collectionId
-                                 Type:(NSString*)type
-                              Success:(void(^)(VideoCollectionResult *result))success
-                              Failure:(void(^)(NSError* error))failuree;
 
 /**
  *  取消当前用户所有收藏
@@ -170,7 +159,7 @@
 -(void)submitQuestionAnswerWithId:(NSString*)userId
                            answer:(NSString*)answer
                              type:(NSString*)type
-                          Success:(void(^)(QuestionListResult *result))success
+                          Success:(void(^)(CommonResult *result))success
                           Failure:(void(^)(NSError* error))failure;
 
 /**
@@ -185,6 +174,20 @@
                              Failure:(void(^)(NSError* error))failure;
 
 /**
+ *  错题集列表
+ *  @param type 1 考点 2 模考 3 真题
+ *  @param type 1 数学 2 英语 3 逻辑 4 写作
+ *
+ *  @param success <#success description#>
+ *  @param failure <#failure description#>
+ */
+-(void)fetchMistakeListWithUserId:(NSString*)userId
+                             Type:(NSString*)type
+                      SubjetcType:(NSString*)subjectType
+                          Success:(void(^)(MistakeListResult *result))success
+                          Failure:(void(^)(NSError* error))failure;
+
+/**
  *  错题集
  *
  *  @param success <#success description#>
@@ -195,5 +198,20 @@
                             UserId:(NSString*)userId
                            Success:(void(^)(QuestionListResult *result))success
                            Failure:(void(^)(NSError* error))failure;
+
+/**
+ *  更新错题集（添加／移除）
+ *  @param questionType 1 考点 2 模考或真题
+ *  @param type 1 添加错题 2 移除错题
+ *
+ *  @param success <#success description#>
+ *  @param failure <#failure description#>
+ */
+-(void)updateWrongSetWithUserId:(NSString*)userId
+                      SubjectId:(NSString*)subjectId
+                   QuestionType:(NSString*)questionType
+                           Type:(NSString*)type
+                        Success:(void(^)(CommonResult *result))success
+                        Failure:(void(^)(NSError* error))failure;
 
 @end

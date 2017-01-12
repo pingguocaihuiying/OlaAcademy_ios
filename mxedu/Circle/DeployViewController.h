@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreLocation/CoreLocation.h>
 
-@interface DeployViewController : UIViewController<CLLocationManagerDelegate>
+#import "UIBaseViewController.h"
 
-@property(nonatomic,retain) CLLocationManager* locationmanager;
+@interface DeployViewController : UIBaseViewController
 
 @property (nonatomic, copy) NSMutableArray* pendingUploadImages;
 @property (nonatomic, copy) NSArray* pendingUploadImageInfos;

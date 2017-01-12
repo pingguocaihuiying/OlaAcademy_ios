@@ -26,6 +26,7 @@ UIWebView *webView;
     [self setupBackButton];
 
     webView = [[UIWebView alloc]initWithFrame:self.view.bounds];
+    webView.scalesPageToFit =  YES;
     [self.view addSubview:webView];
     
     [self loadPDF];
@@ -34,7 +35,7 @@ UIWebView *webView;
 - (void)setupBackButton
 {
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setBackgroundImage:[UIImage imageNamed:@"ic_back_white"] forState:UIControlStateNormal];
+    [backBtn setBackgroundImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
     [backBtn sizeToFit];
     [backBtn addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     
@@ -47,20 +48,10 @@ UIWebView *webView;
 }
 
 #pragma mark 加载pdf文件
-- (void)loadPDF { NSString *path = [[NSBundle mainBundle] pathForResource:@"服务协议.pdf" ofType:nil];
+- (void)loadPDF { NSString *path = [[NSBundle mainBundle] pathForResource:@"欧拉群服务协议.pdf" ofType:nil];
     NSData *data = [NSData dataWithContentsOfFile:path];
     [webView loadData:data MIMEType:@"application/pdf" textEncodingName:@"GBK" baseURL:nil];
 }
-
-
-#pragma mark 加载本地文本文件
-- (void)loadText
-{
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"隐私政策.txt" ofType:nil];
-    NSData *data = [NSData dataWithContentsOfFile:path];
-    [webView loadData:data MIMEType:@"text/plain" textEncodingName:@"GBK" baseURL:nil];
-}
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

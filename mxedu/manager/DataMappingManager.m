@@ -11,11 +11,17 @@
 #import "AuthResult.h"
 #import "CommonResult.h"
 #import "UploadResult.h"
+#import "MediaUploadResult.h"
 #import "User.h"
 #import "UserInfoResult.h"
+#import "SignInStatusResult.h"
 #import "Location.h"
 #import "LocationResult.h"
 #import "SysCommon.h"
+
+#import "Banner.h"
+#import "HomeDataList.h"
+#import "HomeListResult.h"
 
 #import "Course.h"
 #import "CourseListResult.h"
@@ -27,11 +33,24 @@
 #import "QuestionOption.h"
 #import "QuestionListResult.h"
 
+#import "Mistake.h"
+#import "MistakeListResult.h"
+
+#import "Material.h"
+#import "MaterialListResult.h"
+
+#import "Group.h"
+#import "GroupListResult.h"
+#import "GroupMemberResult.h"
+
 #import "Examination.h"
 #import "ExamListRsult.h"
 
 #import "Organization.h"
 #import "OrganizationResult.h"
+
+#import "OrgInfoList.h"
+#import "OrgInfoListResult.h"
 
 #import "Teacher.h"
 #import "TeacherResult.h"
@@ -52,6 +71,9 @@
 #import "CheckInResult.h"
 #import "CheckInListResult.h"
 
+#import "CoinHistory.h"
+#import "CoinHistoryListResult.h"
+
 #import "Commodity.h"
 #import "CommodityListRsult.h"
 #import "StatusResult.h"
@@ -62,16 +84,32 @@
 #import "AliPayInfo.h"
 #import "AliPayResult.h"
 
+#import "ThirdPay.h"
+#import "ThirdPayResult.h"
+
 #import "OlaCircle.h"
 #import "VideoHistoryResult.h"
+#import "CircleDetailResult.h"
 #import "StatisticsListResult.h"
+
+#import "UserPost.h"
+#import "UserPostResult.h"
 
 #import "Comment.h"
 #import "CommentListResult.h"
 
+#import "CirclePraise.h"
+#import "PraiseListResult.h"
+
 #import "Message.h"
 #import "MessageListResult.h"
 #import "MessageUnreadResult.h"
+
+#import "Consult.h"
+#import "HomeworkListResult.h"
+#import "StatisticsUser.h"
+#import "WorkStatistics.h"
+#import "WorkStatisticsListResult.h"
 
 @implementation DataMappingManager
 
@@ -101,32 +139,46 @@
     [self setupAuthTokenMappings];
     [self setupCommonMappings];
     [self setupUserMappings];
+    [self setupSignInStatusResultMapping];
     [self setupUploadMappings];
+    [self setupMediaUploadMappings];
     [self setupLoactionResultMapping];
-    
+    [self setupHomeDataListMapping];
     [self setupCourseListMapping];
+    [self setupGroupListMapping];
     [self setupKeywordListMapping];
     [self setupVideoInfoMapping];
     [self setupVideoBoxMapping];
     [self setupVideoListMapping];
     [self setupOrganizationListMapping];
+    [self setupOrgInfoListMapping];
     [self setupTeacherListMapping];
     [self setupUserCollectionMapping];
     [self setupCollectionStateMapping];
     [self setupCheckInMapping];
     [self setupCheckInListMapping];
     [self setupQuestionListMapping];
+    [self setupHomeworkListMapping];
+    [self setupWorkStatisticsListMapping];
     [self setupExamListMapping];
     [self setupCommodityListMapping];
     [self setupPayReqResultMapping];
     [self setupAliPayResultMapping];
     [self setupVideoHistoryListMapping];
+    [self setupCircleDetailMapping];
+    [self setupUserPostMapping];
     [self setupCommentListMapping];
+    [self setupPraiseListMapping];
     [self setupStatisticsListMapping];
     [self setupBannerList];
     [self setupStatusMapping];
+    [self setupThirdPayResultMapping];
     [self setupMessageListMapping];
     [self setupUnreadMessageMapping];
+    [self setupCoinHistoryListResultMapping];
+    [self setupMaterialListMapping];
+    [self setupGroupMemberListMapping];
+    [self setupMistakeListMapping];
 }
 
 
@@ -136,11 +188,15 @@
     [_accessTokenMapping addAttributeMappingsFromDictionary:@{
                                                           @"id":         @"userId",
                                                           @"name":       @"name",
+                                                          @"realName":   @"realName",
                                                           @"phone":      @"phone",
                                                           @"avator":     @"avatar",
                                                           @"age":        @"age",
                                                           @"sex":        @"sex",
-                                                          @"sign":       @"signature"
+                                                          @"isActive":   @"isActive",
+                                                          @"sign":       @"signature",
+                                                          @"coin":       @"coin",
+                                                          @"examtype":   @"examType"
                                                           }];
     
     _authResultMapping = [RKObjectMapping mappingForClass:[AuthResult class]];
@@ -164,13 +220,17 @@
     [_userMapping addAttributeMappingsFromDictionary:@{
                                                           @"id":         @"userId",
                                                           @"name":       @"name",
+                                                          @"realName":   @"realName",
                                                           @"age":      @"age",
                                                           @"sex":      @"sex",
                                                           @"avator":   @"avatar",
                                                           @"local":      @"local",
                                                           @"phone":    @"phone",
+                                                          @"isActive": @"isActive",
                                                           @"vipTime":    @"vipTime",
-                                                          @"sign":    @"signature"
+                                                          @"sign":    @"signature",
+                                                          @"coin":  @"coin",
+                                                          @"examtype":  @"examType"
                                                           }];
     
     _userInfoResultMapping = [RKObjectMapping mappingForClass:[UserInfoResult class]];
@@ -182,12 +242,66 @@
     
 }
 
+// 签到等任务状态
+- (void)setupSignInStatusResultMapping
+{
+    RKObjectMapping *signInStatus = [RKObjectMapping mappingForClass:[SignInStatus class]];
+    [signInStatus addAttributeMappingsFromDictionary:@{
+                                                        @"status":        @"status",
+                                                        @"lastSignIn":    @"lastSignIn",
+                                                        @"signInDays":    @"signInDays",
+                                                        @"coin":          @"coin",
+                                                        @"todayCoin":     @"todayCoin",
+                                                        @"profileTask":   @"profileTask",
+                                                        @"vipTask":       @"vipTask",
+                                                        @"courseTask":    @"courseTask",
+                                                        @"courseCollectNum" : @"courseCollectNum",
+                                                        @"coursBuyNum" : @"coursBuyNum"
+                                                           }];
+    _signInStatusResultMapping = [RKObjectMapping mappingForClass:[SignInStatusResult class]];
+    [_signInStatusResultMapping addAttributeMappingsFromDictionary:@{
+                                                                  @"code": @"code",
+                                                                  @"message": @"message"
+                                                                  }];
+    [_signInStatusResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"signInStatus" withMapping:signInStatus]];
+}
+
+//欧拉币明细
+- (void)setupCoinHistoryListResultMapping
+{
+    RKObjectMapping *coinHistory = [RKObjectMapping mappingForClass:[CoinHistory class]];
+    [coinHistory addAttributeMappingsFromDictionary:@{
+                                                       @"id":        @"historyId",
+                                                       @"userId":    @"userId",
+                                                       @"name":      @"name",
+                                                       @"type":      @"type",
+                                                       @"date":      @"date",
+                                                       @"dealNum":   @"dealNum"
+                                                       }];
+    _coinHistoryListResultMapping = [RKObjectMapping mappingForClass:[CoinHistoryListResult class]];
+    [_coinHistoryListResultMapping addAttributeMappingsFromDictionary:@{
+                                                                     @"code": @"code",
+                                                                     @"message": @"message"
+                                                                     }];
+    [_coinHistoryListResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"historyArray" withMapping:coinHistory]];
+}
+
 -(void)setupUploadMappings{
     _uploadResultMapping = [RKObjectMapping mappingForClass:[UploadResult class]];
     [_uploadResultMapping addAttributeMappingsFromDictionary:@{
-                                                               @"code":   @"code",
-                                                               @"message":   @"message",
-                                                               @"imgGid":   @"imgGid"
+                                                            @"code":   @"code",
+                                                            @"message":   @"message",
+                                                            @"imgGid":   @"imgGid"
+                                                               }];
+}
+
+-(void)setupMediaUploadMappings{
+    _mediaUploadResultMapping = [RKObjectMapping mappingForClass:[MediaUploadResult class]];
+    [_mediaUploadResultMapping addAttributeMappingsFromDictionary:@{
+                                                            @"code":   @"code",
+                                                            @"message":@"message",
+                                                            @"pic":    @"imgGid",
+                                                            @"url":    @"movieUrl"
                                                                }];
 }
 
@@ -205,6 +319,75 @@
                                                                       @"message": @"message"
                                                                       }];
     [_loacationResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result_data" toKeyPath:@"locationArray" withMapping:_locationMapping]];
+}
+
+-(void)setupHomeDataListMapping{
+    
+    RKObjectMapping* commodityMapping = [RKObjectMapping mappingForClass:[Commodity class]];
+    [commodityMapping addAttributeMappingsFromDictionary:@{
+                                                           @"id":           @"comId",
+                                                           @"name":         @"name",
+                                                           @"detail":       @"detail",
+                                                           @"org":      @"org",
+                                                           @"attentionnum": @"attentionnum",
+                                                           @"paynum":    @"paynum",
+                                                           @"price":     @"price",
+                                                           @"status":    @"status",
+                                                           @"type":      @"type",
+                                                           @"totaltime":    @"totaltime",
+                                                           @"videonum":    @"videonum",
+                                                           @"suitto":    @"suitto",
+                                                           @"leanstage":    @"leanstage",
+                                                           @"image":        @"image",
+                                                           @"url":        @"url"
+                                                           }];
+    
+    RKObjectMapping *bannerMapping = [RKObjectMapping mappingForClass:[Banner class]];
+    [bannerMapping addAttributeMappingsFromDictionary:@{
+                                                        @"id":         @"bannerId",
+                                                        @"name":       @"name",
+                                                        @"objectId":   @"objectId",
+                                                        @"type":       @"type",
+                                                        @"pic":        @"pic",
+                                                        @"url":        @"url",
+                                                        }];
+    [bannerMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"commodity" toKeyPath:@"commodity" withMapping:commodityMapping]];
+    
+    RKObjectMapping *consultMapping = [RKObjectMapping mappingForClass:[Consult class]];
+    [consultMapping addAttributeMappingsFromDictionary:@{
+                                                        @"id":         @"consultId",
+                                                        @"content":    @"content",
+                                                        @"number":     @"number",
+                                                        @"time":       @"time",
+                                                        }];
+    
+    RKObjectMapping* courseMapping = [RKObjectMapping mappingForClass:[Course class]];
+    [courseMapping addAttributeMappingsFromDictionary:@{
+                                                          @"id":         @"courseId",
+                                                          @"name":       @"name",
+                                                          @"pid":        @"pid",
+                                                          @"profile":    @"profile",
+                                                          @"address":    @"address",
+                                                          @"type":       @"type",
+                                                          @"subNum":     @"subNum",
+                                                          @"subAllNum":  @"subAllNum",
+                                                          @"playcount":  @"playcount",
+                                                          @"totalTime":  @"totalTime"
+                                                          }];
+    
+    RKObjectMapping *homeDataListMapping = [RKObjectMapping mappingForClass:[HomeDataList class]];
+    [homeDataListMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"bannerList" toKeyPath:@"bannerArray" withMapping:bannerMapping]];
+    [homeDataListMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"questionList" toKeyPath:@"consultArray" withMapping:consultMapping]];
+    [homeDataListMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"goodsList" toKeyPath:@"comodityArray" withMapping:commodityMapping]];
+    [homeDataListMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"courseList" toKeyPath:@"courseArray" withMapping:courseMapping]];
+    
+    _homeListResultMapping = [RKObjectMapping mappingForClass:[HomeListResult class]];
+    [_homeListResultMapping addAttributeMappingsFromDictionary:@{
+                                                                   @"apicode": @"code",
+                                                                   @"message": @"message"
+                                                                   }];
+    [_homeListResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"homeData" withMapping:homeDataListMapping]];
+
 }
 
 -(void)setupCourseListMapping{
@@ -236,6 +419,19 @@
                                                           @"subAllNum":  @"subAllNum",
                                                           @"bannerPic":  @"bannerPic"
                                                           }];
+    RKObjectMapping* homeworkMapping = [RKObjectMapping mappingForClass:[Homework class]];
+    [homeworkMapping addAttributeMappingsFromDictionary:@{
+                                                          @"id":         @"homeworkId",
+                                                          @"name":       @"name",
+                                                          @"userName":   @"userName",
+                                                          @"avatar":     @"avatar",
+                                                          @"groupId":    @"groupId",
+                                                          @"groupName":  @"groupName",
+                                                          @"count":      @"count",
+                                                          @"finishedCount": @"finishedCount",
+                                                          @"time":       @"time"
+                                                          }];
+    [_courseMapping2 addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"homework" toKeyPath:@"homework" withMapping:homeworkMapping]];
     [_courseMapping2 addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"child" toKeyPath:@"subList" withMapping:_courseMapping1]];
     
     _courseListResultMapping = [RKObjectMapping mappingForClass:[CourseListResult class]];
@@ -244,6 +440,116 @@
                                                                   @"message": @"message"
                                                                   }];
     [_courseListResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"course" withMapping:_courseMapping2]];
+}
+
+-(void)setupMistakeListMapping{
+    RKObjectMapping* mistakeMapping = [RKObjectMapping mappingForClass:[Mistake class]];
+    [mistakeMapping addAttributeMappingsFromDictionary:@{
+                                                       @"id":         @"mistakeId",
+                                                       @"name":       @"name",
+                                                       @"subAllNum":  @"subAllNum",
+                                                       @"wrongNum":   @"wrongNum"
+                                                       }];
+    _mistakeListResultMapping = [RKObjectMapping mappingForClass:[MistakeListResult class]];
+    [_mistakeListResultMapping addAttributeMappingsFromDictionary:@{
+                                                                  @"apicode": @"code",
+                                                                  @"message": @"message"
+                                                                  }];
+    [_mistakeListResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"mistakeArray" withMapping:mistakeMapping]];
+}
+
+
+-(void)setupGroupListMapping{
+    RKObjectMapping* groupMapping = [RKObjectMapping mappingForClass:[Group class]];
+    [groupMapping addAttributeMappingsFromDictionary:@{
+                                                       @"id":         @"groupId",
+                                                       @"name":       @"name",
+                                                       @"profile":    @"profile",
+                                                       @"avatar":     @"avatar",
+                                                       @"createUser": @"createUserId",
+                                                       @"isMember":   @"isMember",
+                                                       @"number":     @"number",
+                                                       @"time":       @"time"
+                                                       }];
+    _groupListResultMapping = [RKObjectMapping mappingForClass:[GroupListResult class]];
+    [_groupListResultMapping addAttributeMappingsFromDictionary:@{
+                                                                  @"apicode": @"code",
+                                                                  @"message": @"message"
+                                                                  }];
+    [_groupListResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"groupArray" withMapping:groupMapping]];
+}
+
+-(void)setupGroupMemberListMapping{
+    RKObjectMapping* userMapping = [RKObjectMapping mappingForClass:[User class]];
+    [userMapping addAttributeMappingsFromDictionary:@{
+                                                      @"id":         @"userId",
+                                                      @"name":       @"name",
+                                                      @"realName":   @"realName",
+                                                      @"phone":      @"phone",
+                                                      @"avator":     @"avatar",
+                                                      @"age":        @"age",
+                                                      @"sex":        @"sex",
+                                                      @"isActive":   @"isActive",
+                                                      @"sign":       @"signature",
+                                                      @"coin":       @"coin",
+                                                      @"examtype":   @"examType"
+                                                       }];
+    _memberListResultMapping = [RKObjectMapping mappingForClass:[GroupMemberResult class]];
+    [_memberListResultMapping addAttributeMappingsFromDictionary:@{
+                                                                  @"apicode": @"code",
+                                                                  @"message": @"message"
+                                                                  }];
+    [_memberListResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"memberArray" withMapping:userMapping]];
+}
+
+-(void)setupHomeworkListMapping{
+    RKObjectMapping* homeworkMapping = [RKObjectMapping mappingForClass:[Homework class]];
+    [homeworkMapping addAttributeMappingsFromDictionary:@{
+                                                          @"id":         @"homeworkId",
+                                                          @"name":       @"name",
+                                                          @"userName":   @"userName",
+                                                          @"avatar":     @"avatar",
+                                                          @"groupId":    @"groupId",
+                                                          @"groupName":  @"groupName",
+                                                          @"count":      @"count",
+                                                          @"finishedCount": @"finishedCount",
+                                                          @"finishedPercent": @"finishedPercent",
+                                                          @"time":       @"time"
+                                                          }];
+    _homeworkListResultMapping = [RKObjectMapping mappingForClass:[HomeworkListResult class]];
+    [_homeworkListResultMapping addAttributeMappingsFromDictionary:@{
+                                                                   @"apicode": @"code",
+                                                                   @"message": @"message"
+                                                                   }];
+    [_homeworkListResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"homeworkArray" withMapping:homeworkMapping]];
+
+}
+
+-(void)setupWorkStatisticsListMapping{
+    RKObjectMapping* statisticsUserMapping = [RKObjectMapping mappingForClass:[StatisticsUser class]];
+    [statisticsUserMapping addAttributeMappingsFromDictionary:@{
+                                                          @"userId":     @"userId",
+                                                          @"userName":   @"userName",
+                                                          @"userAvatar": @"userAvatar",
+                                                          @"location":   @"location",
+                                                          @"finished":   @"finished"
+                                                          }];
+    
+    RKObjectMapping* workStatisticsMapping = [RKObjectMapping mappingForClass:[WorkStatistics class]];
+    [workStatisticsMapping addAttributeMappingsFromDictionary:@{
+                                                    @"unfinishedCount": @"unfinishedCount",
+                                                    @"finishedCount":   @"finishedCount",
+                                                    @"correctness":     @"correctness"
+                                                            }];
+    [workStatisticsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"statisticsList" toKeyPath:@"statisticsList" withMapping:statisticsUserMapping]];
+    
+    _workStatisticsListResultMapping = [RKObjectMapping mappingForClass:[WorkStatisticsListResult class]];
+    [_workStatisticsListResultMapping addAttributeMappingsFromDictionary:@{
+                                                                     @"apicode": @"code",
+                                                                     @"message": @"message"
+                                                                     }];
+    [_workStatisticsListResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"workStatistics" withMapping:workStatisticsMapping]];
+    
 }
 
 -(void)setupBannerList{
@@ -286,8 +592,8 @@
     
     _videoInfoResultMapping = [RKObjectMapping mappingForClass:[VideoInfoResult class]];
     [_videoInfoResultMapping addAttributeMappingsFromDictionary:@{
-                                                                         @"apicode": @"code",
-                                                                         @"message": @"message"
+                                                                @"apicode": @"code",
+                                                                @"message": @"message"
                                                                          }];
     [_videoInfoResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"video" withMapping:_videoMapping]];
 }
@@ -380,7 +686,8 @@
                                                         @"courseId":   @"courseId",
                                                         @"coursePic":  @"coursePic",
                                                         @"totalTime":  @"totalTime",
-                                                        @"subAllNum":  @"subAllNum"
+                                                        @"subAllNum":  @"subAllNum",
+                                                        @"type":  @"type"
                                                         }];
     
     _collectionListResultMapping = [RKObjectMapping mappingForClass:[CollectionListResult class]];
@@ -427,7 +734,9 @@
                                                         @"weight":     @"weight",
                                                         @"orgname":    @"orgName",
                                                         @"pic":        @"pic",
-                                                        @"isfree":     @"isfree"
+                                                        @"isfree":     @"isfree",
+                                                        @"attachmentId":@"attachmentId",
+                                                        @"url":     @"url"
                                                         }];
     [_videoBoxMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"videoList" toKeyPath:@"videoList" withMapping:_videoMapping]];
     
@@ -452,14 +761,18 @@
                                                           @"weight":     @"weight",
                                                           @"orgname":    @"orgName",
                                                           @"pic":        @"pic",
-                                                          @"isfree":     @"isfree"
+                                                          @"isfree":     @"isfree",
+                                                          @"attachmentId":@"attachmentId",
+                                                          @"url":     @"url"
                                                           }];
     
     _videoListResultMapping = [RKObjectMapping mappingForClass:[VideoListResult class]];
     [_videoListResultMapping addAttributeMappingsFromDictionary:@{
-                                                                    @"apicode": @"code",
-                                                                    @"message": @"message"
-                                                                    }];
+                                                                @"apicode": @"code",
+                                                                @"message": @"message",
+                                                                @"orderStatus":@"orderStatus",
+                                                                @"isCollect":@"isCollect"
+                                                                }];
     [_videoListResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"videoList" withMapping:_videoMapping]];
 }
 
@@ -490,6 +803,48 @@
                                                                   @"message": @"message"
                                                                   }];
     [_commodityListResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"commodityArray" withMapping:commodityMapping]];
+}
+
+// 资料库
+-(void)setupMaterialListMapping{
+    
+    RKObjectMapping* materialMapping = [RKObjectMapping mappingForClass:[Material class]];
+    [materialMapping addAttributeMappingsFromDictionary:@{
+                                                           @"id":       @"materialId",
+                                                           @"title":     @"title",
+                                                           @"provider":  @"provider",
+                                                           @"pic":       @"pic",
+                                                           @"url":       @"url",
+                                                           @"size":      @"size",
+                                                           @"time":      @"time",
+                                                           @"type":      @"type",
+                                                           @"price":     @"price",
+                                                           @"count":     @"count",
+                                                           @"status":    @"status",
+                                                           }];
+    
+    _materialListResultMapping = [RKObjectMapping mappingForClass:[MaterialListResult class]];
+    [_materialListResultMapping addAttributeMappingsFromDictionary:@{
+                                                                      @"apicode": @"code",
+                                                                      @"message": @"message"
+                                                                      }];
+    [_materialListResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"materialArray" withMapping:materialMapping]];
+}
+
+-(void)setupThirdPayResultMapping{
+    
+    RKObjectMapping* thirdPayMapping = [RKObjectMapping mappingForClass:[ThirdPay class]];
+    [thirdPayMapping addAttributeMappingsFromDictionary:@{
+                                                           @"version":      @"version",
+                                                           @"thirdPay":     @"thirdPay"
+                                                           }];
+    
+    _thirdPayResultMapping = [RKObjectMapping mappingForClass:[ThirdPayResult class]];
+    [_thirdPayResultMapping addAttributeMappingsFromDictionary:@{
+                                                               @"apicode": @"code",
+                                                               @"message": @"message"
+                                                               }];
+    [_thirdPayResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"thirdPay" withMapping:thirdPayMapping]];
 }
 
 -(void)setupStatusMapping{
@@ -524,6 +879,34 @@
                                                                   @"message": @"message"
                                                                   }];
     [_orgListResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"orgList" withMapping:_orgMapping]];
+}
+
+// 首页我要报名
+-(void)setupOrgInfoListMapping{
+    
+    RKObjectMapping* orgMapping = [RKObjectMapping mappingForClass:[Organization class]];
+    [orgMapping addAttributeMappingsFromDictionary:@{
+                                                      @"id":            @"orgId",
+                                                      @"address":       @"address",
+                                                      @"name":          @"name",
+                                                      @"org":           @"org",
+                                                      @"logo":          @"logo",
+                                                      @"type":          @"type",
+                                                      @"profile":       @"profile"
+                                                      }];
+    
+    RKObjectMapping* orgInfoListMapping = [RKObjectMapping mappingForClass:[OrgInfoList class]];
+    [orgInfoListMapping addAttributeMappingsFromDictionary:@{
+                                                                @"optionName": @"optionName"
+                                                                }];
+    [orgInfoListMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"optionList" toKeyPath:@"optionList" withMapping:orgMapping]];
+    
+    _orgInfoListResultMapping = [RKObjectMapping mappingForClass:[OrgInfoListResult class]];
+    [_orgInfoListResultMapping addAttributeMappingsFromDictionary:@{
+                                                                @"apicode": @"code",
+                                                                @"message": @"message"
+                                                                }];
+    [_orgInfoListResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"orgInfoArray" withMapping:orgInfoListMapping]];
 }
 
 -(void)setupCheckInMapping{
@@ -593,6 +976,7 @@
     RKObjectMapping* _historyMapping = [RKObjectMapping mappingForClass:[OlaCircle class]];
     [_historyMapping addAttributeMappingsFromDictionary:@{
                                                           @"circleId": @"circleId",
+                                                          @"userId": @"userId",
                                                           @"userName": @"userName",
                                                           @"userAvatar": @"userAvatar",
                                                           @"videoId": @"videoId",
@@ -602,6 +986,8 @@
                                                           @"imageGids": @"imageGids",
                                                           @"location": @"location",
                                                           @"praiseNumber": @"praiseNumber",
+                                                          @"readNumber": @"readNumber",
+                                                          @"commentNumber": @"commentNumber",
                                                           @"time": @"time",
                                                           @"type": @"type"
                                                           }];
@@ -614,20 +1000,95 @@
     [_historyListResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"historyArray" withMapping:_historyMapping]];
 }
 
+-(void)setupCircleDetailMapping{
+    RKObjectMapping* circleMapping = [RKObjectMapping mappingForClass:[OlaCircle class]];
+    [circleMapping addAttributeMappingsFromDictionary:@{
+                                                          @"id":       @"circleId",
+                                                          @"userId":   @"userId",
+                                                          @"userName": @"userName",
+                                                          @"userAvatar": @"userAvatar",
+                                                          @"videoId": @"videoId",
+                                                          @"courseId": @"courseId",
+                                                          @"title": @"title",
+                                                          @"content": @"content",
+                                                          @"imageGids": @"imageGids",
+                                                          @"location": @"location",
+                                                          @"isPraised": @"isPraised",
+                                                          @"praiseNumber": @"praiseNumber",
+                                                          @"readNumber": @"readNumber",
+                                                          @"commentNumber": @"commentNumber",
+                                                          @"time": @"time",
+                                                          @"type": @"type"
+                                                          }];
+    _circleDetailResultMapping = [RKObjectMapping mappingForClass:[CircleDetailResult class]];
+    [_circleDetailResultMapping addAttributeMappingsFromDictionary:@{
+                                                                    @"message":   @"message",
+                                                                    @"apicode":   @"code"
+                                                                    }];
+    [_circleDetailResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"circleDetail" withMapping:circleMapping]];
+    
+}
+
+// 个人主页
+-(void)setupUserPostMapping{
+    RKObjectMapping* circleMapping = [RKObjectMapping mappingForClass:[OlaCircle class]];
+    [circleMapping addAttributeMappingsFromDictionary:@{
+                                                        @"id":       @"circleId",
+                                                        @"userName": @"userName",
+                                                        @"userAvatar": @"userAvatar",
+                                                        @"videoId": @"videoId",
+                                                        @"courseId": @"courseId",
+                                                        @"title": @"title",
+                                                        @"content": @"content",
+                                                        @"imageGids": @"imageGids",
+                                                        @"location": @"location",
+                                                        @"praiseNumber": @"praiseNumber",
+                                                        @"readNumber": @"readNumber",
+                                                        @"commentNumber": @"commentNumber",
+                                                        @"time": @"time",
+                                                        @"type": @"type"
+                                                        }];
+    RKObjectMapping* userPostMapping = [RKObjectMapping mappingForClass:[UserPost class]];
+    [userPostMapping addAttributeMappingsFromDictionary:@{
+                                                        @"id":       @"userId",
+                                                        @"name":     @"name",
+                                                        @"avator":   @"avator",
+                                                        @"sign":     @"sign"
+                                                        }];
+    [userPostMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"deployList" toKeyPath:@"deployList" withMapping:circleMapping]];
+    [userPostMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"replyList" toKeyPath:@"replyList" withMapping:circleMapping]];
+    
+    _userPostResultMapping = [RKObjectMapping mappingForClass:[UserPostResult class]];
+    [_userPostResultMapping addAttributeMappingsFromDictionary:@{
+                                                                     @"message":   @"message",
+                                                                     @"apicode":   @"code"
+                                                                     }];
+    [_userPostResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"userPost" withMapping:userPostMapping]];
+    
+}
+
 -(void)setupCommentListMapping{
     RKObjectMapping *commentMapping = [RKObjectMapping mappingForClass:[Comment class]];
     [commentMapping addAttributeMappingsFromDictionary:@{
-                                                          @"commentId":         @"data_id",
+                                                          @"commentId":    @"data_id",
                                                           @"userId":       @"userId",
-                                                          @"userName":       @"username",
+                                                          @"userName":     @"username",
                                                           @"content":      @"content",
+                                                          @"postId":       @"postId",
+                                                          @"title":        @"title",
+                                                          @"imageIds":     @"imageIds",
+                                                          @"videoUrls":    @"videoUrls",
+                                                          @"videoImgs":    @"videoImgs",
+                                                          @"audioUrls":    @"audioUrls",
                                                           @"location" : @"local",
                                                           @"praiseNumber" :@"like_count",
+                                                          @"subCount" :@"subCount",
                                                           @"userAvatar":    @"profile_image",
                                                           @"time":      @"passtime",
                                                           @"toUserId":      @"rpyToUserId",
                                                           @"toUserName":    @"rpyToUserName",
-                                                          @"praiseReply" :@"isPraised"
+                                                          @"praiseReply" :@"isPraised",
+                                                          @"isRead"      :@"isRead"
                                                           }];
     
     _commentListResultMapping = [RKObjectMapping mappingForClass:[CommentListResult class]];
@@ -639,6 +1100,30 @@
 
 }
 
+// 点赞列表
+-(void)setupPraiseListMapping{
+    RKObjectMapping *praiseMapping = [RKObjectMapping mappingForClass:[CirclePraise class]];
+    [praiseMapping addAttributeMappingsFromDictionary:@{
+                                                         @"praiseId":    @"praiseId",
+                                                         @"postId":      @"postId",
+                                                         @"title":       @"title",
+                                                         @"userId":      @"userId",
+                                                         @"userAvatar" : @"userAvatar",
+                                                         @"userName" :   @"userName",
+                                                         @"time":      @"time",
+                                                         @"isRead":    @"isRead"
+                                                         }];
+    
+    _praiseListResultMapping = [RKObjectMapping mappingForClass:[PraiseListResult class]];
+    [_praiseListResultMapping addAttributeMappingsFromDictionary:@{
+                                                                    @"message":  @"message",
+                                                                    @"apicode":  @"code"
+                                                                    }];
+    [_praiseListResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"praiseArray" withMapping:praiseMapping]];
+    
+}
+
+// 系统消息列表
 -(void)setupMessageListMapping{
     RKObjectMapping *messageMapping = [RKObjectMapping mappingForClass:[Message class]];
     [messageMapping addAttributeMappingsFromDictionary:@{
@@ -664,12 +1149,19 @@
 
 -(void)setupUnreadMessageMapping{
     
+    RKObjectMapping *countMapping = [RKObjectMapping mappingForClass:[MessageCount class]];
+    [countMapping addAttributeMappingsFromDictionary:@{
+                                                         @"systemCount":   @"systemCount",
+                                                         @"circleCount":   @"circleCount",
+                                                         @"praiseCount":   @"praiseCount"
+                                                         }];
+    
     _unreadMessageResultMapping = [RKObjectMapping mappingForClass:[MessageUnreadResult class]];
     [_unreadMessageResultMapping addAttributeMappingsFromDictionary:@{
-                                                                    @"message":     @"message",
-                                                                    @"apicode":     @"code",
-                                                                    @"result":      @"count"
+                                                                    @"message":  @"message",
+                                                                    @"apicode":  @"code"
                                                                     }];
+    [_unreadMessageResultMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"result" toKeyPath:@"messageCount" withMapping:countMapping]];
 }
 
 -(void)setupStatisticsListMapping{

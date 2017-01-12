@@ -29,10 +29,7 @@
 {
     if((self = [super initWithCoder:aDecoder]))
     {
-        self.lineView = [[UIView alloc]init];
-        self.lineView.backgroundColor = RGBCOLOR(225, 225, 225);
-        [self addSubview:self.lineView];
-        self.lineView.hidden = YES;
+        
     }
     return self;
 }
@@ -58,10 +55,9 @@
     [expandBtn addTarget:self action:@selector(rotateExpandBtn:) forControlEvents:UIControlEventTouchUpInside];
     
     self.itemText.frame = CGRectMake(40, 5, 200, 40);
+    self.itemText.textColor = RGBCOLOR(81, 84, 93);
     
-    self.lineView.frame =CGRectMake(20, 40, 1, 30);
-    
-    self.pointLabel.frame = CGRectMake(40, 42, 80, 16);
+    self.pointLabel.frame = CGRectMake(40, 42, 0, 16);
     self.pointLabel.backgroundColor = COMMONBLUECOLOR;
     self.pointLabel.textColor = [UIColor whiteColor];
     self.pointLabel.font = [UIFont systemFontOfSize:12.0];
@@ -69,12 +65,12 @@
     self.pointLabel.layer.masksToBounds = YES;
     self.pointLabel.layer.cornerRadius = 5;
     
-    self.progressView.frame = CGRectMake(130, 40, 80, 20);
+    self.progressView.frame = CGRectMake(35, 45, 80, 20);
     self.progressView.borderTintColor = [UIColor whiteColor];
     self.progressView.progressTintColor = COMMONBLUECOLOR;
     self.progressView.progressBackgroundColor = RGBCOLOR(225, 225, 225);
     
-    self.progressL.frame = CGRectMake(220, 40, 80, 20);
+    self.progressL.frame = CGRectMake(125, 45, 80, 20);
     self.progressL.textColor = RGBCOLOR(144, 144, 144);
     self.progressL.font = [UIFont systemFontOfSize:14.0];
 }
@@ -104,8 +100,6 @@
     [UIView setAnimationDuration:0.2];
     expandBtn.transform = CGAffineTransformMakeRotation(M_PI*2.5);
     [UIView commitAnimations];
-    
-    self.lineView.hidden = NO;
 }
 
 - (void)rotateExpandBtnToCollapsed
@@ -114,8 +108,6 @@
     [UIView setAnimationDuration:0.2];
     expandBtn.transform = CGAffineTransformMakeRotation(M_PI*2);
     [UIView commitAnimations];
-    
-    self.lineView.hidden = YES;
 }
 
 #pragma mark - Table view

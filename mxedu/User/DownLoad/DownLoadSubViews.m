@@ -321,13 +321,8 @@ if(tableView.editing)
 //没有下载列表的背景图
 - (void)dealWithNoData {
     
-    self.noResultImageView = [[myCustomerImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-(49+64+44))];
-    self.noResultImageView.image = [UIImage imageNamed:@"LoccalVideo_NoData"];
-    self.noResultImageView.textLabes.text = @"您没有本地视频哦！";
-    self.noResultImageView.textLabes.textColor = kCellGrayTextColor;
-    [self.noResultImageView.textLabes  sizeToFit];
-    CGFloat x = (SCREEN_WIDTH - self.noResultImageView.textLabes.frame.size.width)/2;
-    self.noResultImageView.textLabes.frame = CGRectMake(x, 274*kScreenScaleHeight, SCREEN_WIDTH, 20*kScreenScaleHeight);
+    self.noResultImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"LoccalVideo_NoData"]];
+    self.noResultImageView.center = CGPointMake(self.view.center.x, self.view.center.y-GENERAL_SIZE(150)) ;
     self.noResultImageView.hidden = YES;
     [self.view addSubview:self.noResultImageView];
 }

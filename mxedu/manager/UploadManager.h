@@ -13,6 +13,21 @@
 @property (nonatomic,retain) NSString* imageGid;
 @property (nonatomic,retain) NSMutableArray* imageGids;
 
+@property (nonatomic,retain) NSMutableArray *viedoGids;
+@property (nonatomic,retain) NSMutableArray *audioGids;
+@property (nonatomic,retain) NSMutableArray *movieImageS;//视频第一针图片集合
+
+@property (nonatomic,retain) NSString* movieurl;
+
+/*
+ * 多张图片 视频 音频
+ */
+- (void)uploadCommentMdeiaDatas:(NSArray*)mediaDatas
+                         angles:(NSArray*)imgAngles
+                       progress:(void (^)(NSInteger, NSInteger))progress
+                        success:(void (^)())success
+                        failure:(void (^)(NSError*))failure;
+
 /*
  * 多张图片
  */
@@ -26,7 +41,7 @@
  * 一张图片
  */
 - (void)uploadImageData:(NSData*)imageData
-                 angles:(NSArray*)imgAngles
+                  angle:(NSString*)imgAngle
                 success:(void (^)())success
                 failure:(void (^)(NSError*))failure;
 

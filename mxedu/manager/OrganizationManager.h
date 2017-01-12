@@ -13,15 +13,19 @@
 #import "TeacherResult.h"
 #import "CheckInResult.h"
 #import "CheckInListResult.h"
+#import "OrgInfoListResult.h"
 
 @interface OrganizationManager : NSObject
 
 /**
- * 获取机构列表
+ * 获取机构列表(旧版)
  */
 -(void)fetchOrganizationListWithUserId:(NSString*)userId
                                Success:(void(^)(OrganizationResult *result))success
                                Failure:(void(^)(NSError* error))failure;
+
+-(void)fetchOrganizationInfoSuccess:(void(^)(OrgInfoListResult *result))success
+                            Failure:(void(^)(NSError* error))failure;
 
 /**
  * 更新机构关注数量
@@ -52,7 +56,6 @@
              CheckinTime:(NSString*)checkinTime
                UserPhone:(NSString*)userPhone
                UserLocal:(NSString*)userLocal
-                    Type:(NSString*)type
                  Success:(void(^)(CommonResult *result))success
                  Failure:(void(^)(NSError* error))failure;
 

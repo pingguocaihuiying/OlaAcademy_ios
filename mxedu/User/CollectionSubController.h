@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CollectionSubController : UIViewController
+#import "UIBaseViewController.h"
+
+@interface CollectionSubController : UIBaseViewController
 
 -(void)removeAllCollection;
 -(void)refreshData;

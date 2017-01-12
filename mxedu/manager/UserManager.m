@@ -167,8 +167,10 @@ static NSString* storeKeyUserInfo = @"NTUserInfo";
  */
 -(void)updateUserWithUserId:(NSString*)userId
                        Name:(NSString*)name
+                   RealName:(NSString*)realName
                         sex:(NSString*)sex
                       local:(NSString*)local
+                   ExamType:(NSString*)examType
                    descript:(NSString*)descript
                      avatar:(NSString*)avatar
                     Success:(void(^)())success
@@ -182,9 +184,11 @@ static NSString* storeKeyUserInfo = @"NTUserInfo";
     [om addResponseDescriptor:responseDescriptor];
     [om postObject:nil path:@"/ola/user/updateInfo" parameters:@{@"id" : userId,
                                                                  @"name" : name,
+                                                                 @"realName" : realName,
                                                                  @"avator" : avatar,
                                                                  @"local" : local,
                                                                  @"sex" : sex,
+                                                                 @"examType" : examType,
                                                                  @"descript" : descript
                                                                  }
            success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -230,6 +234,38 @@ static NSString* storeKeyUserInfo = @"NTUserInfo";
                        _userInfo = result.userInfo;
                        if (success != nil) {
                            success();
+                       }
+                   }else{
+                       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result.message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                       [alert show];
+                   }
+               }
+           } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+               if (failure != nil) {
+                   failure(error);
+               }
+           }];
+}
+
+/**
+ * 老师列表
+ */
+-(void)fetchTeacherListSuccess:(void (^)(GroupMemberResult *result))success
+                       Failure:(void(^)(NSError* error))failure{
+    DataMappingManager *dm = GetDataManager();
+    
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:dm.memberListResultMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:nil];
+    // 通过shareManager 共享 baseurl及请求头等
+    RKObjectManager* om = [RKObjectManager sharedManager];
+    
+    [om addResponseDescriptor:responseDescriptor];
+    [om postObject:nil path:@"/ola/user/getTeacherList" parameters:nil
+           success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+               if ([mappingResult.firstObject isKindOfClass:[GroupMemberResult class]]){
+                   GroupMemberResult *result = mappingResult.firstObject;
+                   if (result.code==10000) {
+                       if (success != nil) {
+                           success(result);
                        }
                    }else{
                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result.message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];

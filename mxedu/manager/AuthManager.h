@@ -8,13 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import "User.h"
+#import "SignInStatus.h"
 
 @interface AuthManager : NSObject
 
 @property (nonatomic, assign, readonly) BOOL isAuthenticated;
 @property (nonatomic, strong, readonly) User* userInfo;
+@property (nonatomic, strong, readonly) SignInStatus* signInfo;
 
--(void)load;
++ (instancetype)sharedInstance;
+
+- (void)load;
 
 - (void)authWithMobile:(NSString*)mobile
               password:(NSString*)psd

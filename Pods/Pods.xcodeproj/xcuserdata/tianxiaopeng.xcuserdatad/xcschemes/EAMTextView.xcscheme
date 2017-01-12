@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '317BDA3A5A5E435A48CF4C08'
+               BlueprintIdentifier = '800AB571B5F600A2A6A4156744A00AD1'
                BlueprintName = 'EAMTextView'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libEAMTextView.a'>

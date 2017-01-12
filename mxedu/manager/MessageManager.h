@@ -11,8 +11,21 @@
 #import "CommonResult.h"
 #import "MessageListResult.h"
 #import "MessageUnreadResult.h"
+#import "CommentListResult.h"
 
 @interface MessageManager : NSObject
+
+/**
+ *  消息列表 （评论消息）
+ *
+ *  @param success <#success description#>
+ *  @param failure <#failure description#>
+ */
+-(void)fetchCommentMessageListWithCommentId:(NSString*)commentId
+                                     UserId:(NSString*)userId
+                                   PageSize:(NSString*)pageSize
+                                    Success:(void(^)(CommentListResult *result))success
+                                    Failure:(void(^)(NSError* error))failure;
 
 /**
  *  获取未读消息数

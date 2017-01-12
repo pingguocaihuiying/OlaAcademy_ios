@@ -34,7 +34,7 @@
     self.navigationController.navigationBarHidden = NO;
     
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setImage:[UIImage imageNamed:@"ic_back_white"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
     [backBtn sizeToFit];
     [backBtn addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     
@@ -81,7 +81,7 @@
     suitLabel.font = LabelFont(32);
     [self.view addSubview:suitLabel];
     
-    UILabel *suitContent = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(suitLabel.frame)+10, 300, 30)];
+    UILabel *suitContent = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(suitLabel.frame)+10, SCREEN_WIDTH-10, 30)];
     suitContent.text = _commodity.suitto;
     suitContent.font = LabelFont(30);
     suitContent.textColor = RGBCOLOR(143, 143, 143);
