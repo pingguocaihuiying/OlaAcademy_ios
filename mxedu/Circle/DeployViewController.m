@@ -23,6 +23,7 @@
 #import "CircleManager.h"
 #import "TeacherListController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "UIColor+HexColor.h"
 
 @interface DeployViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UITextViewDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,QYSelectPhotoViewDelegate>
 {
@@ -66,7 +67,8 @@
 }
 
 @property (nonatomic, strong) UICollectionView *collectionView;
-
+//分类选择
+@property (nonatomic, strong) UILabel *chooseLabel;
 
 @end
 
@@ -92,6 +94,37 @@ BOOL uploadOrignalImage;
     scrollView.showsVerticalScrollIndicator = NO;
     [self.view addSubview: scrollView];
     
+    UIView *dividerLine1 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10)];
+    dividerLine1.backgroundColor = BACKGROUNDCOLOR;
+    [scrollView addSubview:dividerLine1];
+    UILabel *classLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, CGRectGetMaxY(dividerLine1.frame), GENERAL_SIZE(100), GENERAL_SIZE(100))];
+    classLabel.text = @"分类:";
+    classLabel.textColor = [UIColor blackColor];
+    classLabel.font = LabelFont(34);
+    [scrollView addSubview:classLabel];
+    
+    UIView *dividerLine2 = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(classLabel.frame), SCREEN_WIDTH, 10)];
+    dividerLine2.backgroundColor = BACKGROUNDCOLOR;
+    [scrollView addSubview:dividerLine2];
+    
+    _chooseLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(classLabel.frame), CGRectGetMaxY(dividerLine1.frame), SCREEN_WIDTH-GENERAL_SIZE(116), GENERAL_SIZE(100))];
+    _chooseLabel.text = @"请选择";
+    _chooseLabel.userInteractionEnabled = YES;
+    _chooseLabel.textColor = [UIColor colorWhthHexString:@"#959595"];
+    [scrollView addSubview:_chooseLabel];
+    //添加点击手势
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(chooseClassification)];
+    [_chooseLabel addGestureRecognizer:tap];
+    
+    
+    UIImageView *nextIV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ic_next"]];
+    [_chooseLabel addSubview:nextIV];
+    
+    [nextIV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_chooseLabel.mas_centerY);
+        make.right.equalTo(_chooseLabel.mas_right).offset(-GENERAL_SIZE(16));
+    }];
+
     title = [[UILabel alloc]initWithFrame:CGRectMake(3, 0, 200, 40)];
     title.enabled = NO;
     title.text = @"请输入标题... (2-20个字)";
@@ -100,7 +133,7 @@ BOOL uploadOrignalImage;
     
     editTitle = [UITextView new];
     editTitle.tag = 1001;
-    editTitle.frame = CGRectMake(5, 5, SCREEN_WIDTH-10, 45);
+    editTitle.frame = CGRectMake(5, CGRectGetMaxY(dividerLine2.frame), SCREEN_WIDTH-10, 45);
     editTitle.font=[UIFont systemFontOfSize:16];
     editTitle.backgroundColor = [UIColor whiteColor];
     editTitle.delegate = self;
@@ -165,9 +198,13 @@ BOOL uploadOrignalImage;
     
     uploadOrignalImage = NO;
 
-    [self setupAssignView];
+//    [self setupAssignView];
     
     wholeTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+}
+//选择帖子类别
+-(void)chooseClassification {
+    NSLog(@"%s",__func__);
 }
 
 -(void)setupAssignView{
@@ -178,6 +215,12 @@ BOOL uploadOrignalImage;
     dividerLine5.backgroundColor = BACKGROUNDCOLOR;
     [assignView addSubview:dividerLine5];
     
+    [assignView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.top.equalTo(addMediaButton.mas_bottom).offset(20);
+        make.bottom.equalTo(self.view.mas_bottom);
+    }];
     UILabel *assignL = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, 100, GENERAL_SIZE(90))];
     assignL.text = @"指定回答";
     assignL.textColor = RGBCOLOR(87, 87, 87);
