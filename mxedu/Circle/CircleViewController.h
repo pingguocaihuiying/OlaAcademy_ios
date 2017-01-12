@@ -10,6 +10,7 @@
 
 @interface CircleViewController : UIViewController
 
-@property (nonatomic) int isFromHomePage; //1 首页点击显示全部进入
+@property(nonatomic,strong)NSMutableArray *modalDataArray;//筛选数组
+-(void)selectedTableRow:(NSIndexPath *)path;//选择第几个
 
 @end

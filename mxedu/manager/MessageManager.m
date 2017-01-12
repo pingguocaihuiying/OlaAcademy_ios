@@ -13,48 +13,7 @@
 @implementation MessageManager
 
 /**
- *  消息列表 （评论消息）
- *
- *  @param success <#success description#>
- *  @param failure <#failure description#>
- */
--(void)fetchCommentMessageListWithCommentId:(NSString*)commentId
-                                     UserId:(NSString*)userId
-                                   PageSize:(NSString*)pageSize
-                                    Success:(void(^)(CommentListResult *result))success
-                                    Failure:(void(^)(NSError* error))failure{
-    DataMappingManager *dm = GetDataManager();
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:dm.commentListResultMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:nil];
-    // 通过shareManager 共享 baseurl及请求头等
-    RKObjectManager* om = [RKObjectManager sharedManager];
-    
-    [om addResponseDescriptor:responseDescriptor];
-    // 采用post方式，get方式可能产生中文乱码
-    [om postObject:nil path:@"/ola/comment/getCircleMessageList" parameters:@{
-                                                                    @"commentId": commentId,
-                                                                    @"userId": userId,
-                                                                    @"pageSize": pageSize,
-                                                                    @"type": @"2"
-                                                                        }
-           success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-               if ([mappingResult.firstObject isKindOfClass:[CommentListResult class]]) {
-                   CommentListResult *result = mappingResult.firstObject;
-                   if (success != nil) {
-                       success(result);
-                   }
-               }
-               
-           }
-           failure:^(RKObjectRequestOperation *operation, NSError *error) {
-               if (failure != nil) {
-                   failure(error);
-               }
-           }];
-    
-}
-
-/**
- *  获取未读消息数（系统消息）
+ *  获取未读消息数
  *
  *  @param success <#success description#>
  *  @param failure <#failure description#>
@@ -69,7 +28,7 @@
     
     [om addResponseDescriptor:responseDescriptor];
     // 采用post方式，get方式可能产生中文乱码
-    [om postObject:nil path:@"/ola/message/getUnreadTotalCount" parameters:@{
+    [om postObject:nil path:@"/ola/message/getUnreadCount" parameters:@{
                                                                         @"userId": userId
                                                                         }
            success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -89,7 +48,7 @@
 }
 
 /**
- *  消息列表 （系统消息）
+ *  消息列表
  *
  *  @param success <#success description#>
  *  @param failure <#failure description#>

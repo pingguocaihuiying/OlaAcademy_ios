@@ -29,9 +29,7 @@
 @property (nonatomic) NSMutableArray *hospitalArray;
 @property (nonatomic) UIImagePickerController *imagePicker;
 @property (nonatomic) RERadioItem *nameItem;
-@property (nonatomic) RERadioItem *realNameItem;
 @property (nonatomic) REPickerItem *sexPicker;
-@property (nonatomic) REPickerItem *examPicker;
 @property (nonatomic) REPickerItem *cityPicker;
 
 @end
@@ -52,12 +50,11 @@ NSMutableArray *provinces, *cities; // 本地plist中的地区信息
     [self setNavBar];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    AuthManager *am = [AuthManager sharedInstance];
+    AuthManager *am = [[AuthManager alloc]init];
     
     userInfo = am.userInfo;
     
     self.manager = [[RETableViewManager alloc] initWithTableView:self.tableView delegate:self];
-    self.manager.tableView.backgroundColor = RGBCOLOR(235, 235, 235);
     
     provinces = [[NSMutableArray alloc]initWithCapacity:0];
     cities = [[NSMutableArray alloc]initWithCapacity:0];
@@ -74,11 +71,9 @@ NSMutableArray *provinces, *cities; // 本地plist中的地区信息
     
     [self setupAvatarSection];
     [self setupNameSection];
-    [self setupRealNameSection];
     [self setupSexSection];
-    [self setupProfileSection];
-    [self setupDomainSection];
     [self setupLocationSection];
+    [self setupProfileSection];
 }
 
 -(void)setNavBar
@@ -88,7 +83,10 @@ NSMutableArray *provinces, *cities; // 本地plist中的地区信息
     //保存按钮
     saveBtn=[UIButton buttonWithType:UIButtonTypeCustom];
     saveBtn.frame=CGRectMake(0, 0, 50, 25);
-    [saveBtn setTitleColor:COMMONBLUECOLOR forState:UIControlStateNormal];
+//    saveBtn.layer.borderWidth = 1.0;
+//    saveBtn.layer.cornerRadius = 4.5;
+//    saveBtn.layer.borderColor = [RGBCOLOR(01, 139, 232)CGColor];
+    [saveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [saveBtn setTitle:@"保存" forState:UIControlStateNormal];
     
     [saveBtn addTarget:self action:@selector(saveUserInfo) forControlEvents:UIControlEventTouchUpInside];
@@ -96,7 +94,7 @@ NSMutableArray *provinces, *cities; // 本地plist中的地区信息
     self.navigationItem.rightBarButtonItem = rightbtn;
     
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setBackgroundImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
+    [backBtn setBackgroundImage:[UIImage imageNamed:@"ic_back_white"] forState:UIControlStateNormal];
     [backBtn sizeToFit];
     [backBtn addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     
@@ -110,52 +108,42 @@ NSMutableArray *provinces, *cities; // 本地plist中的地区信息
 
 -(void)setupAvatarSection{
     
-    UIView *avatarView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, GENERAL_SIZE(230))];
-    avatarView.backgroundColor = [UIColor whiteColor];
+    UIView *avatarView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 90)];
     UIImageView *photoImage = [[UIImageView alloc]init];
     photoImage.image = [UIImage imageNamed:@"ic_photo_small"];
     [photoImage sizeToFit];
-    avatarImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, GENERAL_SIZE(150), GENERAL_SIZE(150))];
-    avatarImage.layer.masksToBounds = YES;
-    avatarImage.layer.cornerRadius = GENERAL_SIZE(75);
-    avatarImage.layer.borderWidth = 1.0f;
-    avatarImage.layer.borderColor = [RGBCOLOR(235, 235, 235) CGColor];
-    avatarImage.center = avatarView.center;
+    avatarImage = [[UIImageView alloc]initWithFrame:CGRectMake(15, 20, 60, 60)];
     if (userInfo.avatar) {
         if ([userInfo.avatar rangeOfString:@".jpg"].location == NSNotFound) {
-            [avatarImage sd_setImageWithURL:[NSURL URLWithString: [BASIC_IMAGE_URL stringByAppendingString:userInfo.avatar]] placeholderImage:[UIImage imageNamed:@"ic_avatar"]];
+            [avatarImage sd_setImageWithURL:[NSURL URLWithString: [BASIC_IMAGE_URL stringByAppendingString:userInfo.avatar]] placeholderImage:[UIImage imageNamed:@"ic_photo"]];
         }else{
-            [avatarImage sd_setImageWithURL:[NSURL URLWithString: [@"http://api.olaxueyuan.com/upload/" stringByAppendingString:userInfo.avatar]] placeholderImage:[UIImage imageNamed:@"ic_avatar"]];
+            [avatarImage sd_setImageWithURL:[NSURL URLWithString: [@"http://api.olaxueyuan.com/upload/" stringByAppendingString:userInfo.avatar]] placeholderImage:[UIImage imageNamed:@"ic_photo"]];
         }
     }else{
-        [avatarImage setImage:[UIImage imageNamed:@"ic_avatar"]];
+        [avatarImage setImage:[UIImage imageNamed:@"ic_photo"]];
     }
     
-    [avatarView addSubview:avatarImage];
     [avatarView addSubview:photoImage];
+    [avatarView addSubview:avatarImage];
+    avatarView.backgroundColor = RGBACOLOR(230, 230, 230, 255);
     
     [photoImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(avatarImage.mas_right);
-        make.bottom.equalTo(avatarImage.mas_bottom);
+        make.centerX.equalTo(avatarView.mas_centerX).offset(0);
+        make.top.equalTo(avatarView.mas_top).offset(10);
     }];
-    
-    UIView *line = [[UIView alloc]initWithFrame:CGRectMake(GENERAL_SIZE(35), GENERAL_SIZE(228), SCREEN_WIDTH-GENERAL_SIZE(35),0.6)];
-    line.backgroundColor = RGBCOLOR(213, 213, 213);
-    [avatarView addSubview:line];
     
     UITapGestureRecognizer *singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chooseImage)];
     singleRecognizer.numberOfTapsRequired = 1; // 单击
     [avatarView addGestureRecognizer:singleRecognizer];
-    
-    self.manager.tableView.tableHeaderView = avatarView;
-    self.manager.tableView.tableFooterView = [[UIView alloc]init];;
+    RETableViewSection* section = [RETableViewSection  sectionWithHeaderView:avatarView];
+    [self.manager addSection:section];
 }
 
 -(void)setupNameSection{
     RETableViewSection* section = [RETableViewSection sectionWithHeaderTitle:nil];
     NSString *userName =  userInfo.name;
-    _nameItem = [RERadioItem itemWithTitle:@"用户昵称" value:userName selectionHandler:^(RERadioItem *item) {
-        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"用户昵称" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    _nameItem = [RERadioItem itemWithTitle:@"姓名" value:userName selectionHandler:^(RERadioItem *item) {
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"用户名" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         alert.tag = 1;
         alert.alertViewStyle=UIAlertViewStylePlainTextInput;
         UITextField *textField= [alert textFieldAtIndex:0];
@@ -167,24 +155,6 @@ NSMutableArray *provinces, *cities; // 本地plist中的地区信息
     [section addItem:_nameItem];
     [self.manager addSection:section];
 
-}
-
--(void)setupRealNameSection{
-    RETableViewSection* section = [RETableViewSection sectionWithHeaderTitle:nil];
-    NSString *userName =  userInfo.realName?userInfo.realName:@"";
-    _realNameItem = [RERadioItem itemWithTitle:@"真实姓名" value:userName selectionHandler:^(RERadioItem *item) {
-        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"真实姓名" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        alert.tag = 2;
-        alert.alertViewStyle=UIAlertViewStylePlainTextInput;
-        UITextField *textField= [alert textFieldAtIndex:0];
-        textField.text=userInfo.realName?userInfo.realName:@"";
-        [alert show];
-        
-    }];
-    _realNameItem.accessoryType = UITableViewCellAccessoryNone;
-    [section addItem:_realNameItem];
-    [self.manager addSection:section];
-    
 }
 
 -(void)setupSexSection{
@@ -205,69 +175,6 @@ NSMutableArray *provinces, *cities; // 本地plist中的地区信息
     [self.manager addSection:section];
 }
 
--(void)setupProfileSection{
-    
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
-    view.backgroundColor = [UIColor whiteColor];
-    UILabel *profileL = [[UILabel alloc]initWithFrame:CGRectMake(GENERAL_SIZE(35), 0, 200, 40)];
-    profileL.text = @"个人签名";
-    UIView *line = [[UIView alloc]initWithFrame:CGRectMake(GENERAL_SIZE(35), 0, SCREEN_WIDTH-GENERAL_SIZE(35), 1)];
-    line.backgroundColor = RGBCOLOR(235, 235, 235);
-    [view addSubview:profileL];
-    [view addSubview:line];
-    
-    UIView *editView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 120)];
-    editView.backgroundColor = [UIColor whiteColor];
-    
-    label = [[UILabel alloc]initWithFrame:CGRectMake(3, 3, 200, 20)];
-    label.enabled = NO;
-    label.text = @"在您的资料中添加个性签名";
-    label.font =  [UIFont systemFontOfSize:15];
-    label.textColor = [UIColor blackColor];
-    
-    editText = [UITextView new];
-    if (userInfo.signature&&![editText.text = userInfo.signature isEqualToString:@""]) {
-        editText.text = userInfo.signature;
-        label.text= @"";
-    }
-    editText.returnKeyType=UIReturnKeyDone;
-    editText.delegate = self;
-    editText.font=[UIFont systemFontOfSize:16];
-    editText.backgroundColor = [UIColor whiteColor];
-    [editText addSubview:label];
-    [editView addSubview:editText];
-    
-    UIView *bottomline = [[UIView alloc]initWithFrame:CGRectMake(GENERAL_SIZE(35), 119, SCREEN_WIDTH-GENERAL_SIZE(35), 0.6)];
-    bottomline.backgroundColor = RGBCOLOR(213, 213, 213);
-    [editView addSubview:bottomline];
-    
-    UIEdgeInsets padding = UIEdgeInsetsMake(0, GENERAL_SIZE(35), 10, 10);
-    [editText mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(editView).with.insets(padding);
-    }];
-    
-    RETableViewSection* section = [RETableViewSection  sectionWithHeaderView:view footerView:editView];
-    [self.manager addSection:section];
-}
-
--(void)setupDomainSection{
-    RETableViewSection* section = [RETableViewSection sectionWithHeaderTitle:nil];
-    NSString *examType = userInfo.examType&&![userInfo isEqual:@""]?userInfo.examType:@"研究生管理类联考";
-    NSArray *optionArray = [NSArray arrayWithObjects:@"工商管理硕士(MBA)",@"会计硕士(MPAcc)",@"审计硕士(MAud)",@"公共管理硕士(MPA)",@"工程管理硕士(MEM)",@"旅游管理硕士(MTA)",@"图书情报硕士(MLis)", @"其他管理硕士(Other)",nil];
-    if([optionArray indexOfObject:examType] == NSNotFound){
-        examType = [optionArray objectAtIndex:0];
-    }
-    _examPicker = [REPickerItem itemWithTitle:@"关注领域" value:@[examType] placeholder:nil options:@[optionArray]];
-    _examPicker.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    _examPicker.onChange = ^(REPickerItem *item){
-    };
-    _examPicker.inlinePicker = NO;
-    
-    [section addItem:_examPicker];
-    [self.manager addSection:section];
-    
-}
-
 -(void)setupLocationSection{
     RETableViewSection* section = [RETableViewSection sectionWithHeaderTitle:nil];
     
@@ -283,12 +190,12 @@ NSMutableArray *provinces, *cities; // 本地plist中的地区信息
         for (int i=0; i<[cityArray count]; i++) {
             [cities addObject:[[cityArray objectAtIndex:i] objectForKey:@"name"]];
         }
-        
+
     }else{
         localInfo = @[@"北京市", @"海淀区"];
     }
     
-    _cityPicker = [REPickerItem itemWithTitle:@"所在地" value:localInfo placeholder:nil options:@[provinces,cities]];
+    _cityPicker = [REPickerItem itemWithTitle:@"地区" value:localInfo placeholder:nil options:@[provinces,cities]];
     _cityPicker.onChange = ^(REPickerItem *item){
         NSUInteger index = [provinces indexOfObject:[item.value objectAtIndex:0]];
         NSArray *cityArray = [[wself.provinceDetailArray objectAtIndex:index] objectForKey:@"citys"];
@@ -302,6 +209,47 @@ NSMutableArray *provinces, *cities; // 本地plist中的地区信息
     _cityPicker.inlinePicker = NO;
     [section addItem:_cityPicker];
     
+    [self.manager addSection:section];
+}
+
+-(void)setupProfileSection{
+    
+    UIView *editView = [[UIView alloc]initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH-10, 160)];
+    
+    label = [[UILabel alloc]initWithFrame:CGRectMake(3, 3, 200, 20)];
+    label.enabled = NO;
+    label.text = @"在您的资料中添加个性签名";
+    label.font =  [UIFont systemFontOfSize:15];
+    label.textColor = [UIColor blackColor];
+    
+    editText = [UITextView new];
+    if (userInfo.signature&&![editText.text = userInfo.signature isEqualToString:@""]) {
+        editText.text = userInfo.signature;
+        label.text= @"";
+    }
+    editText.returnKeyType=UIReturnKeyDone;
+    editText.delegate = self;
+    editText.font=[UIFont systemFontOfSize:16];
+    editText.layer.cornerRadius = 4;
+    editText.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    editText.layer.borderWidth = 0.2;
+    editText.backgroundColor = [UIColor whiteColor];
+    [editText addSubview:label];
+    [editView addSubview:editText];
+    
+    UIEdgeInsets padding = UIEdgeInsetsMake(10, 10, 10, 10);
+    [editText mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(editView).with.insets(padding);
+    }];
+    
+    UIImageView *logo = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ic_logo_gray"]];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
+    [footerView addSubview:logo];
+    [logo mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(footerView);
+    }];
+    
+    RETableViewSection* section = [RETableViewSection  sectionWithHeaderView:editView footerView:footerView];
     [self.manager addSection:section];
 }
 
@@ -326,10 +274,6 @@ NSMutableArray *provinces, *cities; // 本地plist中的地区信息
     if (alertView.tag==1&&buttonIndex==1) {
         _nameItem.value = [alertView textFieldAtIndex:0].text;
         [_nameItem reloadRowWithAnimation:UITableViewRowAnimationNone];
-    }
-    if (alertView.tag==2&&buttonIndex==1) {
-        _realNameItem.value = [alertView textFieldAtIndex:0].text;
-        [_realNameItem reloadRowWithAnimation:UITableViewRowAnimationNone];
     }
 }
 
@@ -372,7 +316,7 @@ NSMutableArray *provinces, *cities; // 本地plist中的地区信息
     
     UploadManager* um = [[UploadManager alloc]init];
      NSData* imageData = UIImageJPEGRepresentation(selectedImage, 0.8);
-    [um uploadImageData:imageData angle:nil success:^{
+    [um uploadImageData:imageData angles:nil success:^{
         NSString *imageGid =  um.imageGid;
         [self updateUserInfo:imageGid];
     } failure:^(NSError *error) {
@@ -384,9 +328,8 @@ NSMutableArray *provinces, *cities; // 本地plist中的地区信息
     NSString *userLocation = _cityPicker.value!=nil?[[[_cityPicker.value objectAtIndex:0]stringByAppendingString:@","] stringByAppendingString:[_cityPicker.value objectAtIndex:1]]:@"";
     NSString *sex = [[_sexPicker.value objectAtIndex:0] isEqualToString:@"男"]?@"1":@"2";
     NSString *descript = editText.text;
-    NSString *examType =_examPicker.value?[_examPicker.value objectAtIndex:0]:@"";
     UserManager *um = [[UserManager alloc]init];
-    [um updateUserWithUserId:userInfo.userId Name:_nameItem.value RealName:_realNameItem.value sex:sex local:userLocation ExamType:examType descript:descript
+    [um updateUserWithUserId:userInfo.userId Name:_nameItem.value sex:sex local:userLocation descript:descript
                       avatar:imageGid Success:^{
                           [SVProgressHUD showSuccessWithStatus:@"更新成功"];
                           if (_successFunc != nil)

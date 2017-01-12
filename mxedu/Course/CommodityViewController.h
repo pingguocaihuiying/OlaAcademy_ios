@@ -10,6 +10,4 @@
 
 @interface CommodityViewController : UIViewController
 
-@property (nonatomic) NSString *currentType; //1 课程 2 教材
-
 @end

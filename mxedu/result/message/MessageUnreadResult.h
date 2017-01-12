@@ -8,12 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MessageCount.h"
-
 @interface MessageUnreadResult : NSObject
 
 @property (nonatomic) int code;
 @property (nonatomic) NSString *message;
-@property (nonatomic) MessageCount *messageCount;
+@property (nonatomic) int count;
 
 @end

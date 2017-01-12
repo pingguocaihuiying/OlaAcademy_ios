@@ -188,10 +188,6 @@ static CGFloat const kSpace = 15;
             
         }
         
-        if (_photoDelegate) {
-            [_photoDelegate didShowSelectPhoto];
-        }
-        
         [self->_collectionView reloadData];
         
     } withMaxSelect:self.maximumNumberOfImages withSelectedPhotoNames:_photoNames];
@@ -264,14 +260,14 @@ static CGFloat const kSpace = 15;
     
     if (self.isEnable) {
         //默认显示『拍照按钮』
-        UIImage *image = [UIImage imageNamed:@"ic_choose_photo"];
+        UIImage *image = [UIImage imageNamed:@"Photo_Camera"];
         
         if (_dataSource.count > 0) {
             
             if (_dataSource.count == indexPath.row) {
                 //如果已经选择图片，最后一个cell，显示『添加按钮』
                 
-                image = [UIImage imageNamed:@"ic_choose_photo"];
+                image = [UIImage imageNamed:@"Photo_AddPhoto"];
                 cell.imageView.image = image;
                 return cell;
                 
@@ -400,7 +396,7 @@ static CGFloat const kSpace = 15;
         UIButton * backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         backButton.backgroundColor = [UIColor clearColor];
         backButton.frame = CGRectMake(20, 28, 20, 20);
-        [backButton setBackgroundImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
+        [backButton setBackgroundImage:[UIImage imageNamed:@"ic_back_white"] forState:UIControlStateNormal];
         [backButton addTarget:self action:@selector(backFromPhotoViewButton) forControlEvents:UIControlEventTouchUpInside];
         [_navBarView addSubview:backButton];
         
@@ -512,19 +508,6 @@ static CGFloat const kSpace = 15;
         
     }
     return photos;
-}
-- (NSArray*)photoAngle
-{
-    NSMutableArray *angles = [NSMutableArray new];
-    for (PhotoModel *model in _dataSource) {
-        if ([model isKindOfClass:[PhotoModel class]]) {
-            [angles addObject:model.photoAngle?model.photoAngle:@"0"];
-        }else{
-            [angles addObject:model];
-        }
-        
-    }
-    return angles;
 }
 - (void)setIsEnable:(BOOL)isEnable
 {

@@ -32,7 +32,6 @@
 #import "UMessage.h"
 
 #import "BannerWebViewController.h"
-#import "CommodityViewController.h"
 
 @interface AppDelegate ()<WXApiDelegate>
 
@@ -49,9 +48,6 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    [self setup];
-    [self setupUMPush:launchOptions];
-    
     // 是否第一次登录
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
    	BOOL is = [userDefaults integerForKey:@"alreadyUsed"];
@@ -61,7 +57,7 @@
         [self.window makeKeyAndVisible];
     }else{
         //判断用户账号有本地存储
-        AuthManager *am =[AuthManager sharedInstance];
+        AuthManager *am =[[AuthManager alloc]init];\
         if(am.isAuthenticated)
         {
             [[DataManager sharedDataManager] readDownloadVideo];
@@ -72,6 +68,9 @@
         [self setupRootView];
     }
     
+    [self setup];
+    [self setupUMPush:launchOptions];
+
     return YES;
 }
 
@@ -155,10 +154,10 @@
     UINavigationBar * appearance = [UINavigationBar appearance];
     appearance.translucent = NO;
     //设置显示的颜色
-    appearance.barTintColor = RGBCOLOR(248, 248, 248);
+    appearance.barTintColor = COMMONBLUECOLOR;
     //设置字体颜色
-    appearance.tintColor = RGBCOLOR(81, 84, 93);
-    [appearance setTitleTextAttributes:@{NSForegroundColorAttributeName : RGBCOLOR(81, 84, 93)}];
+    appearance.tintColor = [UIColor whiteColor];
+    [appearance setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
 }
 
 -(void)setupRootView{
@@ -170,7 +169,7 @@
 }
 
 -(void)setupRootViewWithSlide{
-    AuthManager *am = [AuthManager sharedInstance];
+    AuthManager *am = [[AuthManager alloc]init];
     if (!am.isAuthenticated) {
         IndexViewController *indexVC = [[IndexViewController alloc]init];
         UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:indexVC];
@@ -291,11 +290,20 @@
         bannerVC.url = [userInfo objectForKey:@"url"];
         bannerVC.hidesBottomBarWhenPushed = YES;
         [self.mainVC.selectedViewController pushViewController:bannerVC animated:YES];
-    }else if([type isEqualToString:@"4"]){
-        CommodityViewController *commodityVC = [[CommodityViewController alloc]init];
-        commodityVC.currentType = @"1";
-        commodityVC.hidesBottomBarWhenPushed = YES;
-        [self.mainVC.selectedViewController pushViewController:commodityVC animated:YES];
+    }
+}
+
+// 视频的横竖屏
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+{
+    /**
+     *  这里移动要注意，条件判断成功的是在播放器播放过程中返回的
+     下面的是播放器没有弹出来的所支持的设备方向
+     */
+    if (self.vc){
+        return self.vc.player.supportInterOrtation;
+    }else{
+        return UIInterfaceOrientationMaskPortrait;
     }
 }
 

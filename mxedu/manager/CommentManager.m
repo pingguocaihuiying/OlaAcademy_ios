@@ -59,10 +59,6 @@
  */
 -(void)addPostReplyToUserId:(NSString*)replyToId
                      detail:(NSString*)content
-                   imageIds:(NSString*)imageIds
-                  videoUrls:(NSString*)videoUrls
-                  videoImgs:(NSString*)videoImgs
-                  audioUrls:(NSString*)audioUrls
                       postId:(NSString*)postId
               currentUserId:(NSString*)userId
                        type:(NSString*)type
@@ -77,17 +73,12 @@
     
     [om addResponseDescriptor:responseDescriptor];
     // 采用post方式，get方式可能产生中文乱码
-    [om postObject:nil path:@"/ola/comment/addComment" parameters:@{
-                                                            @"userId": userId,
-                                                            @"postId": postId,
-                                                            @"toUserId": replyToId,
-                                                            @"type": type,
-                                                            @"imageIds": imageIds,
-                                                            @"videoUrls": videoUrls,
-                                                            @"videoImgs": videoImgs,
-                                                            @"audioUrls": audioUrls,
-                                                            @"content": content,
-                                                            @"location": location
+    [om postObject:nil path:@"/ola/comment/addComment" parameters:@{@"userId": userId,
+                                                                    @"postId": postId,
+                                                                    @"toUserId": replyToId,
+                                                                    @"type": type,
+                                                                    @"content": content,
+                                                                    @"location": location
                                                                         }
            success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                if ([mappingResult.firstObject isKindOfClass:[CommonResult class]]) {

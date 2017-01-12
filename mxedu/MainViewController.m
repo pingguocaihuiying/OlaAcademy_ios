@@ -12,11 +12,8 @@
 #import "AuthManager.h"
 #import "SysCommon.h"
 
-#import "UITabBar+badge.h"
-
-#import "TeaHomeworkController.h"
 #import "QuestionViewController.h"
-#import "HomeViewController.h"
+#import "ExamViewController.h"
 #import "CourseViewController.h"
 #import "CircleViewController.h"
 #import "UserViewController.h"
@@ -25,15 +22,11 @@
 
 @property (strong, nonatomic) SKSplashView *splashView;
 
-@property (strong, nonatomic) TeaHomeworkController *teachVC;
 @property (strong, nonatomic) QuestionViewController *questionVC;
-@property (strong, nonatomic) HomeViewController *homeVC;
+@property (strong, nonatomic) ExamViewController *examVC;
 @property (strong, nonatomic) CourseViewController *courseVC;
 @property (strong, nonatomic) CircleViewController *circleVC;
 @property (strong, nonatomic) UserViewController *userVC;
-
-@property (strong, nonatomic) NSArray *teach_controllers;
-@property (strong, nonatomic) NSArray *stu_controllers;
 
 @end
 
@@ -42,7 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // 启动动画
-//    AuthManager *am = [AuthManager sharedInstance];
+//    AuthManager *am = [[AuthManager alloc]init];
 //    if (am.isAuthenticated) {
 //        SKSplashIcon *swiftSplashIcon = [[SKSplashIcon alloc] initWithImage:[UIImage imageNamed:@"ic_logo_white"] animationType:SKIconAnimationTypeBounce];
 //        _splashView = [[SKSplashView alloc] initWithSplashIcon:swiftSplashIcon backgroundColor:COMMONBLUECOLOR animationType:SKSplashAnimationTypeNone];
@@ -58,23 +51,17 @@
     questionNav.tabBarItem.image = [UIImage imageNamed:@"ic_point_normal"];
     questionNav.tabBarItem.selectedImage = [[UIImage imageNamed:@"ic_point_selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    _teachVC = [[TeaHomeworkController alloc]init];
-    UINavigationController *teachNav = [[UINavigationController alloc]initWithRootViewController:_teachVC];
-    teachNav.title = @"考点";
-    teachNav.tabBarItem.image = [UIImage imageNamed:@"ic_point_normal"];
-    teachNav.tabBarItem.selectedImage = [[UIImage imageNamed:@"ic_point_selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    _examVC = [[ExamViewController alloc]init];
+    UINavigationController *examNav = [[UINavigationController alloc]initWithRootViewController:_examVC];
+    examNav.title = @"题库";
+    examNav.tabBarItem.image = [UIImage imageNamed:@"ic_exam_normal"];
+    examNav.tabBarItem.selectedImage = [[UIImage imageNamed:@"ic_exam_selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     _courseVC = [[CourseViewController alloc]init];
     UINavigationController *courseNav = [[UINavigationController alloc]initWithRootViewController:_courseVC];
     courseNav.title = @"课程";
     courseNav.tabBarItem.image = [UIImage imageNamed:@"ic_course_normal"];
     courseNav.tabBarItem.selectedImage = [[UIImage imageNamed:@"ic_course_selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    
-    _homeVC = [[HomeViewController alloc]init];
-    UINavigationController *homeNav = [[UINavigationController alloc]initWithRootViewController:_homeVC];
-    homeNav.title = @"主页";
-    homeNav.tabBarItem.image = [UIImage imageNamed:@"ic_home_normal"];
-    homeNav.tabBarItem.selectedImage = [[UIImage imageNamed:@"ic_home_selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     _circleVC = [[CircleViewController alloc]init];
     UINavigationController *circleNav = [[UINavigationController alloc]initWithRootViewController:_circleVC];
@@ -88,27 +75,25 @@
     userNav.tabBarItem.image = [UIImage imageNamed:@"ic_user_normal"];
     userNav.tabBarItem.selectedImage = [[UIImage imageNamed:@"ic_user_selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    _stu_controllers = [NSArray arrayWithObjects:questionNav,courseNav,homeNav,circleNav,userNav,nil];
-    _teach_controllers = [NSArray arrayWithObjects:teachNav,courseNav,homeNav,circleNav,userNav,nil];
-    [self setupTabContent];
-    self.selectedIndex = 2;
+    NSArray *controllers = [NSArray arrayWithObjects:questionNav,examNav,courseNav,circleNav,userNav,nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupTabContent) name:@"NEEDREFRESH" object:nil];
+    self.viewControllers = controllers;
     
-}
-
--(void)setupTabContent{
-    AuthManager *am = [AuthManager sharedInstance];
-    if (am.isAuthenticated&&[am.userInfo.isActive isEqualToString:@"2"]) {
-        self.viewControllers = _teach_controllers;
-    }else{
-        self.viewControllers = _stu_controllers;
-    }
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
 
 @end

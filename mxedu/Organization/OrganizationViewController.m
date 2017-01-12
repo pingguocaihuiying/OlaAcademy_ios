@@ -57,7 +57,7 @@ static const CGFloat kNavigtionHeight = 64.0;
 - (void)setupBackButton
 {
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"ic_back_white"] forState:UIControlStateNormal];
     [backBtn sizeToFit];
     [backBtn addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     
@@ -72,7 +72,7 @@ static const CGFloat kNavigtionHeight = 64.0;
 
 -(void)setupData{
     NSString *userId = @"";
-    AuthManager *am = [AuthManager sharedInstance];
+    AuthManager *am = [[AuthManager alloc]init];
     if (am.isAuthenticated) {
         userId = am.userInfo.userId;
     }

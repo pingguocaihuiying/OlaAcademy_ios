@@ -48,10 +48,13 @@
         _readLabel.backgroundColor = [UIColor redColor];
         [self addSubview:_readLabel];
         
+        UIView *lineView1 = [[UIView alloc]init];
+        lineView1.backgroundColor = RGBCOLOR(236, 236, 236);
+        [self addSubview:lineView1];
+        
         _orgLabel = [UILabel new];
-        _orgLabel.numberOfLines = 0;
         _orgLabel.textColor = RGBCOLOR(101, 101, 101);
-        _orgLabel.font = LabelFont(28);
+        _orgLabel.font = LabelFont(30);
         [self addSubview:_orgLabel];
         
         _checkinButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -79,26 +82,13 @@
         }];
         
         [_orgLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_nameLabel.mas_bottom).offset(5);
-            make.bottom.equalTo(self.mas_bottom).offset(-5);
+            make.bottom.equalTo(self.mas_bottom).offset(-15);
             make.left.equalTo(_avatarImage.mas_right).offset(10);
-            make.right.equalTo(self.mas_right).offset(-10);
         }];
         
         [_checkinButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(_avatarImage);
             make.right.equalTo(self).offset(-15);
-        }];
-        
-        UIView *lineView = [[UIView alloc]init];
-        lineView.backgroundColor = RGBCOLOR(235, 235, 235);
-        [self addSubview:lineView];
-        
-        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.mas_bottom);
-            make.left.equalTo(self);
-            make.right.equalTo(self.mas_right);
-            make.height.equalTo(@(GENERAL_SIZE(2)));
         }];
         
     }
@@ -110,7 +100,11 @@
     _nameLabel.text = message.title;
     _orgLabel.text = message.content;
     if(message.imageUrl){
-        [_avatarImage sd_setImageWithURL:[NSURL URLWithString:message.imageUrl] placeholderImage:[UIImage imageNamed:@"ic_avatar"]];
+        if ([message.imageUrl rangeOfString:@".jpg"].location == NSNotFound) {
+            [_avatarImage sd_setImageWithURL:[NSURL URLWithString: [BASIC_IMAGE_URL stringByAppendingString:message.imageUrl]] placeholderImage:[UIImage imageNamed:@"ic_avatar"]];
+        }else{
+            [_avatarImage sd_setImageWithURL:[NSURL URLWithString: [@"http://api.olaxueyuan.com/upload/" stringByAppendingString:message.imageUrl]] placeholderImage:[UIImage imageNamed:@"ic_avatar"]];
+        }
     }else{
         _avatarImage.image = [UIImage imageNamed:@"ic_avatar"];
     }

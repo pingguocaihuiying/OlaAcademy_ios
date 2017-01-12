@@ -18,7 +18,7 @@
 
 @property (nonatomic) UILabel *nameLabel;
 @property (nonatomic, strong) User* user;
-@property (nonatomic, strong) UIButton *settingButton;
+@property (nonatomic, strong) UIButton *collectButton;
 
 -(void)refreshUserInfo;
 

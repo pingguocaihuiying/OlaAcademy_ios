@@ -57,7 +57,7 @@
     self.navigationController.navigationBarHidden = NO;
     
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"ic_back_white"] forState:UIControlStateNormal];
     [backBtn sizeToFit];
     [backBtn addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     
@@ -337,7 +337,7 @@
 }
 
 -(void)obtainVIP{
-    if ([AuthManager sharedInstance].isAuthenticated) {
+    if ([[AuthManager alloc]init].isAuthenticated) {
         return;
     }
     LoginViewController* loginViewCon = [[LoginViewController alloc] init];
@@ -347,7 +347,7 @@
 }
 
 -(void)updateVIPState{
-    AuthManager *am = [AuthManager sharedInstance];
+    AuthManager *am = [[AuthManager alloc]init];
     if (am.isAuthenticated) {
         [obtainVIP setTitle:@"已领取" forState:UIControlStateNormal];
         obtainVIP.backgroundColor = RGBCOLOR(225, 225, 225);
