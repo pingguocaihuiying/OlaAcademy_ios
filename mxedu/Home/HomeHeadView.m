@@ -36,19 +36,19 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        _bannerView = [[XLCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, GENERAL_SIZE(400))];
+        _bannerView = [[XLCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, GENERAL_SIZE(300))];
         _bannerView.delegate = self;
         _bannerView.datasource = self;
         _bannerView.tapEnabled = YES;
         [self addSubview:_bannerView];
         
         _teamView = [self viewWithName:@"我要提问" Pic:@"icon_question" Type:0];
-        _teamView.frame = CGRectMake(0, GENERAL_SIZE(400), SCREEN_WIDTH/4, GENERAL_SIZE(170));
+        _teamView.frame = CGRectMake(0, GENERAL_SIZE(300), SCREEN_WIDTH/4, GENERAL_SIZE(170));
         
         [self addSubview:_teamView];
         
         _patientView = [self viewWithName:@"我要报名" Pic:@"icon_teacher" Type:1];
-        _patientView.frame = CGRectMake(SCREEN_WIDTH/4, GENERAL_SIZE(400), SCREEN_WIDTH/4, GENERAL_SIZE(170));
+        _patientView.frame = CGRectMake(SCREEN_WIDTH/4, GENERAL_SIZE(300), SCREEN_WIDTH/4, GENERAL_SIZE(170));
         
         [self addSubview:_patientView];
         
@@ -67,12 +67,12 @@
         }];
         
         _caseView = [self viewWithName:@"我找资料" Pic:@"icon_material" Type:2];
-        _caseView.frame = CGRectMake(SCREEN_WIDTH/4*2, GENERAL_SIZE(400), SCREEN_WIDTH/4, GENERAL_SIZE(170));
+        _caseView.frame = CGRectMake(SCREEN_WIDTH/4*2, GENERAL_SIZE(300), SCREEN_WIDTH/4, GENERAL_SIZE(170));
         
         [self addSubview:_caseView];
         
         _codeView = [self viewWithName:@"我要入群" Pic:@"icon_group" Type:3];
-        _codeView.frame = CGRectMake(SCREEN_WIDTH/4*3, GENERAL_SIZE(400), SCREEN_WIDTH/4, GENERAL_SIZE(170));
+        _codeView.frame = CGRectMake(SCREEN_WIDTH/4*3, GENERAL_SIZE(300), SCREEN_WIDTH/4, GENERAL_SIZE(170));
         
         [self addSubview:_codeView];
         
@@ -166,7 +166,7 @@
 - (UIView *)pageAtIndex:(NSInteger)index
 {
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, GENERAL_SIZE(390));
+    imageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, GENERAL_SIZE(290));
     Banner *banner = [_bannerArray objectAtIndex:index];
     [imageView sd_setImageWithURL:[NSURL URLWithString:banner.pic] placeholderImage:nil];
     return imageView;

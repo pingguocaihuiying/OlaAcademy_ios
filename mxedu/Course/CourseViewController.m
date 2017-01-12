@@ -10,7 +10,7 @@
 
 #import "SysCommon.h"
 #import "CourseTableCell.h"
-#import "XLCycleScrollView.h"
+//#import "XLCycleScrollView.h"
 #import "TTTAttributedLabel.h"
 
 #import "CourseManager.h"
@@ -32,7 +32,7 @@
 
 static const CGFloat kNavigtionHeight = 30.0;
 
-@interface CourseViewController ()<UITableViewDataSource, UITableViewDelegate, XLCycleScrollViewDatasource, XLCycleScrollViewDelegate,CollectionCellDelegate,CourseTableDelegate>
+@interface CourseViewController ()<UITableViewDataSource, UITableViewDelegate,CollectionCellDelegate,CourseTableDelegate>
 
 @property (nonatomic) UITableView *courseTable;
 
@@ -54,7 +54,7 @@ static const CGFloat kNavigtionHeight = 30.0;
     /**
      *  轮播图
      */
-    XLCycleScrollView *_bannerView;
+//    XLCycleScrollView *_bannerView;
     
     /**
      *  轮播图数据源
@@ -78,7 +78,7 @@ static const CGFloat kNavigtionHeight = 30.0;
     _courseTable.separatorStyle = NO;
     _courseTable.dataSource = self;
     _courseTable.delegate = self;
-    _courseTable.tableHeaderView = [self bannerView];
+//    _courseTable.tableHeaderView = [self bannerView];
     [self.view addSubview:_courseTable];
     
     self.courseTable.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -86,7 +86,7 @@ static const CGFloat kNavigtionHeight = 30.0;
     }];
     
     
-    [self fetchBannerList];
+//    [self fetchBannerList];
     [self fetchCourseList];
     
     //[self setupSlideMenu];
@@ -159,29 +159,29 @@ static const CGFloat kNavigtionHeight = 30.0;
  *  轮播图数据源
  *
  */
--(void)fetchBannerList{
-    CourseManager *cm = [[CourseManager alloc]init];
-    [cm fetchBannerListSuccess:^(BannerListResult *result) {
-        _bannerArray = result.bannerArray;
-        [_bannerView reloadData];
-    } Failure:^(NSError *error) {
-    }];
-}
+//-(void)fetchBannerList{
+//    CourseManager *cm = [[CourseManager alloc]init];
+//    [cm fetchBannerListSuccess:^(BannerListResult *result) {
+////        _bannerArray = result.bannerArray;
+//        [_bannerView reloadData];
+//    } Failure:^(NSError *error) {
+//    }];
+//}
 
 /**
  *  轮播图
  *
  *  @return <#return value description#>
  */
-- (XLCycleScrollView*)bannerView
-{
-    _bannerView = [[XLCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, GENERAL_SIZE(300))];
-    _bannerView.delegate = self;
-    _bannerView.datasource = self;
-    _bannerView.tapEnabled = YES;
-    [_bannerView reloadData];
-    return _bannerView;
-}
+//- (XLCycleScrollView*)bannerView
+//{
+//    _bannerView = [[XLCycleScrollView alloc] init];//WithFrame:CGRectMake(0, 0, SCREEN_WIDTH, GENERAL_SIZE(300))];
+//    _bannerView.delegate = self;
+//    _bannerView.datasource = self;
+//    _bannerView.tapEnabled = YES;
+//    [_bannerView reloadData];
+//    return _bannerView;
+//}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [_dataArray count];
@@ -205,63 +205,65 @@ static const CGFloat kNavigtionHeight = 30.0;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return GENERAL_SIZE(395);
 }
-
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return GENERAL_SIZE(20);
+}
 #pragma mark - XLCycleScrollViewDelegate
 
-- (NSInteger)numberOfPages
-{
-    return [_bannerArray count];
-}
-
-- (UIView *)pageAtIndex:(NSInteger)index
-{
-    UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, GENERAL_SIZE(300));
-    
-    Course *course = [_bannerArray objectAtIndex:index];
-    [imageView sd_setImageWithURL:[NSURL URLWithString:course.address] placeholderImage:nil];
-    
-    UIImageView *shadowView = [[UIImageView alloc] init];
-    shadowView.frame = CGRectMake(0, GENERAL_SIZE(220), SCREEN_WIDTH, GENERAL_SIZE(80));
-    
-    shadowView.image = [UIImage imageNamed:@""];
-    shadowView.backgroundColor = [UIColor blackColor];
-    shadowView.alpha = 0.2;
-    [imageView addSubview:shadowView];
-    
-    TTTAttributedLabel *label = [TTTAttributedLabel new];
-    label.textColor = [UIColor whiteColor];
-    label.numberOfLines = 2;
-    label.backgroundColor = [UIColor clearColor];
-    label.lineSpacing = 5;
-    label.verticalAlignment = TTTAttributedLabelVerticalAlignmentTop;
-    label.text = course.name;
-    [imageView addSubview:label];
-    
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(shadowView.mas_left).offset(10);
-        make.top.equalTo(shadowView.mas_top).offset(10);
-        make.width.equalTo(@(SCREEN_WIDTH-20));
-    }];
-    
-    return imageView;
-}
-
--(void)didClickPage:(XLCycleScrollView *)csView atIndex:(NSInteger)index{
-    Course *course = [_bannerArray objectAtIndex:index];
-    if ([course.type isEqualToString:@"2"]) {
-        CourSectionViewController *sectionVC = [[CourSectionViewController alloc]init];
-        sectionVC.objectId = course.courseId;
-        sectionVC.type = 1;
-        sectionVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:sectionVC animated:YES];
-    }else if ([course.type isEqualToString:@"3"]){
-        BannerWebViewController *webVC = [[BannerWebViewController alloc]init];
-        webVC.url = course.profile;
-        webVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:webVC animated:YES];
-    }
-}
+//- (NSInteger)numberOfPages
+//{
+//    return [_bannerArray count];
+//}
+//
+//- (UIView *)pageAtIndex:(NSInteger)index
+//{
+//    UIImageView *imageView = [[UIImageView alloc] init];
+//    imageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, GENERAL_SIZE(300));
+//    
+//    Course *course = [_bannerArray objectAtIndex:index];
+//    [imageView sd_setImageWithURL:[NSURL URLWithString:course.address] placeholderImage:nil];
+//    
+//    UIImageView *shadowView = [[UIImageView alloc] init];
+//    shadowView.frame = CGRectMake(0, GENERAL_SIZE(220), SCREEN_WIDTH, GENERAL_SIZE(80));
+//    
+//    shadowView.image = [UIImage imageNamed:@""];
+//    shadowView.backgroundColor = [UIColor blackColor];
+//    shadowView.alpha = 0.2;
+//    [imageView addSubview:shadowView];
+//    
+//    TTTAttributedLabel *label = [TTTAttributedLabel new];
+//    label.textColor = [UIColor whiteColor];
+//    label.numberOfLines = 2;
+//    label.backgroundColor = [UIColor clearColor];
+//    label.lineSpacing = 5;
+//    label.verticalAlignment = TTTAttributedLabelVerticalAlignmentTop;
+//    label.text = course.name;
+//    [imageView addSubview:label];
+//    
+//    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(shadowView.mas_left).offset(10);
+//        make.top.equalTo(shadowView.mas_top).offset(10);
+//        make.width.equalTo(@(SCREEN_WIDTH-20));
+//    }];
+//    
+//    return imageView;
+//}
+//
+//-(void)didClickPage:(XLCycleScrollView *)csView atIndex:(NSInteger)index{
+//    Course *course = [_bannerArray objectAtIndex:index];
+//    if ([course.type isEqualToString:@"2"]) {
+//        CourSectionViewController *sectionVC = [[CourSectionViewController alloc]init];
+//        sectionVC.objectId = course.courseId;
+//        sectionVC.type = 1;
+//        sectionVC.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:sectionVC animated:YES];
+//    }else if ([course.type isEqualToString:@"3"]){
+//        BannerWebViewController *webVC = [[BannerWebViewController alloc]init];
+//        webVC.url = course.profile;
+//        webVC.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:webVC animated:YES];
+//    }
+//}
 
 #pragma mark - CourseTableDelegate
 

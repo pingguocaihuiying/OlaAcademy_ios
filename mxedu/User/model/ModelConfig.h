@@ -10,6 +10,6 @@
 
 @interface ModelConfig : NSObject
 
-+(NSMutableArray*)confgiModelDataWithCoin:(NSString*)coinValue ShowSignIn:(int)show;
++(NSMutableArray*)confgiModelDataWithCoin:(NSString*)coinValue BuyCount:(NSString *)buyCount CollectCount:(NSString *)collectCount ShowSignIn:(int)show;
 
 @end

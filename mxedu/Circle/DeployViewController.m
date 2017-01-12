@@ -108,7 +108,7 @@ BOOL uploadOrignalImage;
     [editTitle addSubview:title];
     [scrollView addSubview:editTitle];
     
-    UIView *dividerLine = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(editTitle.frame), SCREEN_WIDTH, 1)];
+    UIView *dividerLine = [[UIView alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(editTitle.frame), SCREEN_WIDTH-20, 1)];
     dividerLine.backgroundColor = BACKGROUNDCOLOR;
     [scrollView addSubview:dividerLine];
     
@@ -174,7 +174,7 @@ BOOL uploadOrignalImage;
     assignView = [[UIView alloc]init];
     [scrollView addSubview:assignView];
     
-    UIView *dividerLine5 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 5)];
+    UIView *dividerLine5 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
     dividerLine5.backgroundColor = BACKGROUNDCOLOR;
     [assignView addSubview:dividerLine5];
     
@@ -198,7 +198,7 @@ BOOL uploadOrignalImage;
     [inviteView setHidden:YES];
     [assignView addSubview:inviteView];
     
-    UIView *lineView1 = [[UIView alloc]initWithFrame:CGRectMake(GENERAL_SIZE(10), 0, SCREEN_WIDTH-GENERAL_SIZE(20), GENERAL_SIZE(5))];
+    UIView *lineView1 = [[UIView alloc]initWithFrame:CGRectMake(GENERAL_SIZE(20), 0, SCREEN_WIDTH-GENERAL_SIZE(40), GENERAL_SIZE(2))];
     lineView1.backgroundColor = BACKGROUNDCOLOR;
     [inviteView addSubview:lineView1];
     
@@ -227,7 +227,7 @@ BOOL uploadOrignalImage;
         make.right.equalTo(nextIV.mas_left).offset(-10);
     }];
     
-    UIView *lineView2 = [[UIView alloc]initWithFrame:CGRectMake(GENERAL_SIZE(10), CGRectGetMaxY(inviteL.frame), SCREEN_WIDTH-GENERAL_SIZE(20), GENERAL_SIZE(5))];
+    UIView *lineView2 = [[UIView alloc]initWithFrame:CGRectMake(GENERAL_SIZE(20), CGRectGetMaxY(inviteL.frame), SCREEN_WIDTH-GENERAL_SIZE(40), GENERAL_SIZE(2))];
     lineView2.backgroundColor = BACKGROUNDCOLOR;
     [inviteView addSubview:lineView2];
     
@@ -254,6 +254,10 @@ BOOL uploadOrignalImage;
         make.top.equalTo(addMediaButton.mas_bottom).offset(20);
         make.bottom.equalTo(self.view.mas_bottom);
     }];
+    
+    UIView *lineView3 = [[UIView alloc]initWithFrame:CGRectMake(GENERAL_SIZE(0), CGRectGetMaxY(publicL.frame), SCREEN_WIDTH, GENERAL_SIZE(2))];
+    lineView3.backgroundColor = BACKGROUNDCOLOR;
+    [inviteView addSubview:lineView3];
 
 }
 
@@ -276,8 +280,8 @@ BOOL uploadOrignalImage;
     rights=[UIButton buttonWithType:UIButtonTypeCustom];
     rights.frame=CGRectMake(0, 0, 40, 24);
     [rights setTitleColor:COMMONBLUECOLOR forState:UIControlStateNormal];
-    [rights setTitle:@"发布" forState:UIControlStateNormal];
-    rights.titleLabel.font = LabelFont(28);
+    [rights setTitle:@"发送" forState:UIControlStateNormal];
+    rights.titleLabel.font = LabelFont(32);
     
     [rights addTarget:self action:@selector(deployMessage:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightbtn=[[UIBarButtonItem alloc] initWithCustomView:rights];

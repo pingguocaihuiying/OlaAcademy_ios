@@ -74,10 +74,10 @@
     
     UILabel *typeLabel = [[UILabel alloc]initWithFrame:CGRectMake(17, 0, SCREEN_WIDTH, 40)];
     typeLabel.text = @"会员套餐";
-    typeLabel.font = LabelFont(32);
+    typeLabel.font = LabelFont(34);
     [chooseVipView addSubview:typeLabel];
     
-    UIView *lineView2 = [[UIView alloc]initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 1)];
+    UIView *lineView2 = [[UIView alloc]initWithFrame:CGRectMake(10, 40, SCREEN_WIDTH-20, 1)];
     lineView2.backgroundColor = RGBCOLOR(236, 236, 236);
     [chooseVipView addSubview:lineView2];
     
@@ -86,9 +86,11 @@
     
     UILabel *wayLabel1 = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 250, 40)];
     NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc] initWithString:@"月度黄金会员30元"];
+    wayLabel1.textColor = RGBCOLOR(39, 42, 54);
     [str1 addAttribute:NSForegroundColorAttributeName value:RGBCOLOR(245, 115, 0) range:NSMakeRange(6,2)];
     wayLabel1.attributedText = str1;
-    wayLabel1.font = LabelFont(30);
+    wayLabel1.font = [UIFont systemFontOfSize:GENERAL_SIZE(32)];
+    
     [monthView addSubview:wayLabel1];
     
     UILabel *label1 = [[UILabel alloc]init];
@@ -118,7 +120,7 @@
         make.right.equalTo(monthImageView.mas_left).offset(-10);
     }];
     
-    UIView *lineView3 = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(monthView.frame), SCREEN_WIDTH, 1)];
+    UIView *lineView3 = [[UIView alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(monthView.frame), SCREEN_WIDTH-20, 1)];
     lineView3.backgroundColor = RGBCOLOR(236, 236, 236);
     [chooseVipView addSubview:lineView3];
     
@@ -127,12 +129,13 @@
     
     UILabel *halfYL = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 250, 40)];
     NSMutableAttributedString *halfStr = [[NSMutableAttributedString alloc] initWithString:@"半年黄金会员158元"];
+    halfYL.textColor = RGBCOLOR(39, 42, 54);
     [halfStr addAttribute:NSForegroundColorAttributeName value:RGBCOLOR(245, 115, 0) range:NSMakeRange(6,3)];
     halfYL.attributedText = halfStr;
-    halfYL.font = LabelFont(30);
+    halfYL.font = LabelFont(32);
     [halfView addSubview:halfYL];
     
-    UILabel *worthL = [[UILabel alloc]initWithFrame:CGRectMake(GENERAL_SIZE(300), 10, 40, 20)];
+    UILabel *worthL = [[UILabel alloc]initWithFrame:CGRectMake(GENERAL_SIZE(320), 10, 40, 20)];
     worthL.text = @"实惠";
     worthL.textColor = [UIColor redColor];
     worthL.textAlignment = NSTextAlignmentCenter;
@@ -169,7 +172,7 @@
         make.right.equalTo(monthImageView.mas_left).offset(-10);
     }];
     
-    UIView *halfLineView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(halfView.frame), SCREEN_WIDTH, 1)];
+    UIView *halfLineView = [[UIView alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(halfView.frame), SCREEN_WIDTH-20, 1)];
     halfLineView.backgroundColor = RGBCOLOR(236, 236, 236);
     [chooseVipView addSubview:halfLineView];
     
@@ -178,15 +181,16 @@
     
     UIView *yearView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(halfLineView.frame), SCREEN_WIDTH, 40)];
     
-    UILabel *wayLabel2 = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, GENERAL_SIZE(280), 40)];
+    UILabel *wayLabel2 = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, GENERAL_SIZE(300), 40)];
     NSMutableAttributedString *str2 = [[NSMutableAttributedString alloc] initWithString:@"年度黄金会员298元"];
+    wayLabel2.textColor = RGBCOLOR(39, 42, 54);
     [str2 addAttribute:NSForegroundColorAttributeName value:RGBCOLOR(245, 115, 0) range:NSMakeRange(6,3)];
     wayLabel2.attributedText = str2;
-    wayLabel2.font = LabelFont(30);
+    wayLabel2.font = LabelFont(32);
     [yearView addSubview:wayLabel2];
     
     
-    UILabel *worthLabel = [[UILabel alloc]initWithFrame:CGRectMake(GENERAL_SIZE(300), 10, 40, 20)];
+    UILabel *worthLabel = [[UILabel alloc]initWithFrame:CGRectMake(GENERAL_SIZE(320), 10, 40, 20)];
     worthLabel.text = @"超值";
     worthLabel.textColor = [UIColor redColor];
     worthLabel.textAlignment = NSTextAlignmentCenter;
@@ -239,10 +243,10 @@
     
     UILabel *payLabel = [[UILabel alloc]initWithFrame:CGRectMake(17, 0, SCREEN_WIDTH, 40)];
     payLabel.text = @"支付方式";
-    payLabel.font = LabelFont(32);
+    payLabel.font = LabelFont(34);
     [payView addSubview:payLabel];
     
-    UIView *lineView6 = [[UIView alloc]initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 1)];
+    UIView *lineView6 = [[UIView alloc]initWithFrame:CGRectMake(10, 40, SCREEN_WIDTH-20, 1)];
     lineView6.backgroundColor = RGBCOLOR(236, 236, 236);
     [payView addSubview:lineView6];
     
@@ -255,7 +259,8 @@
     
     UILabel *payLabel1 = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, 250, 40)];
     payLabel1.text = @"支付宝支付";
-    payLabel1.font = LabelFont(30);
+    payLabel1.textColor = RGBCOLOR(39, 42, 54);
+    payLabel1.font = LabelFont(32);
     [aliView addSubview:payLabel1];
     
     type = 1;
@@ -279,7 +284,7 @@
         make.left.equalTo(aliView.mas_left).offset(12);
     }];
     
-    UIView *lineView7 = [[UIView alloc]initWithFrame:CGRectMake(0, 81, SCREEN_WIDTH, 1)];
+    UIView *lineView7 = [[UIView alloc]initWithFrame:CGRectMake(10, 81, SCREEN_WIDTH-20, 1)];
     lineView7.backgroundColor = RGBCOLOR(236, 236, 236);
     [payView addSubview:lineView7];
     
@@ -292,7 +297,8 @@
     
     UILabel *payLabel2 = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, 250, 40)];
     payLabel2.text = @"微信支付";
-    payLabel2.font = LabelFont(30);
+    payLabel2.textColor = RGBCOLOR(39, 42, 54);
+    payLabel2.font = LabelFont(32);
     [wxView addSubview:payLabel2];
     
     chenxingImageView = [[UIImageView alloc]init];
@@ -328,14 +334,18 @@
     [vipLV addSubview:markV3];
     UILabel *vipL = [[UILabel alloc]initWithFrame:CGRectMake(17, 0, 200, 40)];
     vipL.text = @"会员特权";
-    vipL.font = LabelFont(32);
+    vipL.font = LabelFont(34);
     [vipLV addSubview:vipL];
     
     [chooseVipView addSubview:vipLV];
     
     UIView *lineView5 = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(vipLV.frame), SCREEN_WIDTH, 1)];
-    lineView5.backgroundColor = RGBCOLOR(236, 236, 236);
+    lineView5.backgroundColor = [UIColor whiteColor];
     [chooseVipView addSubview:lineView5];
+    
+    UIView *lineViewx = [[UIView alloc]initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH-20, 1)];
+    lineViewx.backgroundColor = RGBCOLOR(236, 236, 236);
+    [lineView5 addSubview:lineViewx];
     
     VIPView *vipView = [[VIPView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(lineView5.frame), SCREEN_WIDTH, GENERAL_SIZE(220))];
     vipView.backgroundColor = [UIColor whiteColor];

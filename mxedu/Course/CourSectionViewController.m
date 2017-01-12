@@ -65,6 +65,8 @@
     
     UILabel *priceL;
     
+    UIButton *forwardButton;
+    UIButton *nextButton;
     UIButton *collectionButton;
     UIButton *downloadButton;
     UIButton *shareButton;
@@ -79,6 +81,8 @@
     BOOL isCollected;
     
     NSInteger currentRow;
+    
+    NSIndexPath *lastIndexPath;
 }
 
 - (void)viewDidLoad {
@@ -363,6 +367,16 @@
 
 
 -(void)setupBottomView{
+    forwardButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [forwardButton setImage:[UIImage imageNamed:@"ic_forward"] forState:UIControlStateNormal];
+//    [forwardButton sizeToFit];
+    [forwardButton addTarget:self action:@selector(forwardPlayVideo) forControlEvents:UIControlEventTouchDown];
+    
+    nextButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [nextButton setImage:[UIImage imageNamed:@"iconfont-qianjin"] forState:UIControlStateNormal];
+//    [nextButton sizeToFit];
+    [nextButton addTarget:self action:@selector(nextPlayVideo) forControlEvents:UIControlEventTouchDown];
+    
     downloadButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [downloadButton setImage:[UIImage imageNamed:@"ic_downloaded"] forState:UIControlStateNormal];
     [downloadButton sizeToFit];
@@ -419,10 +433,22 @@
             make.right.equalTo(buyButton.mas_left);
         }];
     }else{
+        [_operationView addSubview:forwardButton];
+        [_operationView addSubview:nextButton];
         [_operationView addSubview:downloadButton];
         [_operationView addSubview:collectionButton];
         [_operationView addSubview:shareButton];
         
+        [forwardButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_operationView.mas_left).offset(20);
+            make.centerY.equalTo(_operationView);
+            make.height.width.mas_equalTo(@30);
+        }];
+        [nextButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_operationView);
+            make.left.equalTo(forwardButton.mas_right).offset(10);
+            make.height.width.mas_equalTo(@30);
+        }];
         [shareButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(_operationView.mas_right).offset(-20);
             make.centerY.equalTo(_operationView);
@@ -430,11 +456,11 @@
         
         [downloadButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(_operationView);
-            make.right.equalTo(shareButton.mas_left).offset(-20);
+            make.right.equalTo(shareButton.mas_left).offset(-30);
         }];
         
         [collectionButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(downloadButton.mas_left).offset(-20);
+            make.right.equalTo(downloadButton.mas_left).offset(-30);
             make.centerY.equalTo(_operationView);
         }];
     }
@@ -511,6 +537,18 @@
     CommodityPayVC *payVC = [[CommodityPayVC alloc]init];
     payVC.commodity = _commodity;
     [self.navigationController pushViewController:payVC animated:YES];
+}
+//切换上一个视频
+-(void)forwardPlayVideo {
+    NSLog(@"%s",__func__);
+    //切换视频
+//    [self switchCurrentVideo:lastIndexPath];
+}
+//切换下一个视频
+-(void)nextPlayVideo {
+    NSLog(@"%s",__func__);
+    //切换视频
+//    [self switchCurrentVideo:lastIndexPath];
 }
 
 -(void)collectCourse{
@@ -626,6 +664,7 @@
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    lastIndexPath = indexPath;
     [self switchCurrentVideo:indexPath];
 }
 

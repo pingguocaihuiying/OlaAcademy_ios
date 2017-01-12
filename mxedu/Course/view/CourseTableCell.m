@@ -32,10 +32,11 @@
         [self addSubview:hLine];
 
         _nameL = [[UILabel alloc] initWithFrame:CGRectMake(17, GENERAL_SIZE(20), 200, GENERAL_SIZE(40))];
-        _nameL.font = LabelFont(30);
+        _nameL.font =[UIFont boldSystemFontOfSize:GENERAL_SIZE(34)];
         _nameL.textColor = [UIColor colorWhthHexString:@"#272b36"];
         _nameL.contentMode = UIViewContentModeTop;
         [self addSubview:_nameL];
+        
         
         UILabel *moreL = [[UILabel alloc]init];
         moreL.text = @"显示全部";
@@ -73,6 +74,8 @@
         _line = [[UIImageView alloc]initWithFrame:CGRectMake(0, GENERAL_SIZE(375), SCREEN_WIDTH, GENERAL_SIZE(20))];
         _line.backgroundColor = RGBCOLOR(230, 230, 230);
         [self addSubview:_line];
+        
+        
 
     }
     return self;

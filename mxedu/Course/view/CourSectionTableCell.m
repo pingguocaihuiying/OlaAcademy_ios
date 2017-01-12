@@ -53,7 +53,16 @@
             make.centerY.equalTo(self).offset(GENERAL_SIZE(5));
             make.right.equalTo(self.mas_right).offset(-20);
         }];
-        
+        //cell 之间的分割线
+        UIView *slideView = [[UIView alloc] init];//WithFrame:CGRectMake(20, CGRectGetMaxY(_nameL.frame)+3, SCREEN_WIDTH-40, 1)];
+        slideView.backgroundColor = RGBCOLOR(227, 227, 230);
+        [self.contentView addSubview:slideView];
+        [slideView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left).offset(20);
+            make.right.equalTo(self.mas_right).offset(-20);
+            make.bottom.equalTo(self.mas_bottom).offset(0);
+            make.height.mas_equalTo(@1);
+        }];
     }
     return self;
     
@@ -63,13 +72,15 @@
     _nameL.text = point.name;
     _timeL.text = point.timeSpan;
     if (point.isChosen==1) {
+        ///正在播放的条目字体颜色为黑色
         _playingIV.hidden = NO;
         _nameL.textColor = COMMONBLUECOLOR;
         _timeL.textColor = COMMONBLUECOLOR;
     }else{
+        ///未播放的条目字体颜色为黑色
         _playingIV.hidden = YES;
-        _nameL.textColor = RGBCOLOR(153, 153, 153);
-        _timeL.textColor = RGBCOLOR(153, 153, 153);
+        _nameL.textColor = [UIColor blackColor];
+        _timeL.textColor = [UIColor blackColor];;
     }
 }
 

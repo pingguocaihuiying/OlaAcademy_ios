@@ -556,6 +556,7 @@ static   SDMediaPlayerVC * sharedMyMediaPlayer = nil;
 #pragma mark - 布局
 - (void)createAvPlayer
 {
+
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
     
@@ -2227,7 +2228,8 @@ static   SDMediaPlayerVC * sharedMyMediaPlayer = nil;
                  [self.view bringSubviewToFront:_bottomView];
                  [self.view bringSubviewToFront:_playerTablListView.view];
                  
-                 [self_ play];
+                 //刚开始暂停，等用户手动去播放
+                 [self_ pause];
                  
              }];
 //        }];

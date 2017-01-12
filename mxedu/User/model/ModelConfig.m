@@ -12,7 +12,7 @@
 
 @implementation ModelConfig
 
-+(NSMutableArray*)confgiModelDataWithCoin:(NSString*)coinValue ShowSignIn:(int)show{
++(NSMutableArray*)confgiModelDataWithCoin:(NSString*)coinValue BuyCount:(NSString *)buyCount CollectCount:(NSString *)collectCount ShowSignIn:(int)show {
     NSMutableArray *dataArray = [NSMutableArray arrayWithCapacity:10];
     
     UserCellModel *mistake = [[UserCellModel alloc]init];
@@ -43,6 +43,7 @@
     UserCellModel *buy = [[UserCellModel alloc]init];
     buy.icon = @"icon_buy";
     buy.title = @"我的购买";
+    buy.desc = buyCount;
     buy.isSection = 1;
     buy.type = 1;
     buy.showRedTip = 0;
@@ -51,6 +52,7 @@
     UserCellModel *collect = [[UserCellModel alloc]init];
     collect.icon = @"icon_collect";
     collect.title = @"我的收藏";
+    collect.desc = collectCount;
     collect.type = 1;
     collect.showRedTip = 0;
     [dataArray addObject:collect];
@@ -62,12 +64,19 @@
     download.showRedTip = 0;
     [dataArray addObject:download];
     
+    UserCellModel *teacherCer = [[UserCellModel alloc]init];
+    teacherCer.icon = @"icon_validate";
+    teacherCer.title = @"认证老师";
+    teacherCer.isSection = 1;
+    teacherCer.type = 1;
+    teacherCer.showRedTip = 0;
+    [dataArray addObject:teacherCer];
+    
     UserCellModel *email = [[UserCellModel alloc]init];
     email.icon = @"icon_email";
     email.title = @"客服邮箱";
     email.type = 2;
     email.desc = @"service@olaxueyuan.com";
-    email.isSection = 1;
     email.showRedTip = 0;
     [dataArray addObject:email];
     

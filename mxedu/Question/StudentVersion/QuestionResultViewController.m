@@ -90,8 +90,8 @@
         make.centerX.equalTo(tipView);
         make.bottom.equalTo(tipView.mas_bottom).offset(-GENERAL_SIZE(40));
     }];
-    
-    UIView *countView = [[UIView alloc] initWithFrame:CGRectMake(0, GENERAL_SIZE(310), SCREEN_WIDTH, GENERAL_SIZE(160))];
+    CGFloat countViewY = GENERAL_SIZE(470) - GENERAL_SIZE(130);
+    UIView *countView = [[UIView alloc] initWithFrame:CGRectMake(0, countViewY, SCREEN_WIDTH, GENERAL_SIZE(160))];
     [bgImageView addSubview:countView];
     
     _correctItem = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH/2.0, GENERAL_SIZE(160))];

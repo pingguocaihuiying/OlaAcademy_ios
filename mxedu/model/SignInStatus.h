@@ -18,5 +18,7 @@
 @property (nonatomic) int profileTask; //完善个人资料
 @property (nonatomic) int vipTask; //首次购买会员
 @property (nonatomic) int courseTask; //首次购买精品课
+@property (nonatomic) int coursBuyNum; //我的购买量
+@property (nonatomic) int courseCollectNum; //我的收藏量
 
 @end

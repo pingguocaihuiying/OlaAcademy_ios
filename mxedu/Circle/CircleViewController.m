@@ -34,6 +34,8 @@
 
 @property (nonatomic) MessageCount *messageCount;
 
+@property (nonatomic,copy) NSString *pushTimer;
+
 @end
 
 @implementation CircleViewController
@@ -299,6 +301,7 @@
     OlaCircle *circle = self.dataArray[indexPath.row];
     circleCell.delegate = self;
     [circleCell setupCellWithModel:circle];
+    
     return circleCell;
 }
 

@@ -28,7 +28,7 @@
     
     [self setupNavBar];
     
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-49) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStylePlain];
     _tableView.separatorStyle = NO;
     _tableView.dataSource = self;
     _tableView.delegate = self;
@@ -72,7 +72,9 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return GENERAL_SIZE(230);
 }
-
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return GENERAL_SIZE(16);
+}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     Course *course = [_courseArray objectAtIndex:indexPath.row];
     CourSectionViewController *sectionVC = [[CourSectionViewController alloc]init];

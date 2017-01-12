@@ -37,8 +37,7 @@
                    if (success != nil) {
                        success(result);
                    }
-               }
-               
+               } 
            }
            failure:^(RKObjectRequestOperation *operation, NSError *error) {
                if (failure != nil) {

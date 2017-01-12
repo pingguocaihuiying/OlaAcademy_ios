@@ -7,16 +7,24 @@
 //
 
 #import "CourseListTableCell.h"
-
+#import "Masonry.h"
 #import "SysCommon.h"
 #import "UIImageView+WebCache.h"
 
 #import "UIImageView+AsyncDownload.h"
 
-@implementation CourseListTableCell{
+@implementation CourseListTableCell//{
+//    UIImageView *_videoImage;
+//    UILabel *_nameLabel;
+//    UILabel *_timeLabel;
+//    UIImageView *clockIV;
+//}
+{
     UIImageView *_videoImage;
-    UILabel *_nameLabel;
+    UILabel *_titleLabel;
     UILabel *_timeLabel;
+    UILabel *_nameLabel;
+    UILabel *_studyLabel;
     UIImageView *clockIV;
 }
 
@@ -28,27 +36,58 @@
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        _videoImage = [[UIImageView alloc]initWithFrame:CGRectMake(GENERAL_SIZE(30), GENERAL_SIZE(35), GENERAL_SIZE(260), GENERAL_SIZE(160))];
-        [self addSubview:_videoImage];
-        
-        _nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(GENERAL_SIZE(320), GENERAL_SIZE(35), SCREEN_WIDTH-GENERAL_SIZE(350), 20)];
-        _nameLabel.textColor = RGBCOLOR(39, 43, 54);
-        _nameLabel.numberOfLines = 0;
-        _nameLabel.font = LabelFont(30);
-        [self addSubview:_nameLabel];
-        
-        clockIV = [[UIImageView alloc]initWithFrame:CGRectMake(GENERAL_SIZE(320), CGRectGetMaxY(_nameLabel.frame)+GENERAL_SIZE(24), 16, 16)];
+
+        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 15, SCREEN_WIDTH-20, 20)];
+        _titleLabel.textColor = RGBCOLOR(50, 50, 50);
+        _titleLabel.font = LabelFont(32);
+        [self addSubview:_titleLabel];
+        clockIV = [[UIImageView alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(_titleLabel.frame)+5, 16, 16)];
         clockIV.image = [UIImage imageNamed:@"recents"];
         [self addSubview:clockIV];
-        
-        _timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(clockIV.frame)+5, CGRectGetMaxY(_nameLabel.frame)+GENERAL_SIZE(20), 200, 20)];
+        _timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(clockIV.frame)+5, CGRectGetMaxY(_titleLabel.frame)+2, 200, 20)];
+        _timeLabel.textColor = RGBCOLOR(144, 144, 144);
         _timeLabel.font = LabelFont(24);
-        _timeLabel.textColor = RGBCOLOR(164, 166, 169);
         [self addSubview:_timeLabel];
         
-        UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, GENERAL_SIZE(229), SCREEN_WIDTH, 1)];
-        lineView.backgroundColor = RGBCOLOR(240, 240, 240);
-        [self addSubview:lineView];
+        UIImageView *lineImage = [[UIImageView alloc]initWithFrame:CGRectMake(15, 60, SCREEN_WIDTH-30, 1)];
+        lineImage.backgroundColor = BACKGROUNDCOLOR;
+        [self addSubview:lineImage];
+        
+        _videoImage = [[UIImageView alloc]initWithFrame:CGRectMake(20, 75, 30, 30)];
+        _videoImage.layer.cornerRadius=15;
+        _videoImage.layer.masksToBounds=YES;
+        [self addSubview:_videoImage];
+        
+        _nameLabel = [[UILabel alloc]init];
+        _nameLabel.font = LabelFont(24);
+        _nameLabel.textColor = RGBCOLOR(101, 101, 101);
+        [self addSubview:_nameLabel];
+        
+        [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_videoImage);
+            make.left.equalTo(_videoImage.mas_right).offset(10);
+        }];
+        
+        _studyLabel = [[UILabel alloc]init];
+        _studyLabel.font = LabelFont(24);
+        _studyLabel.textColor = RGBCOLOR(255, 108, 0);
+        [self addSubview:_studyLabel];
+        
+        [_studyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_videoImage);
+            make.right.equalTo(self.mas_right).offset(-20);
+        }];
+        
+        
+        UIImageView *dividerImage = [[UIImageView alloc]init];
+        dividerImage.backgroundColor = BACKGROUNDCOLOR;
+        [self addSubview:dividerImage];
+        
+        [dividerImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_videoImage.mas_bottom).offset(10);
+            make.width.equalTo(@(SCREEN_WIDTH));
+            make.height.equalTo(@5);
+        }];
     }
     return self;
 }
@@ -65,15 +104,26 @@
             _videoImage.image = [UIImage imageNamed:@"ic_video"];
         }
     }];
+    _titleLabel.text = course.name;
+    _timeLabel.text = [NSString stringWithFormat:@"%@学时,%@",course.subAllNum,course.totalTime];
+    _nameLabel.text = @"陈剑";
+    _studyLabel.text = [NSString stringWithFormat:@"%@人学习",course.playcount];
     
-    CGSize size = [course.name sizeWithFont:LabelFont(30) constrainedToSize:CGSizeMake(SCREEN_WIDTH-GENERAL_SIZE(350),10000.0f)];
-    _nameLabel.frame = CGRectMake(GENERAL_SIZE(320), GENERAL_SIZE(35), size.width, size.height);
-    _nameLabel.text = course.name;
-    clockIV.frame = CGRectMake(GENERAL_SIZE(320), CGRectGetMaxY(_nameLabel.frame)+GENERAL_SIZE(24), 16, 16);
-    _timeLabel.frame = CGRectMake(CGRectGetMaxX(clockIV.frame)+5, CGRectGetMaxY(_nameLabel.frame)+GENERAL_SIZE(20), 200, 20);
-    _timeLabel.text = [NSString stringWithFormat:@"%@学时,%@ %@人学习",course.subAllNum, course.totalTime,course.playcount];
-}
+    NSRange range = [_studyLabel.text rangeOfString:@"人学习"];
+    [self setTextColor:_studyLabel FontNumber:_studyLabel.font AndRange:range AndColor:[UIColor blackColor]];
 
+}
+//设置不同字体颜色
+-(void)setTextColor:(UILabel *)label FontNumber:(id)font AndRange:(NSRange)range AndColor:(UIColor *)vaColor
+{
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:label.text];
+    //设置字号
+    [str addAttribute:NSFontAttributeName value:font range:range];
+    //设置文字颜色
+    [str addAttribute:NSForegroundColorAttributeName value:vaColor range:range];
+    
+    label.attributedText = str;
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     

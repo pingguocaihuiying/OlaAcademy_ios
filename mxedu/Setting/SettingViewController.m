@@ -50,6 +50,7 @@
     [self setupDownloadSection];
     [self setupRecommendection];
     [self setupEvaluationSection];
+    [self setupFeedBookSection];
     [self setupAboutSection];
     
     [self setupLogout];
@@ -188,6 +189,20 @@
         int appId = 1116458689;
         NSString *str = [NSString stringWithFormat:@"http://itunes.apple.com/us/app/id%d",appId];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+    }];
+    //titleAndImageItem.image = [UIImage imageNamed:@"ic_evaluation"];
+    //titleAndImageItem.highlightedImage = [UIImage imageNamed:@"ic_evaluation"];
+    [section addItem:titleAndImageItem];
+    
+    [self.manager addSection:section];
+}
+-(void)setupFeedBookSection{
+    RETableViewSection* section = [RETableViewSection sectionWithHeaderView:nil];
+    
+    RETableViewItem *titleAndImageItem = [RETableViewItem itemWithTitle:@"意见反馈" accessoryType:UITableViewCellAccessoryDisclosureIndicator selectionHandler:^(RETableViewItem *item) {
+//        int appId = 1116458689;
+//        NSString *str = [NSString stringWithFormat:@"http://itunes.apple.com/us/app/id%d",appId];
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
     }];
     //titleAndImageItem.image = [UIImage imageNamed:@"ic_evaluation"];
     //titleAndImageItem.highlightedImage = [UIImage imageNamed:@"ic_evaluation"];

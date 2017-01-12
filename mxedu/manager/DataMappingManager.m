@@ -254,7 +254,9 @@
                                                         @"todayCoin":     @"todayCoin",
                                                         @"profileTask":   @"profileTask",
                                                         @"vipTask":       @"vipTask",
-                                                        @"courseTask":    @"courseTask"
+                                                        @"courseTask":    @"courseTask",
+                                                        @"courseCollectNum" : @"courseCollectNum",
+                                                        @"coursBuyNum" : @"coursBuyNum"
                                                            }];
     _signInStatusResultMapping = [RKObjectMapping mappingForClass:[SignInStatusResult class]];
     [_signInStatusResultMapping addAttributeMappingsFromDictionary:@{

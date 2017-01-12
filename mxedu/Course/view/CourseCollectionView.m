@@ -11,6 +11,7 @@
 #import "SysCommon.h"
 #import "Masonry.h"
 
+
 @implementation CourseCollectionView
 
 -(id)initWithFrame:(CGRect)frame{
@@ -50,6 +51,12 @@
         _visitLabel.font = LabelFont(24);
         _visitLabel.textColor = RGBCOLOR(128, 128, 128);
         [self addSubview:_visitLabel];
+        CGFloat imageW = GENERAL_SIZE(45);
+        CGFloat imageX = (_imageView.width - imageW) / 2.0;
+        CGFloat imageY = (_imageView.height - imageW) / 2.0;
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(imageX, imageY, imageW, imageW)];
+        imageView.image = [UIImage imageNamed:@"media_record"];
+        [_imageView addSubview:imageView];
         
         [_visitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_nameLabel.mas_bottom).offset(5);
