@@ -11,7 +11,6 @@
 #import <Foundation/Foundation.h>
 #import "AppDelegate.h"
 #import "DataMappingManager.h"
-#import "UIView+Positioning.h"
 
 @interface SysCommon : NSObject
 
@@ -30,7 +29,7 @@ extern "C" {
 #define RGBCOLOR(r,g,b) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:1]
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]
 #define BACKGROUNDCOLOR [UIColor colorWithRed:238/255.0f green:238/255.0f blue:238/255.0f alpha:1]
-#define COMMONBLUECOLOR [UIColor colorWithRed:66/255.0f green:133/255.0f blue:244/255.0f alpha:1]
+#define COMMONBLUECOLOR [UIColor colorWithRed:0/255.0f green:153/255.0f blue:255/255.0f alpha:1]
 
 #pragma mark ----Size ,X,Y, View ,Frame
 
@@ -50,14 +49,10 @@ extern "C" {
 
 #define defaultWith 750 //根据iphone6而来 可根据具体情况修改
 #define LabelFont(I)  [UIFont systemFontOfSize:(int)(SCREEN_WIDTH/defaultWith*I)]
-
 #define GENERAL_SIZE(I)  (int)(SCREEN_WIDTH/defaultWith*I)
 
-#define BASIC_URL @"http://123.59.129.137:8080"
-//#define BASIC_URL @"http://api.olaxueyuan.com"
-
 #define BASIC_IMAGE_URL @"http://upload.olaxueyuan.com/SDpic/common/picSelect?gid="
-#define BASIC_Movie_URL @"http://upload.olaxueyuan.com/"
+#define BASIC_URL @"http://api.olaxueyuan.com"
 
 #define GET_IMAGE_URL(url) [NSString stringWithFormat:@"%@%@", BASIC_IMAGE_URL, url]
 
@@ -84,13 +79,8 @@ extern "C" {
 
 #define UI_MAINSCREEN_HEIGHT_ROTATE     (SCREEN_HEIGHT - UI_STATUS_BAR_HEIGHT)
 
-#define kBottomViewHeight_V             42
-#define TopReturnBtnViewWidth           50
-#define TopViewHeight                   44
-#define kBottomViewHeight_H             72
-
 //判断是否登陆宏
-#define  OLA_LOGIN   AuthManager *am =[AuthManager sharedInstance];\
+#define  OLA_LOGIN   AuthManager *am =[[AuthManager alloc]init];\
 if(!am.isAuthenticated)\
 {\
 LoginViewController* loginViewCon = [[LoginViewController alloc] init];\
@@ -100,7 +90,7 @@ UINavigationController *rootNav = [[UINavigationController alloc]initWithRootVie
 return;\
 };\
 
-#define SDUserID   AuthManager *authManger = [AuthManager sharedInstance];\
+#define SDUserID   AuthManager *authManger = [[AuthManager alloc]init];\
 return  authManger.userInfo.userId;
 
 //====================== 归档 / 解档=========================
@@ -128,9 +118,6 @@ NSUserDomainMask, YES) objectAtIndex:0]
 //======================================================
 #define kImgDataPath    @"/Images"
 #define kImgListPath    @"/Images/ImageList"
-
-// 讲义路径
-#define kPDFDataPath  @"/PDF"
 
 
 

@@ -15,8 +15,8 @@
 @property (nonatomic, assign) CGRect iconFrame;
 /**昵称frame*/
 @property (nonatomic, assign) CGRect nameFrame;
-/**title的frame*/
-@property (nonatomic, assign) CGRect titleFrame;
+/**消息按钮frame*/
+@property (nonatomic, assign) CGRect messageFrame;
 /**浏览按钮frame*/
 @property (nonatomic, assign) CGRect visitFrame;
 /**时间frame*/
@@ -25,8 +25,6 @@
 @property (nonatomic, assign) CGRect textFrame;
 /**图片frame*/
 @property (nonatomic, assign) CGRect imageFrame;
-/**点赞按钮frame*/
-@property (nonatomic, assign) CGRect praiseFrame;
 /**工具栏frame*/
 @property (nonatomic, assign) CGRect toolFrame;
 

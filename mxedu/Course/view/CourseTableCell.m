@@ -10,8 +10,6 @@
 
 #import "SysCommon.h"
 #import "UIImageView+WebCache.h"
-#import "UIColor+HexColor.h"
-#import "Masonry.h"
 
 #import "CourseCollectionView.h"
 
@@ -19,48 +17,31 @@
 
 
 - (void)awakeFromNib {
-    [super awakeFromNib];
     // Initialization code
 }
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
-        UIView *hLine = [[UIView alloc]initWithFrame:CGRectMake(10, GENERAL_SIZE(27), 2, GENERAL_SIZE(30))];
-        hLine.backgroundColor = COMMONBLUECOLOR;
-        [self addSubview:hLine];
 
-        _nameL = [[UILabel alloc] initWithFrame:CGRectMake(17, GENERAL_SIZE(20), 200, GENERAL_SIZE(40))];
-        _nameL.font =[UIFont boldSystemFontOfSize:GENERAL_SIZE(34)];
-        _nameL.textColor = [UIColor colorWhthHexString:@"#272b36"];
+        _nameL = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 200, 20)];
+        _nameL.font = [UIFont systemFontOfSize:16.0];
+        //nameL.textColor = RGBCOLOR(01, 139, 232);
         _nameL.contentMode = UIViewContentModeTop;
         [self addSubview:_nameL];
-        
-        
-        UILabel *moreL = [[UILabel alloc]init];
-        moreL.text = @"显示全部";
-        moreL.textColor = [UIColor colorWhthHexString:@"#a8aaad"];
-        moreL.font = LabelFont(24);
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMore)];
-        moreL.userInteractionEnabled = YES;
-        [moreL addGestureRecognizer:tap];
-        [self addSubview:moreL];
-        
-        [moreL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(_nameL);
-            make.right.equalTo(self).offset(-10);
-        }];
-        
-        UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(10, GENERAL_SIZE(80), SCREEN_WIDTH-20, 1)];
-        lineView.backgroundColor = RGBCOLOR(230, 230, 230);
-        [self addSubview:lineView];
         
         //确定是水平滚动，还是垂直滚动
         UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
         
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, GENERAL_SIZE(100), SCREEN_WIDTH, GENERAL_SIZE(275))collectionViewLayout:flowLayout];
+        if (iPhone6Plus) {
+            _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 120)collectionViewLayout:flowLayout];
+        }else if (iPhone6) {
+            _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 110)collectionViewLayout:flowLayout];
+        }else{
+            _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 90)collectionViewLayout:flowLayout];
+        }
+        
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.showsHorizontalScrollIndicator = NO;
@@ -71,11 +52,16 @@
         [_collectionView registerClass:[CourseCollectionView class] forCellWithReuseIdentifier:@"colletionCell"];
         _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_collectionView];
-        _line = [[UIImageView alloc]initWithFrame:CGRectMake(0, GENERAL_SIZE(375), SCREEN_WIDTH, GENERAL_SIZE(20))];
-        _line.backgroundColor = RGBCOLOR(230, 230, 230);
+        
+        if (iPhone6Plus) {
+            _line = [[UIImageView alloc]initWithFrame:CGRectMake(10, 178, SCREEN_WIDTH-10, 1)];
+        }else if (iPhone6) {
+            _line = [[UIImageView alloc]initWithFrame:CGRectMake(10, 168, SCREEN_WIDTH-10, 1)];
+        }else{
+            _line = [[UIImageView alloc]initWithFrame:CGRectMake(10, 148, SCREEN_WIDTH-10, 1)];
+        }
+        _line.backgroundColor = RGBCOLOR(225, 225, 225);
         [self addSubview:_line];
-        
-        
 
     }
     return self;
@@ -88,16 +74,10 @@
     [_collectionView reloadData];
 }
 
--(void)showMore{
-    if (_tableCellDelegate) {
-        [_tableCellDelegate didClickMore:_course];
-    }
-}
-
 //定义展示的UICollectionViewCell的个数
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [_course.subList count]<=2?[_course.subList count]:2;  //最多显示两条
+    return [_course.subList count];
 }
 
 //每个UICollectionView展示的内容
@@ -118,13 +98,18 @@
 //定义每个UICollectionView 的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(SCREEN_WIDTH/2-15, GENERAL_SIZE(275));
+    if (iPhone6Plus) {
+        return CGSizeMake(128, 130);
+    }else if(iPhone6){
+        return CGSizeMake(128, 120);
+    }
+    return CGSizeMake(110, 110);
 }
 
 //定义每个UICollectionView 的 margin
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(0, 0, 0, 0);
+    return UIEdgeInsetsMake(5, 10, 5, 0);
 }
 
 //UICollectionView被选中时调用的方法

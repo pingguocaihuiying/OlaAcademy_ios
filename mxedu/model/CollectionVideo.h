@@ -18,6 +18,5 @@
 @property (nonatomic, copy) NSString* coursePic;
 @property (nonatomic, copy) NSString* totalTime;
 @property (nonatomic, copy) NSString* subAllNum;
-@property (nonatomic, copy) NSString* type;  // 1 course 2 goods
 
 @end

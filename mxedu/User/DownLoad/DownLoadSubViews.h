@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DownLoadingCell.h"
 #import "DownLoadbottomBar.h"
+#import "myCustomerImageView.h"//没有视频下载时候 背景图
 
 @interface DownLoadSubViews : UIViewController<UITableViewDelegate,UITableViewDataSource,DownLoadbottomBarDeleght>
 @property(nonatomic ,strong)NSMutableArray *videoArray;//视频数据(父类可接受下载活着没有下载的数据)
@@ -18,7 +19,7 @@
 @property(nonatomic ,assign)SDMyLocalVideoCellTyp eSDMyLocalVideoCellOver;//判断是否是本地视频还是正在下载视频
 @property(nonatomic ,strong) DownLoadbottomBar *tottomBar;//底部Bar
 @property(nonatomic ,strong)UIViewController *selfVC;//跟视图
-@property(nonatomic ,strong)UIImageView *noResultImageView;//没有视频下载时候 背景图
+@property(nonatomic ,strong)myCustomerImageView *noResultImageView;//没有视频下载时候 背景图
 
 -(void)edit:(UIButton *)editBuuton;//点击编辑按钮
 -(void)refreshView:(NSNotification *)notion;//更新列表

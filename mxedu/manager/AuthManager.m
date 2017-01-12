@@ -12,17 +12,8 @@
 #import "AuthResult.h"
 
 static NSString* USERINFO = @"userInfo";
-static AuthManager *instance;
 
 @implementation AuthManager
-
-+ (instancetype)sharedInstance {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        instance = [[AuthManager alloc] init];
-    });
-    return instance;
-}
 
 - (id)init
 {

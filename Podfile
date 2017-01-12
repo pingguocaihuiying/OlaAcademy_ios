@@ -2,8 +2,6 @@ platform :ios, '7.0'
 
 inhibit_all_warnings!
 
-target 'mxedu' do
-
 pod 'SVProgressHUD'
 pod 'Masonry'
 pod 'AFNetworking'
@@ -26,6 +24,5 @@ pod 'TTTAttributedLabel', '~> 1.13.3'
 ## Frameworks
 pod 'ReactiveCocoa'
 
-end
 
 

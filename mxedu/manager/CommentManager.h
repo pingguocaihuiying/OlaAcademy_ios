@@ -34,10 +34,6 @@
  */
 -(void)addPostReplyToUserId:(NSString*)replyToId
                      detail:(NSString*)content
-                   imageIds:(NSString*)imageIds
-                  videoUrls:(NSString*)videoUrls
-                  videoImgs:(NSString*)videoImgs
-                  audioUrls:(NSString*)audioUrls
                      postId:(NSString*)postId
               currentUserId:(NSString*)userId
                        type:(NSString*)type

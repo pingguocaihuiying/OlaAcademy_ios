@@ -79,7 +79,7 @@ typedef enum SDMyLocalVideoCellTyp{
 }SDMyLocalVideoCellTyp;
 
 //判断是否登陆宏
-#define  SDlogin   AuthManager *am =[AuthManager sharedInstance];\
+#define  SDlogin   AuthManager *am =[[AuthManager alloc]init];\
 if(!am.isAuthenticated)\
 {\
 LoginViewController* loginViewCon = [[LoginViewController alloc] init];\

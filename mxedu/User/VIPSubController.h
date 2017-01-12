@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-#import "UIBaseViewController.h"
+@interface VIPSubController : UIViewController
 
-@interface VIPSubController : UIBaseViewController
+@property (nonatomic) int isSingleView; //1 独立页面 0 子页面
 
 @property (nonatomic) void(^callbackBlock)();
+
+-(void)updateVIPState;
 
 @end

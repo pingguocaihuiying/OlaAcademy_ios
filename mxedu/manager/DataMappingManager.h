@@ -19,7 +19,6 @@
 @property (nonatomic, strong, readonly) RKObjectMapping* commonResultMapping;
 
 @property (nonatomic, strong, readonly) RKObjectMapping* uploadResultMapping;
-@property (nonatomic, strong, readonly) RKObjectMapping* mediaUploadResultMapping;
 
 @property (nonatomic, strong, readonly) RKObjectMapping* meetingResultMapping;
 @property (nonatomic, strong, readonly) RKObjectMapping* meetingFavResultMapping;
@@ -28,33 +27,13 @@
 
 @property (nonatomic, strong, readonly) RKObjectMapping* userMapping;
 @property (nonatomic, strong, readonly) RKObjectMapping* userInfoResultMapping;
-// 签到状态
-@property (nonatomic, strong, readonly) RKObjectMapping* signInStatusResultMapping;
-
-// 欧拉币明细
-@property (nonatomic, strong, readonly) RKObjectMapping* coinHistoryListResultMapping;
-
-@property (nonatomic, strong, readonly) RKObjectMapping* homeListResultMapping;
-//资料列表
-@property (nonatomic, strong, readonly) RKObjectMapping* materialListResultMapping;
 
 @property (nonatomic, strong, readonly) RKObjectMapping* courseListResultMapping;
 @property (nonatomic, strong, readonly) RKObjectMapping* bannerListResultMapping;
 @property (nonatomic, strong, readonly) RKObjectMapping* examListResultMapping;
 @property (nonatomic, strong, readonly) RKObjectMapping* questionListResultMapping;
-@property (nonatomic, strong, readonly) RKObjectMapping* homeworkListResultMapping;
-@property (nonatomic, strong, readonly) RKObjectMapping* workStatisticsListResultMapping;
-
-// 错题集列表
-@property (nonatomic, strong, readonly) RKObjectMapping*mistakeListResultMapping;
-
-// 群列表
-@property (nonatomic, strong, readonly) RKObjectMapping* groupListResultMapping;
-// 群成员列表
-@property (nonatomic, strong, readonly) RKObjectMapping* memberListResultMapping;
 
 @property (nonatomic, strong, readonly) RKObjectMapping* orgListResultMapping;
-@property (nonatomic, strong, readonly) RKObjectMapping* orgInfoListResultMapping;
 @property (nonatomic, strong, readonly) RKObjectMapping* teacherListResultMapping;
 
 @property (nonatomic, strong, readonly) RKObjectMapping* locationMapping;
@@ -76,21 +55,13 @@
 @property (nonatomic, strong, readonly) RKObjectMapping* aliPayResultMapping;
 
 @property (nonatomic, strong, readonly) RKObjectMapping* historyListResultMapping;
-@property (nonatomic, strong, readonly) RKObjectMapping* circleDetailResultMapping;
 @property (nonatomic, strong, readonly) RKObjectMapping* statisticsListResultMapping;
 
 @property (nonatomic, strong, readonly) RKObjectMapping* commentListResultMapping;
 @property (nonatomic, strong, readonly) RKObjectMapping* messageListResultMapping;
 @property (nonatomic, strong, readonly) RKObjectMapping* unreadMessageResultMapping;
 
-//消息 － 点赞列表
-@property (nonatomic, strong, readonly) RKObjectMapping* praiseListResultMapping;
-
-//个人主页
-@property (nonatomic, strong, readonly) RKObjectMapping* userPostResultMapping;
-
 @property (nonatomic, strong, readonly) RKObjectMapping* statusResultMapping;
-@property (nonatomic, strong, readonly) RKObjectMapping* thirdPayResultMapping;
 
 -(id)init;
 

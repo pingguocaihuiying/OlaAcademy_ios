@@ -278,12 +278,10 @@
 - (void)resizeImage:(NSDictionary*)dict
 {
     UIImage *image = dict[@"image"];
-
-    NSData *imageData = [QYImageUtil thumbnailWithImageWithoutScale:image withMaxScale:1242];
-    NSData *thumbnailData = [QYImageUtil thumbnailWithImageWithoutScale:image withMaxScale:640];
+    NSData *imageData = [QYImageUtil thumbnailWithImageWithoutScale:image withMaxScale:1080];
+    NSData *thumbnailData = [QYImageUtil thumbnailWithImageWithoutScale:image withMaxScale:280];
     
     NSMutableDictionary *item = [[NSMutableDictionary alloc] init];
-    [item setValue:@"0" forKey:@"photoAngle"];
     [item setValue:thumbnailData forKey:@"thumbnailData"];
     [item setValue:imageData forKey:@"photoData"];
     [item setValue:dict[@"photoName"] forKey:@"photoName"];
@@ -346,7 +344,6 @@
     photoModel.photoData = item[@"photoData"];
     photoModel.thumbnailData = item[@"thumbnailData"];
     photoModel.photoName = item[@"photoName"];
-    photoModel.photoAngle = item[@"photoAngle"];
     
     if (self.block) {
         self.block(photoModel, self.sourceType);

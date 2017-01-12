@@ -4,82 +4,68 @@
 <head>
     <meta name="viewport" content="telephone=no, user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
         
-    <script type="text/x-mathjax-config">
+        <script type="text/x-mathjax-config">
             MathJax.Hub.Config({
                                messageStyle: "none",
                                tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
                                });
             </script>
         
-    <script type="text/javascript" src="../MathJax.js?config=TeX-AMS_HTML-full"></script>
-    <script type="text/javascript" src="../jquery.js"></script>
+        <script type="text/javascript" src="../MathJax.js?config=TeX-AMS_HTML-full"></script>
+        <script type="text/javascript" src="../jquery.js"></script>
         
-    <style type='text/css'>
-        ul li {
-            list-style: none;
-            color: #51535E;
-            position: relative;
-            padding-top: 5%;
-            padding-bottom: 5%;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .listStyle:before  {
-            position: absolute;
-            display: block;
-            content: attr(data-option);
-            padding-top: .25em;
-            text-align: center;
-            color: #4285E4;
-            left: -2.5em;
-            width: 1.8em;
-            height: 1.8em;
-            background-repeat: no-repeat;
-            background-size: 1.8em 1.8em;
-            background-position: 0em 0em;
-            background-image: url('ic_circle.png');
-        }
-        .selectListStyle:before  {
-            color: white;
-            background-image: url('ic_point.png');
-        }
-        
-        
-        .optionLine { border-bottom:1px solid #f0f0f0; padding-top:10px; color: #51535E; font-size:16px; padding-bottom:10px;}
-        .blueContent{color:#4285E4; }
-        .center {
-            text-align:center
-        }
-        .auto_image { max-height:120px; max-width:320px;
-            autoimg:expression(onload=function(){this.style.width=(this.offsetWidth > 320)?"320px":"auto"});
-        }
-        .button {
-            display: inline-block;
-            width: 100%;
-            outline: none;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            color: #fff;
-            font: 14px/100% Arial, Helvetica, sans-serif;
-            padding: .5em 2em .55em;
-            text-shadow: 0 1px 1px rgba(0,0,0,.3);
-            -webkit-border-radius: .5em;
-            -moz-border-radius: .5em;
-            border-color: #0099ff;
-            border-radius: .5em;
-            -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-            box-shadow: 0 1px 2px rgba(0,0,0,.2);
-            background: #4285E4;
-        }
-        .button:hover {
-            text-decoration: none;
-        }
-        .button:active {
-            position: relative;
-            top: 1px;
-        }
-    </style>
+        <style type='text/css'>
+            .optionLine { border-bottom:5px solid #f0f0f0; padding:10px 2px; font-size:16px; line-height:30px;}
+            .blueContent{color:#0099FF; }
+            input[type="radio"] {
+                -webkit-appearance: none;
+                height: 24px;
+                vertical-align: middle;
+                width: 24px;
+                border-width:0px;
+            }
+            input[type="radio"]:checked {
+                background: #fff url(icon_selected.png) no-repeat;
+                background-size:contain;
+            }
+            input[type="radio"]:not(:checked){
+                background: #fff url(icon_unselect.png) no-repeat;
+                background-size:contain;
+            }
+            .center {
+                text-align:center
+            }
+            .auto_image { max-height:120px; max-width:320px;
+                autoimg:expression(onload=function(){this.style.width=(this.offsetWidth > 320)?"320px":"auto"});
+            }
+            .button {
+                display: inline-block;
+                width: 100%;
+                outline: none;
+                cursor: pointer;
+                text-align: center;
+                text-decoration: none;
+                color: #fff;
+                font: 14px/100% Arial, Helvetica, sans-serif;
+                padding: .5em 2em .55em;
+                text-shadow: 0 1px 1px rgba(0,0,0,.3);
+                -webkit-border-radius: .5em;
+                -moz-border-radius: .5em;
+                border-color: #0099ff;
+                border-radius: .5em;
+                -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+                -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+                box-shadow: 0 1px 2px rgba(0,0,0,.2);
+                background: #0099ff;
+            }
+            .button:hover {
+                text-decoration: none;
+            }
+            .button:active {
+                position: relative;
+                top: 1px;
+            }
+        </style>
 </head>
 
 <body>
@@ -100,37 +86,60 @@
         // 重新加载
         MathJax.Hub.Queue(["Typeset",MathJax.Hub,questionDIV]);
         
-        var html = "<ul id='ul' style='width: 90%; margin-top: 0px;'>";
-        var optionList = $.parseJSON(data.option);;
-        $.each(optionList, function(i, value) {
-            html += "<li class='listStyle' id='"+i+"'>"+ value.content+"</li>";
-        });
-        html+='</ul>';
-               
-        var optionDIV = document.getElementById("option");
-        optionDIV.innerHTML = html;
-        MathJax.Hub.Queue([ "Typeset", MathJax.Hub, optionDIV ]);
+        //选项A
+        var optionDIV1 = document.getElementById('option1');
+        optionDIV1.innerHTML = 'A. '+ obj.option1;
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub,optionDIV1]);
+        //选项B
+        var optionDIV2 = document.getElementById('option2');
+        optionDIV2.innerHTML = 'B. '+ obj.option2;
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub,optionDIV2]);
+        //选项C
+        if(obj.option3!=null){
+            document.getElementById('line3').style.display="";
+            document.getElementById('divider3').style.display="";
+            var optionDIV3 = document.getElementById('option3');
+            optionDIV3.innerHTML = 'C. '+ obj.option3;
+            MathJax.Hub.Queue(["Typeset",MathJax.Hub,optionDIV3]);
+        }else{
+            document.getElementById('line3').style.display="none";
+            document.getElementById('divider3').style.display="none";
+        }
         
-        //行点击事件
-        $("#ul li").click(function(){
-            $(this).toggleClass("selectListStyle");
-            $("#ul li[id!='"+ $(this).attr("id")+"']").removeClass("selectListStyle");
-        });
-                                 
+        //选项D
+        if(obj.option4!=null){
+            document.getElementById('line4').style.display="";
+            document.getElementById('divider4').style.display="";
+            var optionDIV4 = document.getElementById('option4');
+            optionDIV4.innerHTML = 'D. '+ obj.option4;
+            MathJax.Hub.Queue(["Typeset",MathJax.Hub,optionDIV4]);
+        }else{
+            document.getElementById('line4').style.display="none";
+            document.getElementById('divider4').style.display="none";
+        }
+        
+        //选项E
+        if(obj.option5!=null){
+            document.getElementById('line5').style.display="";
+            document.getElementById('divider5').style.display="";
+            var optionDIV5 = document.getElementById('option5');
+            optionDIV5.innerHTML = 'E. '+ obj.option5;
+            MathJax.Hub.Queue(["Typeset",MathJax.Hub,optionDIV5]);
+        }else{
+            document.getElementById('line5').style.display="none";
+            document.getElementById('divider5').style.display="none";
+        }
+        
+        
         //选中
         var i=0;
-        $("#ul li").each(function(){
-            if(obj.currentChoice!=null&&obj.currentChoice!=""){
-                if(i++==obj.currentChoice){
-                    $(this).toggleClass("selectListStyle");
-                }else{
-                    $(this).removeClass("selectListStyle");
-                }
-                $(this).attr('data-option',String.fromCharCode(i + 64));
-            }else{
-                $(this).attr('data-option',String.fromCharCode(i++ + 65));
-            }
-        })
+        $("[name='radio']").each(function(){
+                                 if(obj.currentChoice!=null&&i++==obj.currentChoice){
+                                    $(this).prop("checked",true);
+                                 }else{
+                                    $(this).prop("checked",false);
+                                 }
+                        })
         
         
         //图片
@@ -179,7 +188,7 @@
             document.getElementById("label").style.display="none";
             document.getElementById("analysis").style.display="";
         }else{
-            if(obj.type=='1'||obj.type=='3'){
+            if(obj.type=='1'){
                 document.getElementById("showBtn").style.display="";
             }else{
                 document.getElementById("showBtn").style.display="none";
@@ -194,7 +203,11 @@
     //显示答案
     function showAnswer(){
         document.getElementById("showBtn").style.display="none";
-        document.getElementById("answer").style.display="";
+        if(obj.option3==null&&obj.option4==null&&obj.option5==null){  //主观题 无标准答案
+            document.getElementById("answer").style.display="none";
+        }else{
+            document.getElementById("answer").style.display="";
+        }
         document.getElementById("hintimg").style.display="";
         document.getElementById("label").style.display="none";
         document.getElementById("analysis").style.display="";
@@ -233,12 +246,7 @@
                                  //下一题
                                  function clickNext(data){
                                     //选中的答案
-                                    var optionIndex;
-                                    $("#ul li").each(function(){
-                                        if($(this).attr('class') =='listStyle selectListStyle'){
-                                            optionIndex = $(this).attr("id");
-                                        }
-                                    });
+                                    var optionIndex=$('input:radio[name="radio"]:checked').val();
                                     bridge.callHandler('mathObjcCallback', {'optionIndex': optionIndex}, function(response) {
                                                     })
                                  
@@ -251,7 +259,44 @@
     
     <div id='question'></div>
     
-    <div id='option'></div>
+    <table style="width: 100%; border: 0px">
+        <tr>
+            <td align='left'><div id='option1' /></td>
+            <td align='right'><input type='radio' name='radio' value='0'/></td>
+        </tr>
+        <tr>
+            <td colspan='2'><hr color="#f0f0f0" size="5" width="100%" /></td>
+        </tr>
+        <tr>
+            <td align='left'><div id='option2' /></td>
+            <td align='right'><input type='radio' name='radio' value='1'/></td>
+        </tr>
+        <tr>
+            <td colspan='2'><hr color="#f0f0f0" size="5" width="100%" /></td>
+        </tr>
+        <tr id='line3'>
+            <td align='left'><div id='option3' /></td>
+            <td align='right'><input type='radio' name='radio' value='2'/></td>
+        </tr>
+        <tr id='divider3'>
+            <td colspan='2'><hr color="#f0f0f0" size="5" width="100%" /></td>
+        </tr>
+        <tr id='line4'>
+            <td align='left'><div id='option4' /></td>
+            <td align='right'><input type='radio' name='radio' value='3'/></td>
+        </tr>
+        <tr id='divider4'>
+            <td colspan='2'><hr color="#f0f0f0" size="5" width="100%" /></td>
+        </tr>
+        <tr id='line5'>
+            <td align='left'><div id='option5' /></td>
+            <td align='right'><input type='radio' name='radio' value='4'/></td>
+        </tr>
+        <tr id='divider5'>
+            <td colspan='2'><hr color="#f0f0f0" size="5" width="100%" /></td>
+        </tr>
+        
+    </table>
     
     <div class="center">
         <img class="auto_image" id="img"/>
