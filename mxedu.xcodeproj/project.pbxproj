@@ -414,6 +414,7 @@
 		3DD371C31DD2BBEF00FFA2DF /* CommodityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DD371C21DD2BBEF00FFA2DF /* CommodityView.m */; };
 		3DD4B92D1D2CA5B5002FDC0E /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DD4B92C1D2CA5B5002FDC0E /* Util.m */; };
 		3DD4B9301D2DEB74002FDC0E /* CircleDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DD4B92F1D2DEB74002FDC0E /* CircleDetailView.m */; };
+		3DD5A13C1E28A20500059D19 /* WatchRecordManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DD5A13B1E28A20500059D19 /* WatchRecordManager.m */; };
 		3DF139A41E12A8DC00DB47B6 /* UserPostTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF139A31E12A8DC00DB47B6 /* UserPostTableCell.m */; };
 		3DF69E061C994BBA002F33DC /* Correctness.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF69E051C994BBA002F33DC /* Correctness.m */; };
 		3DF69E0A1C9995A2002F33DC /* THProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF69E091C9995A2002F33DC /* THProgressView.m */; };
@@ -1326,6 +1327,8 @@
 		3DD4B92C1D2CA5B5002FDC0E /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		3DD4B92E1D2DEB74002FDC0E /* CircleDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleDetailView.h; sourceTree = "<group>"; };
 		3DD4B92F1D2DEB74002FDC0E /* CircleDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleDetailView.m; sourceTree = "<group>"; };
+		3DD5A13A1E28A20500059D19 /* WatchRecordManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WatchRecordManager.h; sourceTree = "<group>"; };
+		3DD5A13B1E28A20500059D19 /* WatchRecordManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WatchRecordManager.m; sourceTree = "<group>"; };
 		3DF139A21E12A8DC00DB47B6 /* UserPostTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPostTableCell.h; sourceTree = "<group>"; };
 		3DF139A31E12A8DC00DB47B6 /* UserPostTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPostTableCell.m; sourceTree = "<group>"; };
 		3DF69E041C994BBA002F33DC /* Correctness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Correctness.h; sourceTree = "<group>"; };
@@ -3385,6 +3388,8 @@
 				3DFD14F71DB7A46F0061F1EB /* CoinManager.m */,
 				3D461F751DC44C35004D3194 /* MaterialManager.h */,
 				3D461F761DC44C35004D3194 /* MaterialManager.m */,
+				3DD5A13A1E28A20500059D19 /* WatchRecordManager.h */,
+				3DD5A13B1E28A20500059D19 /* WatchRecordManager.m */,
 			);
 			path = manager;
 			sourceTree = "<group>";
@@ -4528,6 +4533,7 @@
 				3D9CB7DD1D97A67700A3C9A1 /* NSString+expand.m in Sources */,
 				3DFB6DAB1B6DE2C10072D175 /* ModifyPassViewController.m in Sources */,
 				3D68CE331D782E8B005CA17F /* StuGroupListController.m in Sources */,
+				3DD5A13C1E28A20500059D19 /* WatchRecordManager.m in Sources */,
 				3DC31F951DFBB2F0000A15DF /* CircleListTableCell.m in Sources */,
 				3D9CB8131D9A576800A3C9A1 /* SignInStatus.m in Sources */,
 				3DFB6D741B6DD5AA0072D175 /* CommonResult.m in Sources */,

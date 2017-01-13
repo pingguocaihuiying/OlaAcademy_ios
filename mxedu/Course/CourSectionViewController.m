@@ -30,6 +30,7 @@
 
 #import "DownloadModal.h"
 #import "DownloadManager.h"
+#import "WatchRecordManager.h"
 
 #import "PayManager.h"
 
@@ -330,7 +331,23 @@
         [_myMediaPlayer popView];
         [_myMediaPlayer.view removeFromSuperview];
     }
+    // 记录观看进度
+    if ([AuthManager sharedInstance].isAuthenticated) {
+        //[self recordPlayProgress];
+    }
 }
+
+//记录已观看进度
+-(void)recordPlayProgressWithTime:(NSInteger)duration{
+    NSString *userId = [AuthManager sharedInstance].userInfo.userId;
+    WatchRecordManager *wm = [[WatchRecordManager alloc]init];
+    [wm recordPlayProgressWithUserId:userId ObjectId:_objectId Type:[NSString stringWithFormat:@"%d",_type] CurrentIndex:[NSString stringWithFormat:@"%ld",currentRow] Duration:[NSString stringWithFormat:@"%ld",duration] Success:^(CommonResult *result) {
+        
+    } Failure:^(NSError *error) {
+        
+    }];
+}
+
 
 -(void)didPlayeSelectRowAtIndexPathModal:(id)object viewController:(SDMediaPlayerVC *)PlayerVC indexPath:(NSIndexPath *)path{
     [self switchCurrentVideo:path];
