@@ -21,7 +21,8 @@ static NSString * PlaybackIsPreparedToPlayDidChangeNotification = @"PlaybackIsPr
 - (void)movieBack;
 - (void)movieQuickLogIn; //登录
 - (void)backClicked;//返回按钮
--(void)showPalye;//失败后 显示play
+- (void)showPalye;//失败后 显示play
+- (void)recordPlayProgressWithTime:(NSInteger)duration;
 
 // 全频播放时点击右侧列表切换的代理传递
 -(void)didPlayeSelectRowAtIndexPathModal:(id)object viewController:(SDMediaPlayerVC *)PlayerVC indexPath:(NSIndexPath *)path;

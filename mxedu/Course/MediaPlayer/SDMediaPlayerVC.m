@@ -2201,37 +2201,12 @@ static   SDMediaPlayerVC * sharedMyMediaPlayer = nil;
 // 记录播放记录
 - (void)creatPlayRecord
 {
-//    if(_netWorkCreatVedioPlayRecord)
-//    {
-//        _netWorkCreatVedioPlayRecord = nil;
-//    }
-//
-//    NSMutableDictionary *dicParam = [[NSMutableDictionary alloc] init];
-//
-//    NSString *customID = [AllinUserDefault  objectForKey:kLog_CustomerId];
-//    
-//    [dicParam setValue:customID forKey:@"customerId"];
-//    [dicParam setValue:_videoId forKey:@"videoId"];
-//    [dicParam setValue:[NSString stringWithFormat:@"%ld",(long)eAppSiteType] forKey:@"siteId"];
-//    
-//    // 获取当前时间
-//    CMTime currentTime = _player.currentItem.currentTime;
-//    double currentPlayTime = (double)currentTime.value / currentTime.timescale;
-//    
-//    NSDate *currentDate = [NSDate dateWithTimeIntervalSince1970:currentPlayTime];
-//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//    [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-//    [formatter setDateFormat:@"HH:mm:ss"];
-//    NSString *currentTimeStr = [formatter stringFromDate:currentDate];
-//    
-//    [dicParam setValue:currentTimeStr forKey:@"playTime"];
-//    
-//    _netWorkCreatVedioPlayRecord = [[NetWorkCreatVedioPlayRecord alloc] init];
-//    [_netWorkCreatVedioPlayRecord asyncCreatVedioPlayRecord:ALLIN_VedioCreatPlayRecord parame:dicParam type:post successBlock:^(id result) {
-//        
-//    } failedBlock:^(id error) {
-//        
-//    }];
+    // 获取当前时间
+    CMTime currentTime = _player.currentItem.currentTime;
+    NSInteger currentPlayTime = currentTime.value / currentTime.timescale;
+    if (_delegate) {
+        [_delegate recordPlayProgressWithTime:currentPlayTime];
+    }
 }
 
 // 截取某一帧图
