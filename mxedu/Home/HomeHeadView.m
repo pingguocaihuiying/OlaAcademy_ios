@@ -36,19 +36,19 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        _bannerView = [[XLCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, GENERAL_SIZE(300))];
+        _bannerView = [[XLCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, GENERAL_SIZE(400))];
         _bannerView.delegate = self;
         _bannerView.datasource = self;
         _bannerView.tapEnabled = YES;
         [self addSubview:_bannerView];
         
-        _teamView = [self viewWithName:@"我要提问" Pic:@"icon_question" Type:0];
-        _teamView.frame = CGRectMake(0, GENERAL_SIZE(300), SCREEN_WIDTH/4, GENERAL_SIZE(170));
+        _teamView = [self viewWithName:@"我要提问" Pic:@"ic_request" Type:0];
+        _teamView.frame = CGRectMake(0, GENERAL_SIZE(400), SCREEN_WIDTH/4, GENERAL_SIZE(170));
         
         [self addSubview:_teamView];
         
-        _patientView = [self viewWithName:@"我要报名" Pic:@"icon_teacher" Type:1];
-        _patientView.frame = CGRectMake(SCREEN_WIDTH/4, GENERAL_SIZE(300), SCREEN_WIDTH/4, GENERAL_SIZE(170));
+        _patientView = [self viewWithName:@"我要报名" Pic:@"ic_signup" Type:1];
+        _patientView.frame = CGRectMake(SCREEN_WIDTH/4, GENERAL_SIZE(400), SCREEN_WIDTH/4, GENERAL_SIZE(170));
         
         [self addSubview:_patientView];
         
@@ -66,13 +66,13 @@
             make.left.equalTo(_patientView.mas_right).offset(-30);
         }];
         
-        _caseView = [self viewWithName:@"我找资料" Pic:@"icon_material" Type:2];
-        _caseView.frame = CGRectMake(SCREEN_WIDTH/4*2, GENERAL_SIZE(300), SCREEN_WIDTH/4, GENERAL_SIZE(170));
+        _caseView = [self viewWithName:@"我的资料" Pic:@"ic_myMaterial" Type:2];
+        _caseView.frame = CGRectMake(SCREEN_WIDTH/4*2, GENERAL_SIZE(400), SCREEN_WIDTH/4, GENERAL_SIZE(170));
         
         [self addSubview:_caseView];
         
-        _codeView = [self viewWithName:@"我要入群" Pic:@"icon_group" Type:3];
-        _codeView.frame = CGRectMake(SCREEN_WIDTH/4*3, GENERAL_SIZE(300), SCREEN_WIDTH/4, GENERAL_SIZE(170));
+        _codeView = [self viewWithName:@"我要入群" Pic:@"ic_myGroup" Type:3];
+        _codeView.frame = CGRectMake(SCREEN_WIDTH/4*3, GENERAL_SIZE(400), SCREEN_WIDTH/4, GENERAL_SIZE(170));
         
         [self addSubview:_codeView];
         
@@ -88,7 +88,7 @@
     [view addSubview:icon];
     
     UILabel *nameLabel = [UILabel new];
-    nameLabel.textColor = [UIColor colorWhthHexString:@"#4f5564"];
+    nameLabel.textColor = [UIColor colorWhthHexString:@"#979797"];
     nameLabel.font = LabelFont(24);
     nameLabel.text = name;
     [view addSubview:nameLabel];

@@ -531,6 +531,7 @@
 		F04B20241E25E2DF00CDDB66 /* teacherCertifyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F04B20231E25E2DF00CDDB66 /* teacherCertifyCell.m */; };
 		F04B20281E260E3300CDDB66 /* teacherCertifyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F04B20271E260E3300CDDB66 /* teacherCertifyModel.m */; };
 		F04B202B1E26321D00CDDB66 /* AnswerQuestionsCardController.m in Sources */ = {isa = PBXBuildFile; fileRef = F04B202A1E26321D00CDDB66 /* AnswerQuestionsCardController.m */; };
+		F04DD1AE1E289A05002E8E1F /* StudyProgressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F04DD1AD1E289A05002E8E1F /* StudyProgressCell.m */; };
 		F08CE40D1E236A5800ADADFF /* MyLable.m in Sources */ = {isa = PBXBuildFile; fileRef = F08CE40C1E236A5800ADADFF /* MyLable.m */; };
 /* End PBXBuildFile section */
 
@@ -1562,6 +1563,8 @@
 		F04B20271E260E3300CDDB66 /* teacherCertifyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = teacherCertifyModel.m; sourceTree = "<group>"; };
 		F04B20291E26321C00CDDB66 /* AnswerQuestionsCardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnswerQuestionsCardController.h; sourceTree = "<group>"; };
 		F04B202A1E26321D00CDDB66 /* AnswerQuestionsCardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnswerQuestionsCardController.m; sourceTree = "<group>"; };
+		F04DD1AC1E289A05002E8E1F /* StudyProgressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StudyProgressCell.h; sourceTree = "<group>"; };
+		F04DD1AD1E289A05002E8E1F /* StudyProgressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StudyProgressCell.m; sourceTree = "<group>"; };
 		F08CE40B1E236A5800ADADFF /* MyLable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLable.h; sourceTree = "<group>"; };
 		F08CE40C1E236A5800ADADFF /* MyLable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLable.m; sourceTree = "<group>"; };
 		F327D75B133A1775534BF3EA /* Pods-mxedu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mxedu.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mxedu/Pods-mxedu.debug.xcconfig"; sourceTree = "<group>"; };
@@ -2112,6 +2115,8 @@
 				3D68CDC41D6BF384005CA17F /* ConsultTableCell.m */,
 				3D461F831DC4585F004D3194 /* MaterialTableCell.h */,
 				3D461F841DC4585F004D3194 /* MaterialTableCell.m */,
+				F04DD1AC1E289A05002E8E1F /* StudyProgressCell.h */,
+				F04DD1AD1E289A05002E8E1F /* StudyProgressCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -4023,6 +4028,7 @@
 				3DFB6BEE1B6DC23B0072D175 /* Resources */,
 				BA22A00D0EF59BBB98183E3E /* [CP] Embed Pods Frameworks */,
 				4CACF2E9A85FBADDD2C21D4C /* [CP] Copy Pods Resources */,
+				BE5D1F940CE97CF450B71885 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -4204,6 +4210,21 @@
 			inputPaths = (
 			);
 			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-mxedu/Pods-mxedu-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BE5D1F940CE97CF450B71885 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4573,6 +4594,7 @@
 				3D461F7B1DC44DE9004D3194 /* MaterialListResult.m in Sources */,
 				3DBBE4981CF7289B0038F29E /* CourseBuySubController.m in Sources */,
 				3DFB6D111B6DCAC40072D175 /* BSTriangleView.m in Sources */,
+				F04DD1AE1E289A05002E8E1F /* StudyProgressCell.m in Sources */,
 				3D68CDCC1D6F3A9F005CA17F /* CircleDetailResult.m in Sources */,
 				3D9CB81C1D9E028E00A3C9A1 /* TeaHomeworkController.m in Sources */,
 				3DFB6CFC1B6DCAC40072D175 /* BSPhotosController+UICollectionView.m in Sources */,

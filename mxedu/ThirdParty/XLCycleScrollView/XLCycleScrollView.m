@@ -35,7 +35,7 @@
         [self addSubview:_scrollView];
         
         CGRect rect = self.bounds;
-        rect.origin.y = rect.size.height - 30;
+        rect.origin.y = rect.size.height - 40;
         rect.size.height = 30;
         _pageControl = [[UIPageControl alloc] initWithFrame:rect];
         _pageControl.userInteractionEnabled = NO;

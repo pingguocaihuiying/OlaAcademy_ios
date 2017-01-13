@@ -12,6 +12,7 @@
 #import "HomeHeadView.h"
 #import "ConsultTableCell.h"
 #import "HomeTableCell.h"
+#import "StudyProgressCell.h"
 
 #import "AuthManager.h"
 #import "HomeManager.h"
@@ -38,6 +39,8 @@
 @property (nonatomic) NSArray *courseArray; //课程库
 @property (nonatomic) NSArray *comodityArray;//精品课程
 
+@property (nonatomic, copy) NSString* avatar;
+
 @end
 
 @implementation HomeViewController
@@ -48,12 +51,13 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     self.navigationController.navigationBar.hidden = NO;
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _nameArray = [NSArray arrayWithObjects:@"最新问答",@"精品课程",@"课程库", nil];
+    _nameArray = [NSArray arrayWithObjects:@"学习进度",@"最新问答",@"精品课程",@"课程库", nil];
     
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, -20, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
     _tableView.separatorStyle = NO;
@@ -71,7 +75,7 @@
 
 -(void)setupHeadView{
     
-    _headView = [[HomeHeadView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, GENERAL_SIZE(470))];
+    _headView = [[HomeHeadView alloc]initWithFrame:CGRectMake(0, 0, GENERAL_SIZE(395), GENERAL_SIZE(750))];
     _headView.headViewDelegate = self;
     self.tableView.tableHeaderView = _headView;
 }
@@ -82,6 +86,7 @@
     if (am.isAuthenticated) {
         userId = am.userInfo.userId;
     }
+    self.avatar = am.userInfo.avatar;
     HomeManager *hm = [[HomeManager alloc]init];
     [hm fetchHomePageListWithUserId:userId Success:^(HomeListResult *result) {
         NSArray *bannerArray = result.homeData.bannerArray;
@@ -99,12 +104,12 @@
 #pragma tablview
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+    return 4;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (section==0) {
-        return [_consultArray count];;
+    if (section==1) {
+        return [_consultArray count];
     }
     return 1;
 }
@@ -121,16 +126,24 @@
     [secView addSubview:hLine];
     
     _nameL = [[UILabel alloc] initWithFrame:CGRectMake(17, GENERAL_SIZE(40), 200, GENERAL_SIZE(30))];
-    _nameL.font = [UIFont boldSystemFontOfSize:GENERAL_SIZE(34)];
+    _nameL.font = [UIFont systemFontOfSize:GENERAL_SIZE(30)];
     _nameL.text = [_nameArray objectAtIndex:section];
     _nameL.textColor = [UIColor colorWhthHexString:@"#272b36"];
     _nameL.contentMode = UIViewContentModeTop;
     [secView addSubview:_nameL];
     
-    UIButton *moreBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-GENERAL_SIZE(120), GENERAL_SIZE(20), GENERAL_SIZE(120), GENERAL_SIZE(70))];
-    [moreBtn setTitle:@"显示全部" forState:UIControlStateNormal];
-    [moreBtn setTitleColor:[UIColor colorWhthHexString:@"#a8aaad"] forState:UIControlStateNormal];
-    moreBtn.titleLabel.font = LabelFont(22);
+    UIButton *moreBtn = [[UIButton alloc]init];
+    if (section == 0) {
+        moreBtn.frame = CGRectMake(SCREEN_WIDTH-GENERAL_SIZE(100), GENERAL_SIZE(20), GENERAL_SIZE(120), GENERAL_SIZE(70));
+        [moreBtn setImage:[UIImage imageNamed:@"ic_next"] forState:UIControlStateNormal];
+    } else if (section == 1) {
+        moreBtn.hidden = YES;
+    } else {
+        moreBtn.frame = CGRectMake(SCREEN_WIDTH-GENERAL_SIZE(120), GENERAL_SIZE(20), GENERAL_SIZE(120), GENERAL_SIZE(70));
+        [moreBtn setTitle:@"显示全部" forState:UIControlStateNormal];
+        [moreBtn setTitleColor:[UIColor colorWhthHexString:@"#a8aaad"] forState:UIControlStateNormal];
+        moreBtn.titleLabel.font = LabelFont(20);
+    }
     moreBtn.tag = section;
     [moreBtn addTarget:self action:@selector(showMore:) forControlEvents:UIControlEventTouchDown];
     [secView addSubview:moreBtn];
@@ -145,6 +158,16 @@
 -(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
+        static NSString *cellIdentifier = @"zeroCell";
+        StudyProgressCell *consultCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        if (consultCell == nil) {
+            consultCell = [[StudyProgressCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        }
+        [consultCell setAvatar:self.avatar];
+        consultCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return consultCell;
+
+    }else if (indexPath.section == 1) {
         static NSString *cellIdentifier = @"consultCell";
         ConsultTableCell *consultCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         if (consultCell == nil) {
@@ -154,18 +177,18 @@
         [consultCell setupCellWithModel:consult AtRow:indexPath.row];
         consultCell.selectionStyle = UITableViewCellSelectionStyleNone;
         return consultCell;
-
-    }else{
+        
+    } else {
         static NSString *cellIdentifier = @"homeCell";
         HomeTableCell *dataCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         if (dataCell == nil) {
             dataCell = [[HomeTableCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"homeCell"];
         }
         switch (indexPath.section) {
-            case 1:
+            case 2:
                 [dataCell setCellWithData:_comodityArray];
                 break;
-            case 2:
+            case 3:
                 [dataCell setCellWithData:_courseArray];
                 break;
                 
@@ -179,7 +202,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section==0) {
+    if (indexPath.section==1) {
         Consult *consult = [_consultArray objectAtIndex:indexPath.row];
         CommentViewController *commentVC = [[CommentViewController alloc]init];
         commentVC.postId = consult.consultId;
@@ -190,7 +213,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==0) {
+    if (indexPath.section==1) {
         return GENERAL_SIZE(150);
     }
     return GENERAL_SIZE(295);
@@ -199,14 +222,18 @@
 -(void) showMore:(UIButton*)btn{
     switch (btn.tag) {
         case 0:
-            [self pushToCircleView];
+            NSLog(@"====== 显示全部");
             break;
             
-        case 1:
+//        case 1:
+//            [self pushToCircleView];
+//            break;
+            
+        case 2:
             [self pushToComView:@"1"];
             break;
             
-        case 2:
+        case 3:
             self.navigationController.tabBarController.selectedIndex = 1;
             break;
             
