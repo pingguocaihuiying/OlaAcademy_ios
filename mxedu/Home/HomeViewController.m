@@ -75,7 +75,7 @@
 
 -(void)setupHeadView{
     
-    _headView = [[HomeHeadView alloc]initWithFrame:CGRectMake(0, 0, GENERAL_SIZE(395), GENERAL_SIZE(750))];
+    _headView = [[HomeHeadView alloc]initWithFrame:CGRectMake(0, 0, GENERAL_SIZE(395), GENERAL_SIZE(470))];
     _headView.headViewDelegate = self;
     self.tableView.tableHeaderView = _headView;
 }
